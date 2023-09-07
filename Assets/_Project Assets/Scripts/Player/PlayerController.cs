@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     {
         if (dir != Vector2.zero)
         {
-            Vector3 dir3 = new Vector3(dir.x, 0, dir.y);
+            Vector3 dir3 = Quaternion.Euler(new Vector3(0f, Camera.main.transform.rotation.eulerAngles.y, 0f)) * new Vector3(dir.x, 0, dir.y);
             SmoothRotateTowards(dir3);
             Accelerate(dir3, acceleration * dir.magnitude, maxSpeed);
         }
