@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class IslandGrid : MonoBehaviour
@@ -15,7 +13,7 @@ public class IslandGrid : MonoBehaviour
     private int startingLayers = 0;
     private float gridWidth = 3f;
     private float gridLength = 3f;
-    private float overlapSphereSize = 10f;
+    private float overlapSphereSize = 15f;
 
     [SerializeField] private Material centerMaterial;
     [SerializeField] private Material sideMaterial;

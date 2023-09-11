@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GridNode: MonoBehaviour
@@ -108,35 +105,22 @@ public class GridNode: MonoBehaviour
 
     public void AssignMaterial(Material center, Material side, Material corner)
     {
-        int nullCount = 0;
-        if (T == null)
+        if ((T == null && R == null && L != null && B != null) ||
+            (T == null && L == null && R != null && B != null) ||
+            (B == null && L == null && R != null && T != null) ||
+            (B == null && R == null && L != null && T != null))
         {
-            nullCount++;
+            renderer.material = corner;
         }
-        if (R == null)
+        else if ((T != null && R != null && L != null && B != null) ||
+                (T != null && R == null && L == null && B != null) ||
+                (T == null && R != null && L != null && B == null))
         {
-            nullCount++;
+            renderer.material = center;
         }
-        if (B == null)
+        else
         {
-            nullCount++;
-        }
-        if (L == null)
-        {
-            nullCount++;
-        }
-
-        switch (nullCount)
-        {
-            case 2:
-                renderer.material = corner;
-                break;
-            case 1 or 3:
-                renderer.material = side;
-                break;
-            default:
-                renderer.material = center;
-                break;
+            renderer.material = side;
         }
     }
 }

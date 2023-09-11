@@ -856,7 +856,7 @@ Rigidbody:
   m_GameObject: {fileID: 1405299302}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 0.4
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -887,8 +887,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkingRotSpeed: 10
-  walkingAccel: 20
+  walkingAccel: 22
   walkingMaxSpd: 4
+  bellyMinChargeTime: 0.1
+  bellyMaxChargeTime: 0.6
+  bellyDashAccel: 300
+  bellyDashMinDuration: 0.2
+  bellyDashMaxDuration: 0.3
+  bellyDashMinSpeed: 15
+  bellyDashMaxSpeed: 26
+  afterDashRestTime: 0.5
+  afterDashRestDecelerationTarget: 0.05
 --- !u!114 &1405299309
 MonoBehaviour:
   m_ObjectHideFlags: 0
