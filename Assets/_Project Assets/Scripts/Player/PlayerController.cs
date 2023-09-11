@@ -164,10 +164,10 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity += dir * acceleration * Time.deltaTime;
 
-        float mag = rb.velocity.magnitude;
+        float mag = new Vector3(rb.velocity.x, 0f, rb.velocity.z).magnitude;
         if (mag > maxSpeed)
         {
-            rb.velocity *= maxSpeed / mag ;
+            rb.velocity = new Vector3(rb.velocity.x * maxSpeed / mag, rb.velocity.y, rb.velocity.z * maxSpeed / mag);
         }
     }
 
