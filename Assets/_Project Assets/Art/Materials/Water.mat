@@ -51,7 +51,7 @@ Material:
     - _Density: 4.2
     - _DiffuseNormalUp: 0.228
     - _DstBlend: 10
-    - _EdgeBlend: 0.6
+    - _EdgeBlend: 0.7
     - _EnableRefraction: 1
     - _EnvironmentReflections: 1
     - _Foam: 1
@@ -75,10 +75,10 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.5451228, g: 0.64961493, b: 0.9245283, a: 1}
+    - _Color: {r: 0, g: 0.09059494, b: 0.3207547, a: 1}
     - _FoamSpeed: {r: 0.05, g: 0.05, b: 0, a: 0}
     - _SecondaryTilingSpeed: {r: 2, g: 2.3, b: 0, a: 0}
     - _SecondaryTilingSpeedRefractBump: {r: 2, g: 2, b: 2, a: 2.5}
-    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.79294235, g: 0.8242014, b: 0.9716981, a: 1}
     - _Speed: {r: 0.04, g: 0.07, b: 0, a: 0}
   m_BuildTextureStacks: []
