@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class IslandGrid : MonoBehaviour
@@ -19,15 +20,29 @@ public class IslandGrid : MonoBehaviour
     [SerializeField] private Material sideMaterial;
     [SerializeField] private Material cornerMaterial;
 
+    private int navMeshLastBakedNodeCount;
+    private NavMeshSurface navMesh;
+
     private void Awake()
     {
+        navMesh = GetComponent<NavMeshSurface>();
+        
         root = Instantiate(platformPrefab, gameObject.transform).GetComponent<GridNode>();
         nodes.Add(root);
     }
 
     private void Start()
     {
-        AddLayers(3);
+        AddLayers(4);
+    }
+
+    private void Update()
+    {
+        if (navMeshLastBakedNodeCount != nodes.Count)
+        {
+            navMesh.BuildNavMesh();
+            navMeshLastBakedNodeCount = nodes.Count;
+        }
     }
 
     private void AddLayers(int number)
