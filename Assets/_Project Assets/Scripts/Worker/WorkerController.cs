@@ -9,6 +9,7 @@ public class WorkerController : MonoBehaviour
     private NavMeshAgent nav;
     private Rigidbody rb;
     private StateMachine sM;
+    [SerializeField] private CapsuleCollider col;
 
     private WorkerIdle idleState;
     private WorkerFollow followState;
@@ -21,6 +22,7 @@ public class WorkerController : MonoBehaviour
     private bool wantsToFollow;
     private bool wantsToSeekResource;
     private bool canResumeNavigation;
+    private Coroutine activeCoroutine;
 
     private void Awake()
     {
@@ -44,13 +46,29 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(seekResourceState, () => wantsToFollow, followState);
     }
 
-    public void PlayerCollision(Rigidbody playerRB)
+    private void FixedUpdate()
     {
-        if (Vector3.Dot(playerRB.velocity, transform.position - playerRB.position) > 0)
+        var cols = Physics.OverlapCapsule(col.transform.position - new Vector3(0f, col.height / 2f, 0f), col.transform.position + new Vector3(0f, col.height / 2f, 0f), col.radius, LayerMask.GetMask("Player", "Ice Block", "Worker"));
+        if (cols.Length > 0)
+        {
+            foreach (var col in cols)
+            {
+                PotentialCollisionCheck(col.attachedRigidbody);
+            }
+        }
+    }
+
+    public void PotentialCollisionCheck(Rigidbody rb)
+    {
+        if (Vector3.Dot(rb.velocity, transform.position - rb.position) > 0)
         {
             canResumeNavigation = false;
             TogglePhysics(true);
-            StartCoroutine(Utility.DelayedAction(() => canResumeNavigation = true, 0.3f));
+            if (activeCoroutine != null)
+            {
+                StopCoroutine(activeCoroutine);
+            }
+            activeCoroutine = StartCoroutine(Utility.DelayedAction(() => canResumeNavigation = true, 0.4f));
         }
     }
 

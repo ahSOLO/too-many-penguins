@@ -111,21 +111,6 @@ public class PlayerController : MonoBehaviour
         sM.AddTransition(orderingState, () => !wantsToOrder, idleState);
     }
 
-    private void FixedUpdate()
-    {
-        if (pushCollider.enabled)
-        {
-            var cols = Physics.OverlapBox(pushCollider.transform.position + pushCollider.center, pushCollider.size, pushCollider.transform.rotation, LayerMask.GetMask("Worker"));
-            if (cols.Length > 0)
-            {
-                foreach (var col in cols)
-                {
-                    col.GetComponentInParent<WorkerController>().PlayerCollision(rb);
-                }
-            }
-        }
-    }
-
     private void Update()
     {
         wantsToMove = moveAction.ReadValue<Vector2>() != Vector2.zero;

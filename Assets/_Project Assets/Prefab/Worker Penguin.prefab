@@ -151,7 +151,7 @@ Rigidbody:
   m_GameObject: {fileID: 809943516306186561}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0.2
+  m_Drag: 0.25
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154246d7ee4d4cb4f81349f3f0f8151a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugState: 1
+  debugState: 0
   currentStateLog: 
 --- !u!114 &5148212320315770712
 MonoBehaviour:
@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87b7fce7cd870c746919363900c7ec43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  col: {fileID: 3390556990617168118}
   disablePhysicsSqredVelocityThreshold: 0.01
   navUpdateFrequency: 0.3
   maxSeekDistance: 20
