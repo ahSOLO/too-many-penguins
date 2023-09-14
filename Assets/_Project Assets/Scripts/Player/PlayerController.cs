@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BoxCollider pushCollider;
     public float bellyMinChargeTime;
     public float bellyMaxChargeTime;
+    public float chargingRotSpeed;
     public float bellyDashAccel;
     public float bellyDashMinDuration;
     public float bellyDashMaxDuration;

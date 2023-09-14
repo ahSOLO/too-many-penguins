@@ -23,7 +23,7 @@ public class PlayerChargingDash : IState
 
     public void OnEnter()
     {
-        pC.SetMovementProperties(pC.walkingRotSpeed, 0f, 0f);
+        pC.SetMovementProperties(pC.chargingRotSpeed, 0f, 0f);
         pC.ResetDashChargeTime();
     }
 

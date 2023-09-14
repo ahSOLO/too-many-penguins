@@ -239,10 +239,11 @@ MonoBehaviour:
   pushCollider: {fileID: 151087015024936163}
   bellyMinChargeTime: 0.1
   bellyMaxChargeTime: 0.6
+  chargingRotSpeed: 15
   bellyDashAccel: 300
-  bellyDashMinDuration: 0.15
+  bellyDashMinDuration: 0.1
   bellyDashMaxDuration: 0.25
-  bellyDashMinSpeed: 15
+  bellyDashMinSpeed: 10
   bellyDashMaxSpeed: 26
   afterDashRestTime: 0.5
   afterDashRestDecelerationTarget: 0.05
