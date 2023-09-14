@@ -42,6 +42,7 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(idleState, () => wantsToSeekResource, seekResourceState);
         sM.AddTransition(followState, () => wantsToSeekResource, seekResourceState);
         sM.AddTransition(seekResourceState, () => !wantsToSeekResource, idleState);
+        sM.AddTransition(seekResourceState, () => wantsToFollow, followState);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -64,11 +65,13 @@ public class WorkerController : MonoBehaviour
 
     public void FollowPlayer()
     {
+        wantsToSeekResource = false;
         wantsToFollow = true;
     }
 
     public void SeekResource()
     {
+        wantsToFollow = false;
         wantsToSeekResource = true;
     }
 
@@ -89,7 +92,10 @@ public class WorkerController : MonoBehaviour
 
     public void SetNavDestination(Vector3 dest)
     {
-        nav.SetDestination(dest);
+        if (nav.enabled)
+        {
+            nav.SetDestination(dest);
+        }
     }
 
     public void ResourceNotFound()

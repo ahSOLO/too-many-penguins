@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance { get; private set; }
     
     [SerializeField] private InputActionAsset playerInput;
+    public enum ControlScheme { KBM, Controller };
 
     private void Awake()
     {

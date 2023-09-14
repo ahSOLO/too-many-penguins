@@ -176,11 +176,15 @@ public class PlayerController : MonoBehaviour
         this.maxSpeed = maxSpeed;
     }
 
-    public void MoveWithInput()
+    public void MoveWithInput(Vector2? directionOverride = null)
     {
-        var dir = moveAction.ReadValue<Vector2>();
-        if (dir != Vector2.zero)
+        if (directionOverride != null)
         {
+            Move((Vector2)directionOverride, false);
+        }
+        else
+        {
+            Vector2 dir = moveAction.ReadValue<Vector2>();
             Move(dir);
         }
     }
@@ -217,7 +221,7 @@ public class PlayerController : MonoBehaviour
             pushCollider.enabled = false;
             return;
         }
-        
+
         Move(new Vector2(transform.forward.x, transform.forward.z), false);
         dashTimer -= Time.deltaTime;
     }
@@ -231,6 +235,11 @@ public class PlayerController : MonoBehaviour
     {
         restTime -= Time.deltaTime;
         Decelerate(afterDashRestDecelerationTarget);
+    }
+
+    public bool PollMouseDown()
+    {
+        return Mouse.current.leftButton.isPressed;
     }
     #endregion
 

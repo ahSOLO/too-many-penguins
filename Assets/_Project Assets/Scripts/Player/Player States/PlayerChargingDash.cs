@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerChargingDash : IState
 {
@@ -33,7 +34,16 @@ public class PlayerChargingDash : IState
 
     public void Tick()
     {
-        pC.MoveWithInput();
+        if (pC.PollMouseDown() && Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
+        {
+            var dir = hit.point - pC.transform.position;
+            Debug.DrawRay(hit.point, dir, Color.black);
+            pC.MoveWithInput(new Vector2(dir.x, dir.z));
+        }
+        else
+        {
+            pC.MoveWithInput();
+        }
         pC.DashCharge();
     }
 }

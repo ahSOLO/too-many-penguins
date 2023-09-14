@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disablePhysicsSqredVelocityThreshold: 0.01
-  enablePhysicsSqredCollisionVelocityThreshold: 2
+  enablePhysicsSqredCollisionVelocityThreshold: 1.2
   navUpdateFrequency: 0.3
   maxSeekDistance: 20
 --- !u!1 &7796951669167592999
