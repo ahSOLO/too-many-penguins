@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public OrderType currentOrder;
 
     private Rigidbody rb;
+    [SerializeField] private Renderer rend;
     private StateMachine sM;
 
     private PlayerIdle idleState;
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private PlayerDashing dashingState;
     private PlayerResting restingState;
     private PlayerOrdering orderingState;
+    private PlayerFalling fallingState;
     private bool wantsToMove;
     private float rotationSpeed;
     private float acceleration;
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour
         dashingState = new PlayerDashing(this);
         restingState = new PlayerResting(this);
         orderingState = new PlayerOrdering(this);
+        fallingState = new PlayerFalling(this);
 
         sM.SetInitialState(idleState);
     }
@@ -109,6 +112,9 @@ public class PlayerController : MonoBehaviour
         sM.AddTransition(idleState, () => wantsToOrder, orderingState);
         sM.AddTransition(walkingState, () => wantsToOrder, orderingState);
         sM.AddTransition(orderingState, () => !wantsToOrder, idleState);
+        sM.AddTransition(fallingState, IsGrounded, idleState);
+
+        sM.AddGlobalTransition(() => !IsGrounded(), fallingState);
     }
 
     private void Update()
@@ -163,6 +169,11 @@ public class PlayerController : MonoBehaviour
     {
         Quaternion targetRot = Quaternion.LookRotation(dir);
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.deltaTime));
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, rend.bounds.extents.y + 0.1f, LayerMask.GetMask("Platform"));
     }
 
     #endregion

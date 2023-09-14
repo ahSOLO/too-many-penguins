@@ -48,7 +48,7 @@ public class WorkerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var cols = Physics.OverlapCapsule(col.transform.position - new Vector3(0f, col.height / 2f, 0f), col.transform.position + new Vector3(0f, col.height / 2f, 0f), col.radius, LayerMask.GetMask("Player", "Ice Block", "Worker"));
+        var cols = Physics.OverlapCapsule(col.transform.position - new Vector3(0f, col.height / 2f, 0f), col.transform.position + new Vector3(0f, col.height / 2f, 0f), col.radius + 0.05f, LayerMask.GetMask("Player", "Ice Block", "Worker"));
         if (cols.Length > 0)
         {
             foreach (var col in cols)
@@ -68,7 +68,7 @@ public class WorkerController : MonoBehaviour
             {
                 StopCoroutine(activeCoroutine);
             }
-            activeCoroutine = StartCoroutine(Utility.DelayedAction(() => canResumeNavigation = true, 0.4f));
+            activeCoroutine = StartCoroutine(Utility.DelayedAction(() => canResumeNavigation = true, 0.6f));
         }
     }
 
