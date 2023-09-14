@@ -166,7 +166,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &4994658128218599421
@@ -196,7 +196,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disablePhysicsSqredVelocityThreshold: 0.01
-  enablePhysicsSqredCollisionVelocityThreshold: 1.2
   navUpdateFrequency: 0.3
   maxSeekDistance: 20
 --- !u!1 &7796951669167592999

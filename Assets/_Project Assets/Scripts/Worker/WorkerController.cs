@@ -15,7 +15,6 @@ public class WorkerController : MonoBehaviour
     private WorkerSeekResource seekResourceState;
 
     public float disablePhysicsSqredVelocityThreshold;
-    public float enablePhysicsSqredCollisionVelocityThreshold;
     public float navUpdateFrequency;
     public float maxSeekDistance;
 
@@ -45,9 +44,9 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(seekResourceState, () => wantsToFollow, followState);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void PlayerCollision(Rigidbody playerRB)
     {
-        if (collision.relativeVelocity.sqrMagnitude > enablePhysicsSqredCollisionVelocityThreshold)
+        if (Vector3.Dot(playerRB.velocity, transform.position - playerRB.position) > 0)
         {
             canResumeNavigation = false;
             TogglePhysics(true);
@@ -79,6 +78,7 @@ public class WorkerController : MonoBehaviour
     {
         nav.enabled = !isEnabled;
         rb.isKinematic = !isEnabled;
+        rb.interpolation = isEnabled ? RigidbodyInterpolation.Interpolate : RigidbodyInterpolation.None;
     }
 
     public void ReenableNavMeshCheck()

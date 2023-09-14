@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public float walkingMaxSpd;
 
     [Header("Belly Dash Params")]
-    [SerializeField] private Collider pushCollider;
+    [SerializeField] private BoxCollider pushCollider;
     public float bellyMinChargeTime;
     public float bellyMaxChargeTime;
     public float bellyDashAccel;
@@ -109,6 +109,21 @@ public class PlayerController : MonoBehaviour
         sM.AddTransition(idleState, () => wantsToOrder, orderingState);
         sM.AddTransition(walkingState, () => wantsToOrder, orderingState);
         sM.AddTransition(orderingState, () => !wantsToOrder, idleState);
+    }
+
+    private void FixedUpdate()
+    {
+        if (pushCollider.enabled)
+        {
+            var cols = Physics.OverlapBox(pushCollider.transform.position + pushCollider.center, pushCollider.size, pushCollider.transform.rotation, LayerMask.GetMask("Worker"));
+            if (cols.Length > 0)
+            {
+                foreach (var col in cols)
+                {
+                    col.GetComponentInParent<WorkerController>().PlayerCollision(rb);
+                }
+            }
+        }
     }
 
     private void Update()
