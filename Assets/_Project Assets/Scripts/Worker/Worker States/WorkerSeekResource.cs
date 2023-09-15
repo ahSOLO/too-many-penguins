@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class WorkerSeekResource : IState
 {
@@ -40,10 +41,11 @@ public class WorkerSeekResource : IState
             }
 
             controller.SetNavDestination(closest.transform.position);
+            controller.TargetResource = closest.GetComponentInParent<Resource>();
         }
         else
         {
-
+            controller.ResourceNotFound();
         }
     }
 
@@ -54,6 +56,9 @@ public class WorkerSeekResource : IState
 
     public void Tick()
     {
-        
+        if (controller.ReachedPathEnd())
+        {
+            controller.LocatedResource();
+        }
     }
 }

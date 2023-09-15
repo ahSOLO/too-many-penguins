@@ -14,13 +14,19 @@ public class WorkerController : MonoBehaviour
     private WorkerIdle idleState;
     private WorkerFollow followState;
     private WorkerSeekResource seekResourceState;
+    private WorkerHarvestResource harvestState;
 
     public float disablePhysicsSqredVelocityThreshold;
     public float navUpdateFrequency;
     public float maxSeekDistance;
+    public float harvestDuration;
+    public float maxHarvestDistance;
+    public float harvestRate;
+    public Resource TargetResource { get; set; }
 
     private bool wantsToFollow;
     private bool wantsToSeekResource;
+    private bool wantsToHarvestResource;
     private bool canResumeNavigation;
     private Coroutine activeCoroutine;
 
@@ -33,6 +39,7 @@ public class WorkerController : MonoBehaviour
         idleState = new WorkerIdle(this);
         followState = new WorkerFollow(this);
         seekResourceState = new WorkerSeekResource(this);
+        harvestState = new WorkerHarvestResource(this);
         
         sM.SetInitialState(idleState);
     }
@@ -44,6 +51,8 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(followState, () => wantsToSeekResource, seekResourceState);
         sM.AddTransition(seekResourceState, () => !wantsToSeekResource, idleState);
         sM.AddTransition(seekResourceState, () => wantsToFollow, followState);
+        sM.AddTransition(seekResourceState, () => wantsToHarvestResource, harvestState);
+        sM.AddTransition(harvestState, () => !wantsToHarvestResource, idleState);
     }
 
     private void FixedUpdate()
@@ -119,5 +128,29 @@ public class WorkerController : MonoBehaviour
     public void ResourceNotFound()
     {
         wantsToSeekResource = false;
+    }
+
+    public bool ReachedPathEnd()
+    {
+        if (nav.enabled && !nav.pathPending && nav.remainingDistance <= nav.stoppingDistance && (!nav.hasPath || nav.velocity.sqrMagnitude < 0.01f))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void LocatedResource()
+    {
+        wantsToHarvestResource = true;
+    }
+
+    public void HarvestInterrupted()
+    {
+        wantsToHarvestResource = false;
+    }
+
+    public void RotateTowards(Vector3 target)
+    {
+        rb.rotation = Quaternion.RotateTowards(rb.rotation, Quaternion.LookRotation(new Vector3(target.x - transform.position.x, 0f, target.z - transform.position.z), Vector3.up), nav.angularSpeed * Time.deltaTime);
     }
 }

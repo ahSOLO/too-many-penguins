@@ -235,7 +235,7 @@ MonoBehaviour:
   rend: {fileID: 8081724332003047910}
   walkingRotSpeed: 10
   walkingAccel: 22
-  walkingMaxSpd: 4
+  walkingMaxSpd: 6
   pushCollider: {fileID: 151087015024936163}
   bellyMinChargeTime: 0.1
   bellyMaxChargeTime: 0.6

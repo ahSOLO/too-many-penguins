@@ -130,11 +130,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.65
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 4.5
+  m_Acceleration: 12
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 1.5
+  m_AngularSpeed: 180
+  m_StoppingDistance: 1.4
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -166,7 +166,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 1
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &4994658128218599421
@@ -199,6 +199,9 @@ MonoBehaviour:
   disablePhysicsSqredVelocityThreshold: 0.005
   navUpdateFrequency: 0.3
   maxSeekDistance: 20
+  harvestDuration: 1.5
+  maxHarvestDistance: 1.6
+  harvestRate: 0.15
 --- !u!1 &7796951669167592999
 GameObject:
   m_ObjectHideFlags: 0
