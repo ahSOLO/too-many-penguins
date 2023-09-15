@@ -10,6 +10,7 @@ public class IslandGrid : Singleton<IslandGrid>
     private enum SpawnDirection { Left, Top, Right, Bottom };
 
     [SerializeField] private ColliderEvent iceBlockHitsWater;
+    [SerializeField] private float newPlatformSpawnDelay;
 
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private List<GridNode> nodes = new List<GridNode>();
@@ -166,28 +167,34 @@ public class IslandGrid : Singleton<IslandGrid>
                 newPlatformLoc += new Vector3(0, 0, -cellLength);
                 break;
         }
-        var newPlatform = Instantiate(platformPrefab, newPlatformLoc, Quaternion.identity, transform).GetComponent<GridNode>();
-        nodes.Add(newPlatform);
-
-        newPlatform.SearchEmptySides(cellWidth, cellLength);
-
-        foreach (var hit in hits)
-        {
-            hit.GetComponent<GridNode>().AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
-        }
-
-        newPlatform.AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
-
-        Destroy(other.gameObject);
 
         SpawnDirection GetDir(float angle) =>
-            angle switch
+        angle switch
+        {
+            <= 90 and >= 0 => SpawnDirection.Top,
+            > 90 => SpawnDirection.Left,
+            < 0 and > -90 => SpawnDirection.Right,
+            < -90 => SpawnDirection.Bottom,
+            _ => SpawnDirection.Top,
+        };
+
+        StartCoroutine(Utility.DelayedAction(() =>
+        {
+            var newPlatform = Instantiate(platformPrefab, newPlatformLoc, Quaternion.identity, transform).GetComponent<GridNode>();
+            nodes.Add(newPlatform);
+
+            newPlatform.SearchEmptySides(cellWidth, cellLength);
+
+            foreach (var hit in hits)
             {
-                <= 90 and >= 0 => SpawnDirection.Top,
-                > 90 => SpawnDirection.Left,
-                < 0 and > -90 => SpawnDirection.Right,
-                < -90 => SpawnDirection.Bottom,
-                _ => SpawnDirection.Top,
-            };
+                hit.GetComponent<GridNode>().AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
+            }
+
+            newPlatform.AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
+
+            Destroy(other.gameObject);
+
+
+        }, newPlatformSpawnDelay));
     }
 }

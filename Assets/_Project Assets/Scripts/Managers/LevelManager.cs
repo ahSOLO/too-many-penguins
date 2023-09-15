@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private ColliderEvent workerHitsWater;
 
     [SerializeField] private float playerRespawnTime;
-
+    [SerializeField] private float entityHitsWaterProcessingDelay;
 
     private void OnEnable()
     {
@@ -25,19 +25,25 @@ public class LevelManager : MonoBehaviour
 
     private void OnPlayerHitsWater()
     {
-        var playerGO = PlayerController.Instance.gameObject;
         StartCoroutine(Utility.DelayedAction(() =>
         {
-            var respawnPosition = IslandGrid.Instance.root.transform.position;
-            respawnPosition += new Vector3(0, IslandGrid.Instance.root.GetComponent<GridNode>().rend.bounds.extents.y + PlayerController.Instance.rend.bounds.extents.y, 0);
-            playerGO.transform.position = respawnPosition;
-            playerGO.SetActive(true);
-        }, playerRespawnTime));
-        playerGO.SetActive(false);
+            var playerGO = PlayerController.Instance.gameObject;
+            StartCoroutine(Utility.DelayedAction(() =>
+            {
+                var respawnPosition = IslandGrid.Instance.root.transform.position;
+                respawnPosition += new Vector3(0, IslandGrid.Instance.root.GetComponent<GridNode>().rend.bounds.extents.y + PlayerController.Instance.rend.bounds.extents.y, 0);
+                playerGO.transform.position = respawnPosition;
+                playerGO.SetActive(true);
+            }, playerRespawnTime));
+            playerGO.SetActive(false);
+        }, entityHitsWaterProcessingDelay));
     }
 
     private void OnWorkerHitsWater(Collider col)
     {
-        col.attachedRigidbody.gameObject.SetActive(false);
+        StartCoroutine(Utility.DelayedAction(() =>
+        {
+            col.attachedRigidbody.gameObject.SetActive(false);
+        }, entityHitsWaterProcessingDelay));
     }
 }

@@ -803,6 +803,7 @@ MonoBehaviour:
   playerHitsWater: {fileID: 11400000, guid: a8aa85634a60e124b8b62ec2ff6e200f, type: 2}
   workerHitsWater: {fileID: 11400000, guid: 32d5aa941616c50468cba1991775f6ac, type: 2}
   playerRespawnTime: 5
+  entityHitsWaterProcessingDelay: 0.5
 --- !u!1 &937022435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,6 +1354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iceBlockHitsWater: {fileID: 11400000, guid: bd8d24df7fed8a640988dbbcd556607d, type: 2}
+  newPlatformSpawnDelay: 0.5
   platformPrefab: {fileID: 2159325192541883364, guid: a17e0a3e71082664eb1b79f8028e8038,
     type: 3}
   nodes: []
@@ -1519,7 +1521,7 @@ Transform:
   m_GameObject: {fileID: 2086637481}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

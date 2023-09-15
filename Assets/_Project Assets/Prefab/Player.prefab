@@ -233,7 +233,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentOrder: 0
   rend: {fileID: 8081724332003047910}
-  playerHitsWater: {fileID: 11400000, guid: a8aa85634a60e124b8b62ec2ff6e200f, type: 2}
   walkingRotSpeed: 10
   walkingAccel: 22
   walkingMaxSpd: 4
@@ -243,16 +242,15 @@ MonoBehaviour:
   chargingRotSpeed: 15
   bellyDashAccel: 300
   bellyDashMinDuration: 0.1
-  bellyDashMaxDuration: 0.25
+  bellyDashMaxDuration: 0.22
   bellyDashMinSpeed: 10
-  bellyDashMaxSpeed: 26
+  bellyDashMaxSpeed: 24
   afterDashRestTime: 0.5
   afterDashRestDecelerationTarget: 0.05
   orderCircle: {fileID: 7995560971918227924}
   orderCircleStartRadius: 4
   orderCircleEndRadius: 14
   circleExpansionRate: 12
-  playerRespawnTime: 5
 --- !u!208 &5143384556031558017
 NavMeshObstacle:
   m_ObjectHideFlags: 0
