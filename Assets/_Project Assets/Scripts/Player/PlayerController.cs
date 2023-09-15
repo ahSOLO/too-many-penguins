@@ -1,19 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(StateMachine), typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
-    public static PlayerController Instance { get; private set; }
-
     public enum OrderType { Follow, Work };
     public OrderType currentOrder;
 
     private Rigidbody rb;
-    [SerializeField] private Renderer rend;
+    public Renderer rend;
     private StateMachine sM;
 
     private PlayerIdle idleState;
@@ -64,18 +63,9 @@ public class PlayerController : MonoBehaviour
     InputAction workOrderAction;
 
     #region Unity Lifecycle
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            enabled = false;
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
+        base.Awake();
         
         rb = GetComponent<Rigidbody>();
         sM = GetComponent<StateMachine>();

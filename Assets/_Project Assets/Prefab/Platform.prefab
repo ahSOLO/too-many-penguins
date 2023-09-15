@@ -72,7 +72,7 @@ MonoBehaviour:
   R: {fileID: 0}
   B: {fileID: 0}
   mesh: {fileID: 9179073630311826796}
-  renderer: {fileID: 5537290869426021633}
+  rend: {fileID: 5537290869426021633}
 --- !u!1 &5175976811502352196
 GameObject:
   m_ObjectHideFlags: 0

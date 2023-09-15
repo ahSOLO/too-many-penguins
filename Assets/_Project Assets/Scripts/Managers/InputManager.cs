@@ -3,25 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
-    public static InputManager Instance { get; private set; }
-    
     [SerializeField] private InputActionAsset playerInput;
     public enum ControlScheme { KBM, Controller };
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            enabled = false;
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
+        base.Awake();
     }
 
     public InputAction GetInputAction(string inputAction)

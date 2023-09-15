@@ -2,18 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
-public class IslandGrid : MonoBehaviour
+public class IslandGrid : Singleton<IslandGrid>
 {
     private enum SpawnDirection { Left, Top, Right, Bottom };
-    
+
+    [SerializeField] private ColliderEvent iceBlockHitsWater;
+
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private List<GridNode> nodes = new List<GridNode>();
-    private GridNode root;
+    public GridNode root;
     private int startingLayers = 0;
-    private float gridWidth = 3f;
-    private float gridLength = 3f;
+    private float cellWidth = 3f;
+    private float cellLength = 3f;
     private float overlapSphereSize = 15f;
 
     [SerializeField] private Material centerMaterial;
@@ -23,8 +26,10 @@ public class IslandGrid : MonoBehaviour
     private int navMeshLastBakedNodeCount;
     private NavMeshSurface navMesh;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         navMesh = GetComponent<NavMeshSurface>();
         
         root = Instantiate(platformPrefab, gameObject.transform).GetComponent<GridNode>();
@@ -36,6 +41,11 @@ public class IslandGrid : MonoBehaviour
         AddLayers(4);
     }
 
+    private void OnEnable()
+    {
+        iceBlockHitsWater.Register(OnIceBlockHitsWater);
+    }
+
     private void Update()
     {
         if (navMeshLastBakedNodeCount != nodes.Count)
@@ -43,6 +53,11 @@ public class IslandGrid : MonoBehaviour
             navMesh.BuildNavMesh();
             navMeshLastBakedNodeCount = nodes.Count;
         }
+    }
+
+    private void OnDisable()
+    {
+        iceBlockHitsWater.Unregister(OnIceBlockHitsWater);
     }
 
     private void AddLayers(int number)
@@ -53,7 +68,7 @@ public class IslandGrid : MonoBehaviour
         }
         foreach (GridNode node in nodes)
         {
-            node.SearchEmptySides(gridWidth, gridLength);
+            node.SearchEmptySides(cellWidth, cellLength);
         }
         foreach (GridNode node in nodes)
         {
@@ -66,23 +81,23 @@ public class IslandGrid : MonoBehaviour
         startingLayers++;
 
         // Spawn on top right
-        var nextSpawnPoint = transform.position + new Vector3(startingLayers * gridWidth, 0, startingLayers * gridLength);
+        var nextSpawnPoint = transform.position + new Vector3(startingLayers * cellWidth, 0, startingLayers * cellLength);
         var cur = Instantiate(platformPrefab, nextSpawnPoint, Quaternion.identity, gameObject.transform).GetComponent<GridNode>();
         nodes.Add(cur);
 
-        nextSpawnPoint += new Vector3(0, 0, -gridLength);
+        nextSpawnPoint += new Vector3(0, 0, -cellLength);
 
         // Fill in right side;
-        FillSide(ref nextSpawnPoint, transform.position + new Vector3(startingLayers * gridWidth, 0, -startingLayers * gridLength), SpawnDirection.Bottom);
+        FillSide(ref nextSpawnPoint, transform.position + new Vector3(startingLayers * cellWidth, 0, -startingLayers * cellLength), SpawnDirection.Bottom);
 
         // Fill in bottom side
-        FillSide(ref nextSpawnPoint, transform.position + new Vector3(-startingLayers * gridWidth, 0, -startingLayers * gridLength), SpawnDirection.Left);
+        FillSide(ref nextSpawnPoint, transform.position + new Vector3(-startingLayers * cellWidth, 0, -startingLayers * cellLength), SpawnDirection.Left);
 
         // Fill in left side
-        FillSide(ref nextSpawnPoint, transform.position + new Vector3(-startingLayers * gridWidth, 0, startingLayers * gridLength), SpawnDirection.Top);
+        FillSide(ref nextSpawnPoint, transform.position + new Vector3(-startingLayers * cellWidth, 0, startingLayers * cellLength), SpawnDirection.Top);
 
         // Fill in top side
-        FillSide(ref nextSpawnPoint, transform.position + new Vector3(startingLayers * gridWidth, 0, startingLayers * gridLength), SpawnDirection.Right);
+        FillSide(ref nextSpawnPoint, transform.position + new Vector3(startingLayers * cellWidth, 0, startingLayers * cellLength), SpawnDirection.Right);
     }
 
     private void FillSide(ref Vector3 nextSpawnPoint, Vector3 endPoint, SpawnDirection spawnDirection)
@@ -96,16 +111,16 @@ public class IslandGrid : MonoBehaviour
             switch (spawnDirection)
             {
                 case SpawnDirection.Left:
-                    nextSpawnPoint += new Vector3(-gridWidth, 0, 0);
+                    nextSpawnPoint += new Vector3(-cellWidth, 0, 0);
                     break;
                 case SpawnDirection.Top:
-                    nextSpawnPoint += new Vector3(0, 0, gridLength);
+                    nextSpawnPoint += new Vector3(0, 0, cellLength);
                     break;
                 case SpawnDirection.Right:
-                    nextSpawnPoint += new Vector3(gridWidth, 0, 0);
+                    nextSpawnPoint += new Vector3(cellWidth, 0, 0);
                     break;
                 case SpawnDirection.Bottom:
-                    nextSpawnPoint += new Vector3(0, 0, -gridLength);
+                    nextSpawnPoint += new Vector3(0, 0, -cellLength);
                     break;
             }
 
@@ -113,69 +128,66 @@ public class IslandGrid : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnIceBlockHitsWater(Collider other)
     {
-        if (other.CompareTag("Ice Block"))
+        var hits = Physics.OverlapSphere(other.transform.position, overlapSphereSize, LayerMask.GetMask("Platform"));
+        if (hits.Length == 0)
         {
-            var hits = Physics.OverlapSphere(other.transform.position, overlapSphereSize, LayerMask.GetMask("Platform"));
-            if (hits.Length == 0)
-            {
-                return;
-            }
-            var closest = hits[0];
-            var closestDist = (other.transform.position - closest.transform.position).sqrMagnitude;
-            for (int i = 1; i < hits.Length; i++)
-            {
-                var curDist = (other.transform.position - hits[i].transform.position).sqrMagnitude;
-                if ( curDist < closestDist)
-                {
-                    closest = hits[i];
-                    closestDist = curDist; 
-                }
-            }
-            var closestVec = other.transform.position - closest.transform.position;
-            var closestVecAngle = Vector2.SignedAngle(new Vector2(1, 1), new Vector2(closestVec.x, closestVec.z));
-
-            var newPlatformLoc = closest.transform.position;
-            var spawnDir = GetDir(closestVecAngle);
-            switch (spawnDir)
-            {
-                case SpawnDirection.Left:
-                    newPlatformLoc += new Vector3(-gridWidth, 0, 0);
-                    break;
-                case SpawnDirection.Top:
-                    newPlatformLoc += new Vector3(0, 0, gridLength);
-                    break;
-                case SpawnDirection.Right:
-                    newPlatformLoc += new Vector3(gridWidth, 0, 0);
-                    break;
-                case SpawnDirection.Bottom:
-                    newPlatformLoc += new Vector3(0, 0, -gridLength);
-                    break;
-            }
-            var newPlatform = Instantiate(platformPrefab, newPlatformLoc, Quaternion.identity, transform).GetComponent<GridNode>();
-            nodes.Add(newPlatform);
-
-            newPlatform.SearchEmptySides(gridWidth, gridLength);
-
-            foreach (var hit in hits)
-            {
-                hit.GetComponent<GridNode>().AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
-            }
-
-            newPlatform.AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
-
-            Destroy(other.gameObject);
-
-            SpawnDirection GetDir(float angle) =>
-                angle switch
-                {
-                    <= 90 and >= 0 => SpawnDirection.Top,
-                    > 90 => SpawnDirection.Left,
-                    < 0 and > -90 => SpawnDirection.Right,
-                    < -90 => SpawnDirection.Bottom,
-                    _ => SpawnDirection.Top,
-                };
+            return;
         }
+        var closest = hits[0];
+        var closestDist = (other.transform.position - closest.transform.position).sqrMagnitude;
+        for (int i = 1; i < hits.Length; i++)
+        {
+            var curDist = (other.transform.position - hits[i].transform.position).sqrMagnitude;
+            if ( curDist < closestDist)
+            {
+                closest = hits[i];
+                closestDist = curDist; 
+            }
+        }
+        var closestVec = other.transform.position - closest.transform.position;
+        var closestVecAngle = Vector2.SignedAngle(new Vector2(1, 1), new Vector2(closestVec.x, closestVec.z));
+
+        var newPlatformLoc = closest.transform.position;
+        var spawnDir = GetDir(closestVecAngle);
+        switch (spawnDir)
+        {
+            case SpawnDirection.Left:
+                newPlatformLoc += new Vector3(-cellWidth, 0, 0);
+                break;
+            case SpawnDirection.Top:
+                newPlatformLoc += new Vector3(0, 0, cellLength);
+                break;
+            case SpawnDirection.Right:
+                newPlatformLoc += new Vector3(cellWidth, 0, 0);
+                break;
+            case SpawnDirection.Bottom:
+                newPlatformLoc += new Vector3(0, 0, -cellLength);
+                break;
+        }
+        var newPlatform = Instantiate(platformPrefab, newPlatformLoc, Quaternion.identity, transform).GetComponent<GridNode>();
+        nodes.Add(newPlatform);
+
+        newPlatform.SearchEmptySides(cellWidth, cellLength);
+
+        foreach (var hit in hits)
+        {
+            hit.GetComponent<GridNode>().AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
+        }
+
+        newPlatform.AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
+
+        Destroy(other.gameObject);
+
+        SpawnDirection GetDir(float angle) =>
+            angle switch
+            {
+                <= 90 and >= 0 => SpawnDirection.Top,
+                > 90 => SpawnDirection.Left,
+                < 0 and > -90 => SpawnDirection.Right,
+                < -90 => SpawnDirection.Bottom,
+                _ => SpawnDirection.Top,
+            };
     }
 }

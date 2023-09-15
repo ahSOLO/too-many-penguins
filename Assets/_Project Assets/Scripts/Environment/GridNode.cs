@@ -8,7 +8,7 @@ public class GridNode: MonoBehaviour
     public GridNode B;
 
     public MeshFilter mesh;
-    public Renderer renderer;
+    public Renderer rend;
 
     public void AppendTop(GridNode node)
     {
@@ -110,17 +110,17 @@ public class GridNode: MonoBehaviour
             (B == null && L == null && R != null && T != null) ||
             (B == null && R == null && L != null && T != null))
         {
-            renderer.material = corner;
+            rend.material = corner;
         }
         else if ((T != null && R != null && L != null && B != null) ||
                 (T != null && R == null && L == null && B != null) ||
                 (T == null && R != null && L != null && B == null))
         {
-            renderer.material = center;
+            rend.material = center;
         }
         else
         {
-            renderer.material = side;
+            rend.material = side;
         }
     }
 }
