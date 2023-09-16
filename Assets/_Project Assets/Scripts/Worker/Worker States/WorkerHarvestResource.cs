@@ -34,9 +34,10 @@ public class WorkerHarvestResource : IState
 
     public void Tick()
     {
-        if ((controller.TargetResource.transform.position - controller.transform.position).magnitude > controller.maxHarvestDistance)
+        if (controller.TargetResource == null || controller.TargetResource.gameObject.activeInHierarchy == false || (controller.TargetResource.transform.position - controller.transform.position).magnitude > controller.maxHarvestDistance)
         {
             controller.HarvestInterrupted();
+            return;
         }
         else
         {

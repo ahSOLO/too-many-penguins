@@ -15,9 +15,11 @@ public class Resource : MonoBehaviour
     [SerializeField] private Vector3 cubeSpawnVelocity;
     [SerializeField] private Transform cubeSpawnPoint;
     [SerializeField] private Transform cubeParent;
+    [SerializeField] private float progressBarShowDuration;
 
     public int remainingResources;
     private float harvestProgress;
+    private float lastTimeProgressBarShown;
 
     public void GenerateIceCube()
     {
@@ -30,6 +32,10 @@ public class Resource : MonoBehaviour
             var startingAngle = UnityEngine.Random.Range(0, 360f);
             rb.velocity = Quaternion.AngleAxis(startingAngle, Vector3.up) * cubeSpawnVelocity;
             StartCoroutine(ExpandCube(GO.transform, cubeTargetSize, cubeExpansionRate));
+            if (remainingResources == 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -50,20 +56,33 @@ public class Resource : MonoBehaviour
             GenerateIceCube();
             harvestProgress = 0;
         }
+        lastTimeProgressBarShown = Time.timeSinceLevelLoad;
     }
 
     private void Update()
     {
-        if (harvestProgress == 0f)
+        if (harvestProgress == 0f || Time.timeSinceLevelLoad - lastTimeProgressBarShown > progressBarShowDuration)
         {
-            background.SetActive(false);
-            billboarder.enabled = false;
+            ToggleProgressBar(false);
         }
         else
+        {
+            ToggleProgressBar(true);
+        }
+    }
+
+    private void ToggleProgressBar(bool isActive)
+    {
+        if (isActive)
         {
             background.SetActive(true);
             billboarder.enabled = true;
             progressBar.fillAmount = harvestProgress;
+        }
+        else
+        {
+            background.SetActive(false);
+            billboarder.enabled = false;
         }
     }
 }

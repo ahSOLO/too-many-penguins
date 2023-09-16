@@ -27,6 +27,10 @@ public class StateMachine : MonoBehaviour
         }
         if (nextState != null)
         {
+            if (debugState)
+            {
+                Debug.Log($"Transitioning to: {nextState}");
+            }
             TransitionTo(nextState);
         }
 

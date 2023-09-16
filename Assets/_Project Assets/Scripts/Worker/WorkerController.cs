@@ -53,6 +53,7 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(seekResourceState, () => wantsToFollow, followState);
         sM.AddTransition(seekResourceState, () => wantsToHarvestResource, harvestState);
         sM.AddTransition(harvestState, () => !wantsToHarvestResource, idleState);
+        sM.AddTransition(harvestState, () => wantsToFollow, followState);
     }
 
     private void FixedUpdate()
@@ -93,12 +94,14 @@ public class WorkerController : MonoBehaviour
     {
         wantsToSeekResource = false;
         wantsToFollow = true;
+        wantsToHarvestResource = false;
     }
 
     public void SeekResource()
     {
         wantsToFollow = false;
         wantsToSeekResource = true;
+        wantsToHarvestResource = false;
     }
 
     public void TogglePhysics(bool isEnabled)
@@ -147,6 +150,7 @@ public class WorkerController : MonoBehaviour
     public void HarvestInterrupted()
     {
         wantsToHarvestResource = false;
+        wantsToSeekResource = false;
     }
 
     public void RotateTowards(Vector3 target)

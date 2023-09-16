@@ -37,6 +37,7 @@ public class PlayerController : Singleton<PlayerController>
     public float walkingRotSpeed;
     public float walkingAccel;
     public float walkingMaxSpd;
+    public float groundedRaycastRadiusShrinkage;
 
     [Header("Belly Dash Params")]
     [SerializeField] private BoxCollider pushCollider;
@@ -164,7 +165,12 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, rend.bounds.extents.y + 0.1f, LayerMask.GetMask("Platform"));
+        var raycastLength = rend.bounds.extents.y + 0.1f;
+        var layerMask = LayerMask.GetMask("Platform");
+        return Physics.Raycast(new Vector3(transform.position.x + (rend.bounds.extents.x - groundedRaycastRadiusShrinkage), transform.position.y, transform.position.z), Vector3.down, raycastLength, layerMask) ||
+            Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z + (rend.bounds.extents.z - groundedRaycastRadiusShrinkage)), Vector3.down, raycastLength, layerMask) ||
+            Physics.Raycast(new Vector3(transform.position.x - (rend.bounds.extents.x - groundedRaycastRadiusShrinkage), transform.position.y, transform.position.z), Vector3.down, raycastLength, layerMask) ||
+            Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z - (rend.bounds.extents.z - groundedRaycastRadiusShrinkage)), Vector3.down, raycastLength, layerMask);
     }
 
     #endregion
