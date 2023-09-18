@@ -31,20 +31,11 @@ public class Resource : MonoBehaviour
             var rb = GO.GetComponent<Rigidbody>();
             var startingAngle = UnityEngine.Random.Range(0, 360f);
             rb.velocity = Quaternion.AngleAxis(startingAngle, Vector3.up) * cubeSpawnVelocity;
-            StartCoroutine(ExpandCube(GO.transform, cubeTargetSize, cubeExpansionRate));
+            LevelManager.Instance.StartCoroutine(LevelManager.Instance.ExpandGO(GO.transform, cubeTargetSize, cubeExpansionRate));
             if (remainingResources == 0)
             {
                 Destroy(gameObject);
             }
-        }
-    }
-
-    private IEnumerator ExpandCube(Transform cubeTransform, float targetSize, float expansionRate)
-    {
-        while (cubeTransform.localScale != Vector3.one * targetSize)
-        {
-            cubeTransform.localScale = Vector3.MoveTowards(cubeTransform.localScale, Vector3.one * targetSize, expansionRate * Time.deltaTime);
-            yield return null;
         }
     }
 

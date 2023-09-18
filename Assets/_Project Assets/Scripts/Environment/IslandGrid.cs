@@ -35,7 +35,7 @@ public class IslandGrid : Singleton<IslandGrid>
 
     private void Start()
     {
-        AddLayers(4);
+        AddLayers(2);
     }
 
     private void OnEnable()
@@ -183,7 +183,7 @@ public class IslandGrid : Singleton<IslandGrid>
 
             foreach (var hit in hits)
             {
-                hit.GetComponent<GridNode>().AssignMesh();
+                hit.GetComponentInParent<GridNode>().AssignMesh();
             }
 
             newPlatform.AssignMesh();

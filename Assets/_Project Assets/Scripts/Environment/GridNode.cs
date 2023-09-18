@@ -87,7 +87,7 @@ public class GridNode: MonoBehaviour
         Ray ray = new Ray(transform.position, dir);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, length, LayerMask.GetMask("Platform")))
         {
-            var hitNode = hitInfo.collider.GetComponent<GridNode>();
+            var hitNode = hitInfo.collider.GetComponentInParent<GridNode>();
             if (dir.z == 1)
             {
                 T = hitNode;
@@ -113,6 +113,8 @@ public class GridNode: MonoBehaviour
 
     public void AssignMesh()
     {
+        col.enabled = true;
+
         if ((T == null && R == null && L != null && B != null) ||
             (T == null && L == null && R != null && B != null) ||
             (B == null && L == null && R != null && T != null) ||
@@ -132,6 +134,10 @@ public class GridNode: MonoBehaviour
                     B == null && L == null ? Quaternion.Euler(0f, 180f, 0f) :
                     Quaternion.Euler(0, -90f, 0f);
                 GO.transform.rotation = rotation;
+                if (GO.GetComponent<MeshCollider>() != null)
+                {
+                    col.enabled = false;
+                }
             }
         }
         else if ((T != null && R != null && L != null && B != null) ||

@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private ColliderEvent playerHitsWater;
     [SerializeField] private ColliderEvent workerHitsWater;
 
     [SerializeField] private float playerRespawnTime;
     [SerializeField] private float entityHitsWaterProcessingDelay;
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
 
     private void OnEnable()
     {
@@ -45,5 +50,15 @@ public class LevelManager : MonoBehaviour
         {
             col.attachedRigidbody.gameObject.SetActive(false);
         }, entityHitsWaterProcessingDelay));
+    }
+
+
+    public IEnumerator ExpandGO(Transform tf, float targetSize, float expansionRate)
+    {
+        while (tf.localScale != Vector3.one * targetSize)
+        {
+            tf.localScale = Vector3.MoveTowards(tf.localScale, Vector3.one * targetSize, expansionRate * Time.deltaTime);
+            yield return null;
+        }
     }
 }
