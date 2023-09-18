@@ -1260,6 +1260,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8564067154155533809, guid: e0e238193f4382040a81f931e5d5abc4,
+        type: 3}
+      propertyPath: afterDashRestTime
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8564067154155533809, guid: e0e238193f4382040a81f931e5d5abc4,
+        type: 3}
+      propertyPath: bellyDashMaxForce
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8564067154155533809, guid: e0e238193f4382040a81f931e5d5abc4,
+        type: 3}
+      propertyPath: bellyDashMinForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8564067154155533809, guid: e0e238193f4382040a81f931e5d5abc4,
+        type: 3}
+      propertyPath: bellyDashMaxDuration
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8564067154155533809, guid: e0e238193f4382040a81f931e5d5abc4,
+        type: 3}
+      propertyPath: afterDashRestDecelerationTarget
+      value: 0.05
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

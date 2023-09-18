@@ -44,11 +44,10 @@ public class PlayerController : Singleton<PlayerController>
     public float bellyMinChargeTime;
     public float bellyMaxChargeTime;
     public float chargingRotSpeed;
-    public float bellyDashAccel;
     public float bellyDashMinDuration;
     public float bellyDashMaxDuration;
-    public float bellyDashMinSpeed;
-    public float bellyDashMaxSpeed;
+    public float bellyDashMinForce;
+    public float bellyDashMaxForce;
     public float afterDashRestTime;
     public float afterDashRestDecelerationTarget;
 
@@ -216,8 +215,10 @@ public class PlayerController : Singleton<PlayerController>
         dashOver = false;
         rb.constraints = rb.constraints | RigidbodyConstraints.FreezeRotationY;
         float chargeMultiplier = (Mathf.Clamp(bellyCurrentChargeTime, bellyMinChargeTime, bellyMaxChargeTime) - bellyMinChargeTime) / (bellyMaxChargeTime - bellyMinChargeTime);
+        var dashForce = Mathf.Lerp(bellyDashMinForce, bellyDashMaxForce, chargeMultiplier);
         dashTimer = Mathf.Lerp(bellyDashMinDuration, bellyDashMaxDuration, chargeMultiplier);
-        SetMovementProperties(0f, bellyDashAccel, Mathf.Lerp(bellyDashMinSpeed, bellyDashMaxSpeed, chargeMultiplier));
+        SetMovementProperties(0f, 0f, 0f);
+        rb.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
     }
 
     public void DashTick()
@@ -230,7 +231,6 @@ public class PlayerController : Singleton<PlayerController>
             return;
         }
 
-        Move(new Vector2(transform.forward.x, transform.forward.z), false);
         dashTimer -= Time.deltaTime;
     }
 
