@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ice Block
   - Worker
+  - Platform Center
+  - Platform Side
+  - Platform Corner
   layers:
   - Default
   - TransparentFX

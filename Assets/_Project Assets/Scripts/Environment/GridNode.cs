@@ -7,8 +7,16 @@ public class GridNode: MonoBehaviour
     public GridNode R;
     public GridNode B;
 
-    public MeshFilter mesh;
-    public Renderer rend;
+    public Collider col;
+
+    [SerializeField] private GameObject[] centerTiles;
+    [SerializeField] private GameObject[] sideTiles;
+    [SerializeField] private GameObject[] cornerTiles;
+
+    private void Awake()
+    {
+        col = GetComponent<Collider>();
+    }
 
     public void AppendTop(GridNode node)
     {
@@ -103,24 +111,64 @@ public class GridNode: MonoBehaviour
         }
     }
 
-    public void AssignMaterial(Material center, Material side, Material corner)
+    public void AssignMesh()
     {
         if ((T == null && R == null && L != null && B != null) ||
             (T == null && L == null && R != null && B != null) ||
             (B == null && L == null && R != null && T != null) ||
             (B == null && R == null && L != null && T != null))
         {
-            rend.material = corner;
+            if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Corner"))
+            {
+                if (transform.childCount > 0)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                }
+                var tile = Utility.RandomFromArray<GameObject>(cornerTiles);
+                var GO = Instantiate(tile, transform, false);
+                var rotation =
+                    T == null && R == null ? Quaternion.identity :
+                    R == null && B == null? Quaternion.Euler(0f, 90f, 0f) :
+                    B == null && L == null ? Quaternion.Euler(0f, 180f, 0f) :
+                    Quaternion.Euler(0, -90f, 0f);
+                GO.transform.rotation = rotation;
+            }
         }
         else if ((T != null && R != null && L != null && B != null) ||
                 (T != null && R == null && L == null && B != null) ||
-                (T == null && R != null && L != null && B == null))
+                (T == null && R != null && L != null && B == null) ||
+                (T != null && R == null && L == null && B == null) ||
+                (T == null && R != null && L == null && B == null) ||
+                (T == null && R == null && L != null && B == null) ||
+                (T == null && R == null && L == null && B != null))
         {
-            rend.material = center;
+            if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Center"))
+            {
+                if (transform.childCount > 0)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                }
+                var tile = Utility.RandomFromArray<GameObject>(centerTiles);
+                Instantiate(tile, transform, false);
+            }
         }
         else
         {
-            rend.material = side;
+            if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Side"))
+            {
+                if (transform.childCount > 0)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                }
+                var tile = Utility.RandomFromArray<GameObject>(sideTiles);
+                var GO = Instantiate(tile, transform, false);
+                var rotation =
+                    R == null ? Quaternion.identity :
+                    B == null ? Quaternion.Euler(0f, 90f, 0f) :
+                    L == null ? Quaternion.Euler(0f, 180f, 0f) :
+                    Quaternion.Euler(0, -90f, 0f);
+                GO.transform.rotation = rotation;
+            }
         }
     }
 }

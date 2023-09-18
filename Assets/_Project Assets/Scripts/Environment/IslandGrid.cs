@@ -20,10 +20,6 @@ public class IslandGrid : Singleton<IslandGrid>
     private float cellLength = 3f;
     private float overlapSphereSize = 15f;
 
-    [SerializeField] private Material centerMaterial;
-    [SerializeField] private Material sideMaterial;
-    [SerializeField] private Material cornerMaterial;
-
     private int navMeshLastBakedNodeCount;
     private NavMeshSurface navMesh;
 
@@ -73,7 +69,7 @@ public class IslandGrid : Singleton<IslandGrid>
         }
         foreach (GridNode node in nodes)
         {
-            node.AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
+            node.AssignMesh();
         }
     }
 
@@ -187,10 +183,10 @@ public class IslandGrid : Singleton<IslandGrid>
 
             foreach (var hit in hits)
             {
-                hit.GetComponent<GridNode>().AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
+                hit.GetComponent<GridNode>().AssignMesh();
             }
 
-            newPlatform.AssignMaterial(centerMaterial, sideMaterial, cornerMaterial);
+            newPlatform.AssignMesh();
 
             Destroy(other.gameObject);
 

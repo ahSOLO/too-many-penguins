@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour
             StartCoroutine(Utility.DelayedAction(() =>
             {
                 var respawnPosition = IslandGrid.Instance.root.transform.position;
-                respawnPosition += new Vector3(0, IslandGrid.Instance.root.GetComponent<GridNode>().rend.bounds.extents.y + PlayerController.Instance.rend.bounds.extents.y, 0);
+                respawnPosition += new Vector3(0, IslandGrid.Instance.root.GetComponent<GridNode>().col.bounds.extents.y + PlayerController.Instance.rend.bounds.extents.y, 0);
                 playerGO.transform.position = respawnPosition;
                 playerGO.SetActive(true);
             }, playerRespawnTime));

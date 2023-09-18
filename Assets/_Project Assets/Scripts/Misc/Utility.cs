@@ -17,4 +17,9 @@ public class Utility
         yield return new WaitForSeconds(delay);
         action();
     }
+
+    public static T RandomFromArray<T>(T[] array)
+    {
+        return array[UnityEngine.Random.Range(0, array.Length)];
+    }
 }
