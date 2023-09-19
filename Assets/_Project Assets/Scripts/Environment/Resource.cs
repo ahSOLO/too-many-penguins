@@ -10,11 +10,10 @@ public class Resource : MonoBehaviour
     [SerializeField] private GameObject background;
     [SerializeField] private Billboard billboarder;
     [SerializeField] private GameObject iceCubePrefab;
-    [SerializeField] private float cubeTargetSize;
-    [SerializeField] private float cubeExpansionRate;
-    [SerializeField] private Vector3 cubeSpawnVelocity;
-    [SerializeField] private Transform cubeSpawnPoint;
-    [SerializeField] private Transform cubeParent;
+    [SerializeField] private float iceCubeTargetSize;
+    [SerializeField] private float iceCubeExpansionRate;
+    [SerializeField] private Vector3 iceCubeSpawnVelocity;
+    [SerializeField] private Transform iceCubeSpawnPoint;
     [SerializeField] private float progressBarShowDuration;
 
     public int remainingResources;
@@ -26,12 +25,12 @@ public class Resource : MonoBehaviour
         remainingResources--;
         if (remainingResources >= 0)
         {
-            var GO = Instantiate(iceCubePrefab, cubeSpawnPoint.position, Quaternion.identity, cubeParent);
+            var GO = Instantiate(iceCubePrefab, iceCubeSpawnPoint.position, Quaternion.identity, LevelManager.Instance.iceBlockParent);
             GO.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
             var rb = GO.GetComponent<Rigidbody>();
             var startingAngle = UnityEngine.Random.Range(0, 360f);
-            rb.velocity = Quaternion.AngleAxis(startingAngle, Vector3.up) * cubeSpawnVelocity;
-            LevelManager.Instance.StartCoroutine(LevelManager.Instance.ExpandGO(GO.transform, cubeTargetSize, cubeExpansionRate));
+            rb.velocity = Quaternion.AngleAxis(startingAngle, Vector3.up) * iceCubeSpawnVelocity;
+            LevelManager.Instance.StartCoroutine(LevelManager.Instance.ExpandGO(GO.transform, iceCubeTargetSize, iceCubeExpansionRate));
             if (remainingResources == 0)
             {
                 Destroy(gameObject);

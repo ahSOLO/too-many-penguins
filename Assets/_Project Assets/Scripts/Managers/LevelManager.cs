@@ -11,6 +11,10 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private float playerRespawnTime;
     [SerializeField] private float entityHitsWaterProcessingDelay;
 
+    public Transform iceBlockParent;
+    public Transform resourceParent;
+    public Transform agentParent;
+
     protected override void Awake()
     {
         base.Awake();

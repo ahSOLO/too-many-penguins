@@ -667,11 +667,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4994658128218599421, guid: 62f2f887e647ed84c9134d599e9f7d8b,
-        type: 3}
-      propertyPath: debugState
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -839,6 +834,9 @@ MonoBehaviour:
   workerHitsWater: {fileID: 11400000, guid: 32d5aa941616c50468cba1991775f6ac, type: 2}
   playerRespawnTime: 5
   entityHitsWaterProcessingDelay: 0.5
+  iceBlockParent: {fileID: 720835524}
+  resourceParent: {fileID: 1127932980}
+  agentParent: {fileID: 937022436}
 --- !u!1 &937022435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,11 +1460,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Worker Penguin
-      objectReference: {fileID: 0}
-    - target: {fileID: 809943516306186561, guid: 62f2f887e647ed84c9134d599e9f7d8b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2910850172429206323, guid: 62f2f887e647ed84c9134d599e9f7d8b,
         type: 3}

@@ -134,6 +134,11 @@ public class PlayerController : Singleton<PlayerController>
     #region Private Functions
     private void Move(Vector2 dir, bool relativeToCam = true)
     {
+        if (dir == Vector2.zero)
+        {
+            return;
+        }
+
         Vector3 dir3 = relativeToCam ? Quaternion.Euler(new Vector3(0f, Camera.main.transform.rotation.eulerAngles.y, 0f)) * new Vector3(dir.x, 0, dir.y) : new Vector3(dir.x, 0, dir.y);
         SmoothRotateTowards(dir3);
         Accelerate(dir3, acceleration * dir.magnitude, maxSpeed);
@@ -185,6 +190,11 @@ public class PlayerController : Singleton<PlayerController>
 
     public void MoveWithInput(Vector2? directionOverride = null)
     {
+        if (acceleration == 0f && rotationSpeed == 0f)
+        {
+            return;
+        }
+
         if (directionOverride != null)
         {
             Move((Vector2)directionOverride, false);

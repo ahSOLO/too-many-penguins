@@ -423,10 +423,9 @@ MonoBehaviour:
   billboarder: {fileID: 4159181363051172573}
   iceCubePrefab: {fileID: 7542008999062261073, guid: 7498176e56c39ba4698482338f5fb4d8,
     type: 3}
-  cubeTargetSize: 1.5
-  cubeExpansionRate: 2.5
-  cubeSpawnVelocity: {x: 2, y: 11, z: 2}
-  cubeSpawnPoint: {fileID: 5905351675961157919}
-  cubeParent: {fileID: 0}
+  iceCubeTargetSize: 1.5
+  iceCubeExpansionRate: 3
+  iceCubeSpawnVelocity: {x: 2, y: 10, z: 2}
+  iceCubeSpawnPoint: {fileID: 5905351675961157919}
   progressBarShowDuration: 1.75
   remainingResources: 10
