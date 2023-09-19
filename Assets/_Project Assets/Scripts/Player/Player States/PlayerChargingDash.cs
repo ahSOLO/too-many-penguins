@@ -34,7 +34,7 @@ public class PlayerChargingDash : IState
 
     public void Tick()
     {
-        if (pC.PollMouseDown() && Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
+        if (pC.PollLeftMouseButton() && Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
         {
             var dir = hit.point - pC.transform.position;
             pC.MoveWithInput(new Vector2(dir.x, dir.z));
@@ -43,6 +43,7 @@ public class PlayerChargingDash : IState
         {
             pC.MoveWithInput();
         }
+
         pC.DashCharge();
     }
 }

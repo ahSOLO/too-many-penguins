@@ -255,9 +255,9 @@ public class PlayerController : Singleton<PlayerController>
         Decelerate(afterDashRestDecelerationTarget);
     }
 
-    public bool PollMouseDown()
+    public bool PollLeftMouseButton()
     {
-        return Mouse.current.leftButton.isPressed;
+        return Mouse.current.leftButton.isPressed || Mouse.current.leftButton.wasReleasedThisFrame;
     }
     #endregion
 
