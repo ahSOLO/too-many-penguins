@@ -428,5 +428,5 @@ MonoBehaviour:
   cubeSpawnVelocity: {x: 2, y: 11, z: 2}
   cubeSpawnPoint: {fileID: 5905351675961157919}
   cubeParent: {fileID: 0}
-  progressBarShowDuration: 1.5
+  progressBarShowDuration: 1.75
   remainingResources: 10

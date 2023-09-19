@@ -168,7 +168,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820745324109499048}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -236,19 +236,16 @@ MonoBehaviour:
   walkingRotSpeed: 10
   walkingAccel: 22
   walkingMaxSpd: 6
-  groundedRaycastRadiusShrinkage: 0.2
+  groundedRaycastRadiusShrinkage: 0.175
   pushCollider: {fileID: 151087015024936163}
   bellyMinChargeTime: 0.1
   bellyMaxChargeTime: 0.6
   chargingRotSpeed: 15
-  bellyDashAccel: 300
   bellyDashMinDuration: 0.1
-  bellyDashMaxDuration: 0.22
-  bellyDashMinSpeed: 10
-  bellyDashMaxSpeed: 24
-  bellyDashMinForce: 200
-  bellyDashMaxForce: 400
-  afterDashRestTime: 0.5
+  bellyDashMaxDuration: 0.17
+  bellyDashMinForce: 20
+  bellyDashMaxForce: 30
+  afterDashRestTime: 0.75
   afterDashRestDecelerationTarget: 0.05
   orderCircle: {fileID: 7995560971918227924}
   orderCircleStartRadius: 4
@@ -296,8 +293,8 @@ Transform:
   m_GameObject: {fileID: 4362726454182797876}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.25, z: 0.05}
-  m_LocalScale: {x: 1.2, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.05}
+  m_LocalScale: {x: 1.2, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1896203794922260743}

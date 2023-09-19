@@ -23,7 +23,7 @@ public class WorkerIdle : IState
 
     public void OnEnter()
     {
-        controller.TogglePhysics(true);
+        
     }
 
     public void OnExit()

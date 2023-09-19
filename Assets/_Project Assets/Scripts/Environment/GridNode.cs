@@ -114,11 +114,29 @@ public class GridNode: MonoBehaviour
     public void AssignMesh()
     {
         col.enabled = true;
+        int sidesFilled = 0;
+        if (T != null)
+        {
+            sidesFilled++;
+        }
+        if (R != null)
+        {
+            sidesFilled++;
+        }
+        if (B != null)
+        {
+            sidesFilled++;
+        }
+        if (L != null)
+        {
+            sidesFilled++;
+        }
 
-        if ((T == null && R == null && L != null && B != null) ||
-            (T == null && L == null && R != null && B != null) ||
-            (B == null && L == null && R != null && T != null) ||
-            (B == null && R == null && L != null && T != null))
+        if (sidesFilled == 2 && (
+            (T == null && R == null) ||
+            (T == null && L == null) ||
+            (B == null && L == null) ||
+            (B == null && R == null)))
         {
             if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Corner"))
             {
@@ -140,25 +158,7 @@ public class GridNode: MonoBehaviour
                 }
             }
         }
-        else if ((T != null && R != null && L != null && B != null) ||
-                (T != null && R == null && L == null && B != null) ||
-                (T == null && R != null && L != null && B == null) ||
-                (T != null && R == null && L == null && B == null) ||
-                (T == null && R != null && L == null && B == null) ||
-                (T == null && R == null && L != null && B == null) ||
-                (T == null && R == null && L == null && B != null))
-        {
-            if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Center"))
-            {
-                if (transform.childCount > 0)
-                {
-                    Destroy(transform.GetChild(0).gameObject);
-                }
-                var tile = Utility.RandomFromArray<GameObject>(centerTiles);
-                Instantiate(tile, transform, false);
-            }
-        }
-        else
+        else if (sidesFilled == 3)
         {
             if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Side"))
             {
@@ -174,6 +174,18 @@ public class GridNode: MonoBehaviour
                     L == null ? Quaternion.Euler(0f, 180f, 0f) :
                     Quaternion.Euler(0, -90f, 0f);
                 GO.transform.rotation = rotation;
+            }
+        }
+        else
+        {
+            if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Center"))
+            {
+                if (transform.childCount > 0)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                }
+                var tile = Utility.RandomFromArray<GameObject>(centerTiles);
+                Instantiate(tile, transform, false);
             }
         }
     }

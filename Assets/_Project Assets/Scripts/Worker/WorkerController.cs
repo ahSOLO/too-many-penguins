@@ -49,11 +49,12 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(idleState, () => wantsToFollow, followState);
         sM.AddTransition(idleState, () => wantsToSeekResource, seekResourceState);
         sM.AddTransition(followState, () => wantsToSeekResource, seekResourceState);
-        sM.AddTransition(seekResourceState, () => !wantsToSeekResource, idleState);
+        sM.AddTransition(seekResourceState, () => !wantsToSeekResource && !wantsToHarvestResource, idleState);
         sM.AddTransition(seekResourceState, () => wantsToFollow, followState);
         sM.AddTransition(seekResourceState, () => wantsToHarvestResource, harvestState);
         sM.AddTransition(harvestState, () => !wantsToHarvestResource, idleState);
         sM.AddTransition(harvestState, () => wantsToFollow, followState);
+        sM.AddTransition(harvestState, () => wantsToSeekResource, seekResourceState);
     }
 
     private void FixedUpdate()
@@ -145,6 +146,7 @@ public class WorkerController : MonoBehaviour
     public void LocatedResource()
     {
         wantsToHarvestResource = true;
+        wantsToSeekResource = false;
     }
 
     public void HarvestInterrupted()
