@@ -153,6 +153,7 @@ public class IslandGrid : Singleton<IslandGrid>
     private GridNode AddNode(Vector3 spawnPoint)
     {
         var newNode = Instantiate(platformPrefab, spawnPoint, Quaternion.identity, gameObject.transform).GetComponent<GridNode>();
+        newNode.transform.localPosition = new Vector3(newNode.transform.localPosition.x, 0f, newNode.transform.localPosition.z);
         nodes.Add(newNode);
         return newNode;
     }
