@@ -832,7 +832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHitsWater: {fileID: 11400000, guid: a8aa85634a60e124b8b62ec2ff6e200f, type: 2}
   workerHitsWater: {fileID: 11400000, guid: 32d5aa941616c50468cba1991775f6ac, type: 2}
-  playerRespawnTime: 5
+  playerRespawnTime: 1.5
   entityHitsWaterProcessingDelay: 0.5
   iceBlockParent: {fileID: 720835524}
   resourceParent: {fileID: 1127932980}
@@ -1532,7 +1532,7 @@ PrefabInstance:
     - target: {fileID: 6501262019594046239, guid: 9b4e746cdc420814283e2fb8d0a53764,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.727
+      value: 1.78
       objectReference: {fileID: 0}
     - target: {fileID: 6501262019594046239, guid: 9b4e746cdc420814283e2fb8d0a53764,
         type: 3}
@@ -1542,7 +1542,7 @@ PrefabInstance:
     - target: {fileID: 6501262019594046239, guid: 9b4e746cdc420814283e2fb8d0a53764,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.552
+      value: -2.58
       objectReference: {fileID: 0}
     - target: {fileID: 6501262019594046239, guid: 9b4e746cdc420814283e2fb8d0a53764,
         type: 3}

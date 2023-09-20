@@ -244,7 +244,7 @@ MonoBehaviour:
   bellyDashMinDuration: 0.1
   bellyDashMaxDuration: 0.17
   bellyDashMinForce: 20
-  bellyDashMaxForce: 30
+  bellyDashMaxForce: 35
   afterDashRestTime: 0.75
   afterDashRestDecelerationTarget: 0.05
   orderCircle: {fileID: 7995560971918227924}

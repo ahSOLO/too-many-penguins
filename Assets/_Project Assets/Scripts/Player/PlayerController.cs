@@ -129,6 +129,12 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    private void OnDisable()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
+
     #endregion
 
     #region Private Functions

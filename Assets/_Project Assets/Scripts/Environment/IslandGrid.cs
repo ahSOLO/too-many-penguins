@@ -57,12 +57,45 @@ public class IslandGrid : Singleton<IslandGrid>
         iceBlockHitsWater.Unregister(OnIceBlockHitsWater);
     }
 
+    private void SpawnOrganicProtrusions(int number = 1)
+    {
+        var randomDirection = Utility.RandomFromEnum<SpawnDirection>();
+
+        for (int i = 0; i < number; i++)
+        {
+            var cur = root;
+            switch (randomDirection)
+            {
+                case SpawnDirection.Left:
+                    var startPointL = cur.transform.position + new Vector3(-cellWidth * (startingLayers + 1), 0f, 0f);
+                    FillSide(ref startPointL, startingLayers / 2 + 1, UnityEngine.Random.Range(0, 2) == 1 ? SpawnDirection.Top : SpawnDirection.Bottom);
+                    break;
+                case SpawnDirection.Top:
+                    var startPointT = cur.transform.position + new Vector3(0f, 0f, cellLength * (startingLayers + 1));
+                    FillSide(ref startPointT, startingLayers / 2 + 1, UnityEngine.Random.Range(0, 2) == 1 ? SpawnDirection.Left : SpawnDirection.Right);
+                    break;
+                case SpawnDirection.Right:
+                    var startPointR = cur.transform.position + new Vector3(cellWidth * (startingLayers + 1), 0f, 0f);
+                    FillSide(ref startPointR, startingLayers / 2 + 1, UnityEngine.Random.Range(0, 2) == 1 ? SpawnDirection.Top : SpawnDirection.Bottom);
+                    break;
+                case SpawnDirection.Bottom:
+                    var startPointB = cur.transform.position + new Vector3(0f, 0f, -cellLength * (startingLayers + 1));
+                    FillSide(ref startPointB, startingLayers / 2 + 1, UnityEngine.Random.Range(0, 2) == 1 ? SpawnDirection.Left : SpawnDirection.Right);
+                    break;
+                default:
+                    break;
+            }
+            randomDirection = (SpawnDirection)(((int)randomDirection + 1) % Enum.GetValues(typeof(SpawnDirection)).Length);
+        }
+    }
+
     private void AddLayers(int number)
     {
         for (int i = 0; i < number; i++)
         {
             AddLayer();
         }
+        SpawnOrganicProtrusions(3);
         foreach (GridNode node in nodes)
         {
             node.SearchEmptySides(cellWidth, cellLength);
@@ -79,31 +112,25 @@ public class IslandGrid : Singleton<IslandGrid>
 
         // Spawn on top right
         var nextSpawnPoint = transform.position + new Vector3(startingLayers * cellWidth, 0, startingLayers * cellLength);
-        var cur = Instantiate(platformPrefab, nextSpawnPoint, Quaternion.identity, gameObject.transform).GetComponent<GridNode>();
-        nodes.Add(cur);
-
-        nextSpawnPoint += new Vector3(0, 0, -cellLength);
 
         // Fill in right side;
-        FillSide(ref nextSpawnPoint, transform.position + new Vector3(startingLayers * cellWidth, 0, -startingLayers * cellLength), SpawnDirection.Bottom);
+        FillSide(ref nextSpawnPoint, startingLayers * 2, SpawnDirection.Bottom);
 
         // Fill in bottom side
-        FillSide(ref nextSpawnPoint, transform.position + new Vector3(-startingLayers * cellWidth, 0, -startingLayers * cellLength), SpawnDirection.Left);
+        FillSide(ref nextSpawnPoint, startingLayers * 2, SpawnDirection.Left);
 
         // Fill in left side
-        FillSide(ref nextSpawnPoint, transform.position + new Vector3(-startingLayers * cellWidth, 0, startingLayers * cellLength), SpawnDirection.Top);
+        FillSide(ref nextSpawnPoint, startingLayers * 2, SpawnDirection.Top);
 
         // Fill in top side
-        FillSide(ref nextSpawnPoint, transform.position + new Vector3(startingLayers * cellWidth, 0, startingLayers * cellLength), SpawnDirection.Right);
+        FillSide(ref nextSpawnPoint, startingLayers * 2, SpawnDirection.Right);
     }
 
-    private void FillSide(ref Vector3 nextSpawnPoint, Vector3 endPoint, SpawnDirection spawnDirection)
+    private void FillSide(ref Vector3 nextSpawnPoint, int length, SpawnDirection spawnDirection)
     {
-        var i = 0;
-        while (nextSpawnPoint != endPoint && i < 30)
+        for (int i = 0; i < length; i++)
         {
-            var newNode = Instantiate(platformPrefab, nextSpawnPoint, Quaternion.identity, gameObject.transform).GetComponent<GridNode>();
-            nodes.Add(newNode);
+            AddNode(nextSpawnPoint);
 
             switch (spawnDirection)
             {
@@ -120,9 +147,14 @@ public class IslandGrid : Singleton<IslandGrid>
                     nextSpawnPoint += new Vector3(0, 0, -cellLength);
                     break;
             }
-
-            i++;
         }
+    }
+
+    private GridNode AddNode(Vector3 spawnPoint)
+    {
+        var newNode = Instantiate(platformPrefab, spawnPoint, Quaternion.identity, gameObject.transform).GetComponent<GridNode>();
+        nodes.Add(newNode);
+        return newNode;
     }
 
     private void OnIceBlockHitsWater(Collider other)
@@ -176,8 +208,7 @@ public class IslandGrid : Singleton<IslandGrid>
 
         StartCoroutine(Utility.DelayedAction(() =>
         {
-            var newPlatform = Instantiate(platformPrefab, newPlatformLoc, Quaternion.identity, transform).GetComponent<GridNode>();
-            nodes.Add(newPlatform);
+            var newPlatform = AddNode(newPlatformLoc);
 
             newPlatform.SearchEmptySides(cellWidth, cellLength);
 

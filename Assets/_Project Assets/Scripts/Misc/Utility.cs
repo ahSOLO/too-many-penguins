@@ -22,4 +22,10 @@ public class Utility
     {
         return array[UnityEngine.Random.Range(0, array.Length)];
     }
+
+    public static T RandomFromEnum<T>()
+    {
+        var values = Enum.GetValues(typeof(T));
+        return (T)values.GetValue(UnityEngine.Random.Range(0, values.Length));
+    }
 }
