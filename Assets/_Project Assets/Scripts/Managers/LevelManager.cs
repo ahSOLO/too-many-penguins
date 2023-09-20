@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : Singleton<LevelManager>
 {
@@ -64,5 +65,10 @@ public class LevelManager : Singleton<LevelManager>
             tf.localScale = Vector3.MoveTowards(tf.localScale, Vector3.one * targetSize, expansionRate * Time.deltaTime);
             yield return null;
         }
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
