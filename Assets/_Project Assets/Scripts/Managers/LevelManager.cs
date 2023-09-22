@@ -8,6 +8,7 @@ public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private ColliderEvent playerHitsWater;
     [SerializeField] private ColliderEvent workerHitsWater;
+    [SerializeField] private IntEvent currentWeightUpdate;
 
     [SerializeField] private float playerRespawnTime;
     [SerializeField] private float entityHitsWaterProcessingDelay;
@@ -15,6 +16,7 @@ public class LevelManager : Singleton<LevelManager>
     public Transform iceBlockParent;
     public Transform resourceParent;
     public Transform agentParent;
+    public Transform agentPool;
 
     protected override void Awake()
     {
@@ -51,6 +53,9 @@ public class LevelManager : Singleton<LevelManager>
 
     private void OnWorkerHitsWater(Collider col)
     {
+        col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
+        currentWeightUpdate.Raise(agentParent.childCount);
+
         StartCoroutine(Utility.DelayedAction(() =>
         {
             col.attachedRigidbody.gameObject.SetActive(false);

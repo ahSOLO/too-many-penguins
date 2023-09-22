@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 2084927844627280090}
   - component: {fileID: 3020189382069445239}
   m_Layer: 8
-  m_Name: Resource
+  m_Name: Level 1 Resource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -391,7 +391,7 @@ Transform:
   m_GameObject: {fileID: 8123859296183160989}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.727, y: 0, z: 4.552}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -438,7 +438,7 @@ MonoBehaviour:
   iceCubeSpawnVelocity: {x: 2, y: 10, z: 2}
   iceCubeSpawnPoint: {fileID: 5905351675961157919}
   progressBarShowDuration: 1.75
-  remainingResources: 10
+  remainingResources: 3
 --- !u!65 &3020189382069445239
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class IslandGrid : Singleton<IslandGrid>
     private enum SpawnDirection { Left, Top, Right, Bottom };
 
     [SerializeField] private ColliderEvent iceBlockHitsWater;
+    [SerializeField] private IntEvent maxWeightUpdate;
     [SerializeField] private float newPlatformSpawnDelay;
     [SerializeField] private float newPlatformAnimateDistance;
     [SerializeField] private float newPlatformAnimateSpeed;
@@ -25,6 +26,8 @@ public class IslandGrid : Singleton<IslandGrid>
     private int navMeshLastBakedNodeCount;
     private NavMeshSurface navMesh;
 
+    #region Unity Lifecycle
+
     protected override void Awake()
     {
         base.Awake();
@@ -37,7 +40,7 @@ public class IslandGrid : Singleton<IslandGrid>
 
     private void Start()
     {
-        AddLayers(2);
+        GenerateStartingIsland(2);
     }
 
     private void OnEnable()
@@ -58,6 +61,9 @@ public class IslandGrid : Singleton<IslandGrid>
     {
         iceBlockHitsWater.Unregister(OnIceBlockHitsWater);
     }
+
+    #endregion
+    #region Private Functions
 
     private void SpawnOrganicProtrusions(int number = 1)
     {
@@ -91,9 +97,9 @@ public class IslandGrid : Singleton<IslandGrid>
         }
     }
 
-    private void AddLayers(int number)
+    private void GenerateStartingIsland(int numberOfLayers)
     {
-        for (int i = 0; i < number; i++)
+        for (int i = 0; i < numberOfLayers; i++)
         {
             AddLayer();
         }
@@ -106,6 +112,7 @@ public class IslandGrid : Singleton<IslandGrid>
         {
             node.AssignMesh();
         }
+        maxWeightUpdate.Raise(nodes.Count / 4);
     }
 
     private void AddLayer()
@@ -212,6 +219,7 @@ public class IslandGrid : Singleton<IslandGrid>
         StartCoroutine(Utility.DelayedAction(() =>
         {
             var newPlatform = AddNode(newPlatformLoc);
+            maxWeightUpdate.Raise(nodes.Count / 4);
 
             newPlatform.SearchEmptySides(cellWidth, cellLength);
 
@@ -227,4 +235,5 @@ public class IslandGrid : Singleton<IslandGrid>
 
         }, newPlatformSpawnDelay));
     }
+    #endregion
 }

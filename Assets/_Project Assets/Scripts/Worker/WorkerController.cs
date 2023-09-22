@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,6 +10,7 @@ public class WorkerController : MonoBehaviour
     private NavMeshAgent nav;
     private Rigidbody rb;
     private StateMachine sM;
+    [SerializeField] private IntEvent currentWeightUpdate;
     [SerializeField] private CapsuleCollider col;
 
     private WorkerIdle idleState;
@@ -42,6 +44,11 @@ public class WorkerController : MonoBehaviour
         harvestState = new WorkerHarvestResource(this);
         
         sM.SetInitialState(idleState);
+    }
+
+    private void OnEnable()
+    {
+        currentWeightUpdate.Raise(transform.parent.childCount);
     }
 
     private void Start()
