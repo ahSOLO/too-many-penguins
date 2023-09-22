@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GridNode: MonoBehaviour
@@ -111,7 +112,7 @@ public class GridNode: MonoBehaviour
         }
     }
 
-    public void AssignMesh()
+    public void AssignMesh(bool animate = false, float animateDistance = 0f, float animateDuration = 0f)
     {
         col.enabled = true;
         int sidesFilled = 0;
@@ -132,6 +133,8 @@ public class GridNode: MonoBehaviour
             sidesFilled++;
         }
 
+        GameObject meshGO = null;
+
         if (sidesFilled == 2 && (
             (T == null && R == null) ||
             (T == null && L == null) ||
@@ -145,14 +148,14 @@ public class GridNode: MonoBehaviour
                     Destroy(transform.GetChild(0).gameObject);
                 }
                 var tile = Utility.RandomFromArray<GameObject>(cornerTiles);
-                var GO = Instantiate(tile, transform, false);
+                meshGO = Instantiate(tile, transform, false);
                 var rotation =
                     T == null && R == null ? Quaternion.identity :
                     R == null && B == null? Quaternion.Euler(0f, 90f, 0f) :
                     B == null && L == null ? Quaternion.Euler(0f, 180f, 0f) :
                     Quaternion.Euler(0, -90f, 0f);
-                GO.transform.rotation = rotation;
-                if (GO.GetComponent<MeshCollider>() != null)
+                meshGO.transform.rotation = rotation;
+                if (meshGO.GetComponent<MeshCollider>() != null)
                 {
                     col.enabled = false;
                 }
@@ -167,13 +170,13 @@ public class GridNode: MonoBehaviour
                     Destroy(transform.GetChild(0).gameObject);
                 }
                 var tile = Utility.RandomFromArray<GameObject>(sideTiles);
-                var GO = Instantiate(tile, transform, false);
+                meshGO = Instantiate(tile, transform, false);
                 var rotation =
                     R == null ? Quaternion.identity :
                     B == null ? Quaternion.Euler(0f, 90f, 0f) :
                     L == null ? Quaternion.Euler(0f, 180f, 0f) :
                     Quaternion.Euler(0, -90f, 0f);
-                GO.transform.rotation = rotation;
+                meshGO.transform.rotation = rotation;
             }
         }
         else
@@ -185,8 +188,15 @@ public class GridNode: MonoBehaviour
                     Destroy(transform.GetChild(0).gameObject);
                 }
                 var tile = Utility.RandomFromArray<GameObject>(centerTiles);
-                Instantiate(tile, transform, false);
+                meshGO = Instantiate(tile, transform, false);
             }
+        }
+
+        if (animate && meshGO != null)
+        {
+            var target = meshGO.transform.position;
+            meshGO.transform.localPosition += new Vector3(0f, -animateDistance, 0f);
+            StartCoroutine(Utility.MoveTransformOverTime(meshGO.transform, target, animateDuration));
         }
     }
 }

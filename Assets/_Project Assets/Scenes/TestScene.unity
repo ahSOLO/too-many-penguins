@@ -1718,6 +1718,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iceBlockHitsWater: {fileID: 11400000, guid: bd8d24df7fed8a640988dbbcd556607d, type: 2}
   newPlatformSpawnDelay: 0.5
+  newPlatformAnimateDistance: 1
+  newPlatformAnimateSpeed: 3
   platformPrefab: {fileID: 2159325192541883364, guid: a17e0a3e71082664eb1b79f8028e8038,
     type: 3}
   nodes: []

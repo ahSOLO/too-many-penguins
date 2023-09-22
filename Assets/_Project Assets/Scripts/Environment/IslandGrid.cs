@@ -11,6 +11,8 @@ public class IslandGrid : Singleton<IslandGrid>
 
     [SerializeField] private ColliderEvent iceBlockHitsWater;
     [SerializeField] private float newPlatformSpawnDelay;
+    [SerializeField] private float newPlatformAnimateDistance;
+    [SerializeField] private float newPlatformAnimateSpeed;
 
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private List<GridNode> nodes = new List<GridNode>();
@@ -218,7 +220,7 @@ public class IslandGrid : Singleton<IslandGrid>
                 hit.GetComponentInParent<GridNode>().AssignMesh();
             }
 
-            newPlatform.AssignMesh();
+            newPlatform.AssignMesh(true, newPlatformAnimateDistance, newPlatformAnimateSpeed);
 
             Destroy(other.gameObject);
 

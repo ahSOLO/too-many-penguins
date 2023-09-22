@@ -28,4 +28,13 @@ public class Utility
         var values = Enum.GetValues(typeof(T));
         return (T)values.GetValue(UnityEngine.Random.Range(0, values.Length));
     }
+
+    public static IEnumerator MoveTransformOverTime(Transform transform, Vector3 target, float speed)
+    {
+        while (transform.position != target)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            yield return null;
+        }
+    }
 }
