@@ -4,35 +4,59 @@ using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(AgentSpawner))]
 public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private ColliderEvent playerHitsWater;
     [SerializeField] private ColliderEvent workerHitsWater;
     [SerializeField] private IntEvent currentWeightUpdate;
+    [SerializeField] private VoidEvent gameLoss;
 
     [SerializeField] private float playerRespawnTime;
     [SerializeField] private float entityHitsWaterProcessingDelay;
+    public float overLimitTime;
+    private float workerSpawnTimer;
 
     public Transform iceBlockParent;
     public Transform resourceParent;
     public Transform agentParent;
     public Transform agentPool;
 
+    private AgentSpawner agentSpawner;
+    [SerializeField] private float startingWorkerSpawnFrequency;
+    [SerializeField] private float spawnFrequencyGrowthRate;
+    [SerializeField] private int startingWorkerSpawnCount;
+
     protected override void Awake()
     {
         base.Awake();
+
+        agentSpawner = GetComponent<AgentSpawner>();
     }
 
     private void OnEnable()
     {
         playerHitsWater.Register(OnPlayerHitsWater);
         workerHitsWater.Register(OnWorkerHitsWater);
+        gameLoss.Register(OnGameLoss);
     }
 
     private void OnDisable()
     {
         playerHitsWater.Unregister(OnPlayerHitsWater);
         workerHitsWater.Unregister(OnWorkerHitsWater);
+        gameLoss.Unregister(OnGameLoss);
+    }
+
+    private void Update()
+    {
+        workerSpawnTimer -= Time.deltaTime;
+        if (workerSpawnTimer <= 0)
+        {
+            agentSpawner.SpawnWorkers(startingWorkerSpawnCount);
+            startingWorkerSpawnFrequency *= spawnFrequencyGrowthRate;
+            workerSpawnTimer = startingWorkerSpawnFrequency;
+        }
     }
 
     private void OnPlayerHitsWater()
@@ -53,23 +77,25 @@ public class LevelManager : Singleton<LevelManager>
 
     private void OnWorkerHitsWater(Collider col)
     {
-        col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
-        currentWeightUpdate.Raise(agentParent.childCount);
-
-        StartCoroutine(Utility.DelayedAction(() =>
+        if (col.GetComponentInParent<WorkerController>().spawnComplete)
         {
-            col.attachedRigidbody.gameObject.SetActive(false);
-        }, entityHitsWaterProcessingDelay));
+            col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
+            currentWeightUpdate.Raise(agentParent.childCount);
+
+            StartCoroutine(Utility.DelayedAction(() =>
+            {
+                col.attachedRigidbody.gameObject.SetActive(false);
+            }, entityHitsWaterProcessingDelay));
+        }
     }
 
-
-    public IEnumerator ExpandGO(Transform tf, float targetSize, float expansionRate)
+    private void OnGameLoss()
     {
-        while (tf.localScale != Vector3.one * targetSize)
-        {
-            tf.localScale = Vector3.MoveTowards(tf.localScale, Vector3.one * targetSize, expansionRate * Time.deltaTime);
-            yield return null;
-        }
+        LevelUIController.Instance.ShowGameOverUI("THE ISLAND SUNK");
+        iceBlockParent.gameObject.SetActive(false);
+        resourceParent.gameObject.SetActive(false);
+        agentParent.gameObject.SetActive(false);
+        IslandWeightController.Instance.SinkIsland();
     }
 
     public void ReloadScene()

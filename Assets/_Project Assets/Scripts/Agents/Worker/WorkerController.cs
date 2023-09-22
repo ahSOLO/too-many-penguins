@@ -7,12 +7,15 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody), typeof(StateMachine))]
 public class WorkerController : MonoBehaviour
 {
+    [SerializeField] private Renderer rend;
     private NavMeshAgent nav;
     private Rigidbody rb;
     private StateMachine sM;
-    [SerializeField] private IntEvent currentWeightUpdate;
+
+    public IntEvent currentWeightUpdate;
     [SerializeField] private CapsuleCollider col;
 
+    private WorkerSpawn spawnState;
     private WorkerIdle idleState;
     private WorkerFollow followState;
     private WorkerSeekResource seekResourceState;
@@ -25,6 +28,8 @@ public class WorkerController : MonoBehaviour
     public float maxHarvestDistance;
     public float harvestRate;
     public Resource TargetResource { get; set; }
+    [SerializeField] private Vector3 spawnVelocity;
+    public bool spawnComplete;
 
     private bool wantsToFollow;
     private bool wantsToSeekResource;
@@ -38,21 +43,18 @@ public class WorkerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         sM = GetComponent<StateMachine>();
 
+        spawnState = new WorkerSpawn(this);
         idleState = new WorkerIdle(this);
         followState = new WorkerFollow(this);
         seekResourceState = new WorkerSeekResource(this);
         harvestState = new WorkerHarvestResource(this);
         
-        sM.SetInitialState(idleState);
-    }
-
-    private void OnEnable()
-    {
-        currentWeightUpdate.Raise(transform.parent.childCount);
+        sM.SetInitialState(spawnState);
     }
 
     private void Start()
     {
+        sM.AddTransition(spawnState, IsGrounded, idleState);
         sM.AddTransition(idleState, () => wantsToFollow, followState);
         sM.AddTransition(idleState, () => wantsToSeekResource, seekResourceState);
         sM.AddTransition(followState, () => wantsToSeekResource, seekResourceState);
@@ -76,7 +78,15 @@ public class WorkerController : MonoBehaviour
         }
     }
 
-    public void PotentialCollisionCheck(Rigidbody rb)
+    private void Update()
+    {
+        if (canResumeNavigation)
+        {
+            ReenableNavMeshCheck();
+        }
+    }
+
+    private void PotentialCollisionCheck(Rigidbody rb)
     {
         if (Vector3.Dot(rb.velocity, transform.position - rb.position) > 0)
         {
@@ -90,12 +100,16 @@ public class WorkerController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private bool IsGrounded()
     {
-        if (canResumeNavigation)
-        {
-            ReenableNavMeshCheck();
-        }
+        var raycastLength = rend.bounds.extents.y + 0.1f;
+        var layerMask = LayerMask.GetMask("Platform");
+        return Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down, raycastLength, layerMask);
+    }
+
+    public void SetSpawnVelocity()
+    {
+        rb.AddForce(transform.rotation * spawnVelocity, ForceMode.VelocityChange);
     }
 
     public void FollowPlayer()

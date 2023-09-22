@@ -30,7 +30,7 @@ public class Resource : MonoBehaviour
             var rb = GO.GetComponent<Rigidbody>();
             var startingAngle = UnityEngine.Random.Range(0, 360f);
             rb.velocity = Quaternion.AngleAxis(startingAngle, Vector3.up) * iceCubeSpawnVelocity;
-            LevelManager.Instance.StartCoroutine(LevelManager.Instance.ExpandGO(GO.transform, iceCubeTargetSize, iceCubeExpansionRate));
+            LevelManager.Instance.StartCoroutine(Utility.ExpandGO(GO.transform, iceCubeTargetSize, iceCubeExpansionRate));
             if (remainingResources == 0)
             {
                 Destroy(gameObject);

@@ -194,9 +194,9 @@ public class GridNode: MonoBehaviour
 
         if (animate && meshGO != null)
         {
-            var target = meshGO.transform.position;
+            var target = meshGO.transform.localPosition;
             meshGO.transform.localPosition += new Vector3(0f, -animateDistance, 0f);
-            StartCoroutine(Utility.MoveTransformOverTime(meshGO.transform, target, animateDuration));
+            StartCoroutine(Utility.MoveLocalTransformOverTime(meshGO.transform, target, animateDuration));
         }
     }
 }

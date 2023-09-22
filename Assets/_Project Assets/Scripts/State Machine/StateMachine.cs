@@ -55,6 +55,7 @@ public class StateMachine : MonoBehaviour
     public void SetInitialState(IState state)
     {
         this.state = state;
+        state.OnEnter();
     }
 
     #region Transition Logic

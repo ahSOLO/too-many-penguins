@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,10 +19,11 @@ public class IslandGrid : Singleton<IslandGrid>
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private List<GridNode> nodes = new List<GridNode>();
     public GridNode root;
-    private int startingLayers = 0;
+    private int startingLayers;
     private float cellWidth = 3f;
     private float cellLength = 3f;
     private float overlapSphereSize = 15f;
+    [SerializeField] private float approxIslandRadius;
 
     private int navMeshLastBakedNodeCount;
     private NavMeshSurface navMesh;
@@ -99,6 +101,7 @@ public class IslandGrid : Singleton<IslandGrid>
 
     private void GenerateStartingIsland(int numberOfLayers)
     {
+        approxIslandRadius = (numberOfLayers + 1f) * (cellWidth + cellLength) / 2f;
         for (int i = 0; i < numberOfLayers; i++)
         {
             AddLayer();
@@ -159,11 +162,16 @@ public class IslandGrid : Singleton<IslandGrid>
         }
     }
 
-    private GridNode AddNode(Vector3 spawnPoint)
+    private GridNode AddNode(Vector3 spawnPoint, bool remeasureRadius = false)
     {
         var newNode = Instantiate(platformPrefab, spawnPoint, Quaternion.identity, gameObject.transform).GetComponent<GridNode>();
         newNode.transform.localPosition = new Vector3(newNode.transform.localPosition.x, 0f, newNode.transform.localPosition.z);
         nodes.Add(newNode);
+
+        if (remeasureRadius)
+        {
+            approxIslandRadius = Mathf.Max(approxIslandRadius, (newNode.transform.position - root.transform.position).magnitude);
+        }
         return newNode;
     }
 
@@ -218,7 +226,7 @@ public class IslandGrid : Singleton<IslandGrid>
 
         StartCoroutine(Utility.DelayedAction(() =>
         {
-            var newPlatform = AddNode(newPlatformLoc);
+            var newPlatform = AddNode(newPlatformLoc, remeasureRadius: true);
             maxWeightUpdate.Raise(nodes.Count / 4);
 
             newPlatform.SearchEmptySides(cellWidth, cellLength);
@@ -234,6 +242,18 @@ public class IslandGrid : Singleton<IslandGrid>
 
 
         }, newPlatformSpawnDelay));
+    }
+    #endregion
+    #region Public API
+    public float GetApproxIslandRadius()
+    {
+        return approxIslandRadius;
+    }
+
+    public Vector3 GetCircleEdgePoint(float radius, float degreeRotation)
+    {
+        Quaternion rot = Quaternion.Euler(new Vector3(0f, degreeRotation, 0f));
+        return transform.position + (rot * Vector3.forward * radius);
     }
     #endregion
 }

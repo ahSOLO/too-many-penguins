@@ -17,4 +17,16 @@ public class InputManager : Singleton<InputManager>
     {
         return playerInput.FindAction(inputAction);
     }
+
+    public void ToggleInput(bool isActive)
+    {
+        if (isActive)
+        {
+            playerInput.Enable();
+        }
+        else
+        {
+            playerInput.Disable();
+        }
+    }
 }
