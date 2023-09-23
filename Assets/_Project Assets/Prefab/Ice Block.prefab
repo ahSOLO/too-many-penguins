@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4647382979998566556}
   - component: {fileID: 6629021454496995430}
   - component: {fileID: -8224725709973823607}
+  - component: {fileID: 2461879877503480820}
   m_Layer: 10
   m_Name: Ice Block
   m_TagString: Ice Block
@@ -99,6 +100,20 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &2461879877503480820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7542008999062261073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27b87f5e31b84d4d8242c3d586eb700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  col: {fileID: 4647382979998566556}
+  additionalFuzzyForce: 2.5
 --- !u!1001 &32602225127755183
 PrefabInstance:
   m_ObjectHideFlags: 0

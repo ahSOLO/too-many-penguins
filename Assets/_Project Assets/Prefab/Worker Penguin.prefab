@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 2148508700460818261}
   - component: {fileID: 4994658128218599421}
   - component: {fileID: 5148212320315770712}
+  - component: {fileID: 6677052756760275241}
   m_Layer: 7
   m_Name: Worker Penguin
   m_TagString: Worker
@@ -207,6 +208,20 @@ MonoBehaviour:
   harvestRate: 0.15
   spawnVelocity: {x: 0, y: 16, z: 5}
   spawnComplete: 0
+--- !u!114 &6677052756760275241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809943516306186561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27b87f5e31b84d4d8242c3d586eb700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  col: {fileID: 3390556990617168118}
+  additionalFuzzyForce: 2.5
 --- !u!1 &7796951669167592999
 GameObject:
   m_ObjectHideFlags: 0

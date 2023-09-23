@@ -2357,17 +2357,17 @@ PrefabInstance:
     - target: {fileID: 7442069275055972706, guid: 7498176e56c39ba4698482338f5fb4d8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.8910828
+      value: 0.19762659
       objectReference: {fileID: 0}
     - target: {fileID: 7442069275055972706, guid: 7498176e56c39ba4698482338f5fb4d8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7442069275055972706, guid: 7498176e56c39ba4698482338f5fb4d8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.3690988
+      value: 2.34
       objectReference: {fileID: 0}
     - target: {fileID: 7442069275055972706, guid: 7498176e56c39ba4698482338f5fb4d8,
         type: 3}
@@ -2408,6 +2408,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ice Block
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542008999062261073, guid: 7498176e56c39ba4698482338f5fb4d8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
