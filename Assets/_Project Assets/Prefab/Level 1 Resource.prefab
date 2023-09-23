@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 4792719939357302458}
   - component: {fileID: 2084927844627280090}
   - component: {fileID: 3020189382069445239}
+  - component: {fileID: 7287659282556468052}
   m_Layer: 8
   m_Name: Level 1 Resource
   m_TagString: Untagged
@@ -460,3 +461,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.1674383, z: 1.45}
   m_Center: {x: 0, y: 0.046272397, z: 0.12912023}
+--- !u!114 &7287659282556468052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123859296183160989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27b87f5e31b84d4d8242c3d586eb700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  col: {fileID: 3020189382069445239}
+  additionalFuzzyForce: 2.5

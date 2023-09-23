@@ -204,7 +204,7 @@ MonoBehaviour:
   navUpdateFrequency: 0.3
   maxSeekDistance: 20
   harvestDuration: 1.5
-  maxHarvestDistance: 1.6
+  maxHarvestDistance: 2
   harvestRate: 0.15
   spawnVelocity: {x: 0, y: 16, z: 5}
   spawnComplete: 0
