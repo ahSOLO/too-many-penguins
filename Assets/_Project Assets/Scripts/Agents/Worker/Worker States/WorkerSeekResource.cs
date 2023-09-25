@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class WorkerSeekResource : IState
 {
@@ -23,25 +22,36 @@ public class WorkerSeekResource : IState
 
     public void OnEnter()
     {
-        // Head to closest resource within radius
+        // Head to closest free resource within radius
         var cols = Physics.OverlapSphere(controller.transform.position, controller.maxSeekDistance, LayerMask.GetMask("Resource"));
-        
-        if (cols.Length > 0)
+        List<Resource> freeResourcesInRange = new List<Resource>();
+
+        foreach (var col in cols)
         {
-            var closest = cols[0];
-            var closestDist = (cols[0].transform.position - controller.transform.position).sqrMagnitude;
-            for (int i = 1; i < cols.Length; i++)
+            var resource = col.GetComponentInParent<Resource>();
+            if (!resource.IsFull())
             {
-                var curDist = (cols[i].transform.position - controller.transform.position).sqrMagnitude;
+                freeResourcesInRange.Add(resource);
+            }
+        }
+        
+        if (freeResourcesInRange.Count > 0)
+        {
+            var closest = freeResourcesInRange[0];
+            var closestDist = (freeResourcesInRange[0].transform.position - controller.transform.position).sqrMagnitude;
+            for (int i = 1; i < freeResourcesInRange.Count; i++)
+            {
+                var curDist = (freeResourcesInRange[i].transform.position - controller.transform.position).sqrMagnitude;
                 if (curDist < closestDist)
                 {
-                    closest = cols[i];
+                    closest = freeResourcesInRange[i];
                     closestDist = curDist;
                 }
             }
 
             controller.SetNavDestination(closest.transform.position);
-            controller.TargetResource = closest.GetComponentInParent<Resource>();
+            controller.TargetResource = closest;
+            closest.AttachGatherer(controller);
         }
         else
         {
@@ -51,7 +61,7 @@ public class WorkerSeekResource : IState
 
     public void OnExit()
     {
-        
+        controller.TargetResource?.DetachGatherer(controller);
     }
 
     public void Tick()

@@ -85,7 +85,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.6
-  m_Height: 2.2
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1820745324109499048
@@ -183,23 +183,23 @@ MonoBehaviour:
   currentOrder: 0
   rend: {fileID: 6643209781739566504}
   walkingRotSpeed: 10
-  walkingAccel: 22
-  walkingMaxSpd: 6
+  walkingAccel: 33
+  walkingMaxSpd: 7
   groundedRaycastRadiusShrinkage: 0.175
   pushCollider: {fileID: 151087015024936163}
   bellyMinChargeTime: 0.1
   bellyMaxChargeTime: 0.6
-  chargingRotSpeed: 15
+  chargingRotSpeed: 20
   bellyDashMinDuration: 0.1
   bellyDashMaxDuration: 0.17
   bellyDashMinForce: 20
   bellyDashMaxForce: 35
-  afterDashRestTime: 0.75
+  afterDashRestTime: 0.65
   afterDashRestDecelerationTarget: 0.05
   orderCircle: {fileID: 7995560971918227924}
   orderCircleStartRadius: 4
   orderCircleEndRadius: 14
-  circleExpansionRate: 12
+  circleExpansionRate: 16
 --- !u!208 &5143384556031558017
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -377,17 +377,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9f605ef883f3d2c478b735861ed3ead5,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f605ef883f3d2c478b735861ed3ead5,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f605ef883f3d2c478b735861ed3ead5,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.8
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f605ef883f3d2c478b735861ed3ead5,
         type: 3}
@@ -397,7 +397,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9f605ef883f3d2c478b735861ed3ead5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f605ef883f3d2c478b735861ed3ead5,
         type: 3}

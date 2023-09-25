@@ -25,11 +25,13 @@ public class WorkerHarvestResource : IState
     public void OnEnter()
     {
         harvestTimer = controller.harvestDuration;
+        controller.TargetResource?.AttachGatherer(controller);
     }
 
     public void OnExit()
     {
-        
+        controller.TargetResource?.DetachGatherer(controller);
+        controller.TargetResource = null;
     }
 
     public void Tick()

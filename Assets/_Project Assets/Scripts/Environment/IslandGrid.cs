@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -254,6 +253,24 @@ public class IslandGrid : Singleton<IslandGrid>
     {
         Quaternion rot = Quaternion.Euler(new Vector3(0f, degreeRotation, 0f));
         return transform.position + (rot * Vector3.forward * radius);
+    }
+
+    public GridNode GetRandomTile(Func<GridNode, bool> tileTest = null)
+    {
+        for (int i = 0; i < 25; i++)
+        {
+            var randomTile = nodes[UnityEngine.Random.Range(0, nodes.Count)];
+            if (tileTest == null)
+            {
+                return randomTile;
+            }
+            else if (tileTest(randomTile) == true)
+            {
+                return randomTile;
+            }
+        }
+
+        return null;
     }
     #endregion
 }

@@ -203,9 +203,9 @@ MonoBehaviour:
   disablePhysicsSqredVelocityThreshold: 0.005
   navUpdateFrequency: 0.3
   maxSeekDistance: 20
-  harvestDuration: 1.5
-  maxHarvestDistance: 2
-  harvestRate: 0.15
+  harvestDuration: 1.8
+  maxHarvestDistance: 2.1
+  harvestRate: 0.1
   spawnVelocity: {x: 0, y: 16, z: 5}
   spawnComplete: 0
 --- !u!114 &6677052756760275241

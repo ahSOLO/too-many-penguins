@@ -9,6 +9,7 @@ public class GridNode: MonoBehaviour
     public GridNode B;
 
     public Collider col;
+    public bool occupied = false;
 
     [SerializeField] private GameObject[] centerTiles;
     [SerializeField] private GameObject[] sideTiles;
@@ -198,5 +199,10 @@ public class GridNode: MonoBehaviour
             meshGO.transform.localPosition += new Vector3(0f, -animateDistance, 0f);
             StartCoroutine(Utility.MoveLocalTransformOverTime(meshGO.transform, target, animateDuration));
         }
+    }
+
+    public bool IsTrueCenterTile()
+    {
+        return T != null && R != null & B != null & L != null;
     }
 }

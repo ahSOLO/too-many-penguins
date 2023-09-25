@@ -4,7 +4,7 @@ using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(AgentSpawner))]
+[RequireComponent(typeof(AgentSpawner), typeof(ResourceSpawner))]
 public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private ColliderEvent playerHitsWater;
@@ -16,6 +16,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private float entityHitsWaterProcessingDelay;
     public float overLimitTime;
     private float workerSpawnTimer;
+    private float resourceSpawnTimer;
 
     public Transform iceBlockParent;
     public Transform resourceParent;
@@ -26,12 +27,18 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private float startingWorkerSpawnFrequency;
     [SerializeField] private float spawnFrequencyGrowthRate;
     [SerializeField] private int startingWorkerSpawnCount;
+    private ResourceSpawner resourceSpawner;
+    [SerializeField] private float startingResourceSpawnFrequency;
+    [SerializeField] private float resourceSpawnFrequencyGrowthRate;
+    [SerializeField] private int startingResourcesMin;
+    [SerializeField] private int startingResourcesMax;
 
     protected override void Awake()
     {
         base.Awake();
 
         agentSpawner = GetComponent<AgentSpawner>();
+        resourceSpawner = GetComponent<ResourceSpawner>();
     }
 
     private void OnEnable()
@@ -56,6 +63,14 @@ public class LevelManager : Singleton<LevelManager>
             agentSpawner.SpawnWorkers(startingWorkerSpawnCount);
             startingWorkerSpawnFrequency *= spawnFrequencyGrowthRate;
             workerSpawnTimer = startingWorkerSpawnFrequency;
+        }
+
+        resourceSpawnTimer -= Time.deltaTime;
+        if (resourceSpawnTimer <= 0)
+        {
+            resourceSpawner.SpawnResource(UnityEngine.Random.Range(startingResourcesMin, startingResourcesMax));
+            startingResourceSpawnFrequency *= resourceSpawnFrequencyGrowthRate;
+            resourceSpawnTimer = startingResourceSpawnFrequency;
         }
     }
 
