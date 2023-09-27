@@ -41,6 +41,9 @@ public class PlayerController : Singleton<PlayerController>
 
     [Header("Belly Dash Params")]
     [SerializeField] private BoxCollider pushCollider;
+    public GameObject indicatorRect;
+    private Vector3 startingIndicatorRectScale;
+    public float chargeIndicatorDistMultiplier;
     public float bellyMinChargeTime;
     public float bellyMaxChargeTime;
     public float chargingRotSpeed;
@@ -48,7 +51,8 @@ public class PlayerController : Singleton<PlayerController>
     public float bellyDashMaxDuration;
     public float bellyDashMinForce;
     public float bellyDashMaxForce;
-    public float afterDashRestTime;
+    public float afterDashMinRestTime;
+    public float afterDashMaxRestTime;
     public float afterDashRestDecelerationTarget;
 
     [Header("Order Params")]
@@ -79,6 +83,8 @@ public class PlayerController : Singleton<PlayerController>
         fallingState = new PlayerFalling(this);
 
         sM.SetInitialState(idleState);
+
+        startingIndicatorRectScale = indicatorRect.transform.localScale;
     }
 
     private void Start()
@@ -167,12 +173,6 @@ public class PlayerController : Singleton<PlayerController>
         rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(target.x, rb.velocity.y, target.z), Time.deltaTime);
     }
 
-    private void SmoothRotateTowards(Vector3 dir)
-    {
-        Quaternion targetRot = Quaternion.LookRotation(dir);
-        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.deltaTime));
-    }
-
     private bool IsGrounded()
     {
         var raycastLength = rend.bounds.extents.y + 0.1f;
@@ -212,6 +212,12 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    public void SmoothRotateTowards(Vector3 dir)
+    {
+        Quaternion targetRot = Quaternion.LookRotation(dir);
+        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.deltaTime));
+    }
+
     #endregion
 
     #region Dash API
@@ -230,9 +236,9 @@ public class PlayerController : Singleton<PlayerController>
         pushCollider.enabled = true;
         dashOver = false;
         rb.constraints = rb.constraints | RigidbodyConstraints.FreezeRotationY;
-        float chargeMultiplier = (Mathf.Clamp(bellyCurrentChargeTime, bellyMinChargeTime, bellyMaxChargeTime) - bellyMinChargeTime) / (bellyMaxChargeTime - bellyMinChargeTime);
-        var dashForce = Mathf.Lerp(bellyDashMinForce, bellyDashMaxForce, chargeMultiplier);
-        dashTimer = Mathf.Lerp(bellyDashMinDuration, bellyDashMaxDuration, chargeMultiplier);
+        float chargeFactor = (Mathf.Clamp(bellyCurrentChargeTime, bellyMinChargeTime, bellyMaxChargeTime) - bellyMinChargeTime) / (bellyMaxChargeTime - bellyMinChargeTime);
+        var dashForce = Mathf.Lerp(bellyDashMinForce, bellyDashMaxForce, chargeFactor);
+        dashTimer = Mathf.Lerp(bellyDashMinDuration, bellyDashMaxDuration, chargeFactor);
         SetMovementProperties(0f, 0f, 0f);
         rb.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
     }
@@ -250,9 +256,28 @@ public class PlayerController : Singleton<PlayerController>
         dashTimer -= Time.deltaTime;
     }
 
+    public void ToggleIndicatorRect(bool isActive)
+    {
+        indicatorRect.SetActive(isActive);
+    }
+
+    public void ResetIndicatorRect()
+    {
+        indicatorRect.transform.localScale = startingIndicatorRectScale;
+        indicatorRect.transform.localPosition = Vector3.forward;
+    }
+
+    public void ChargeIndicatorRect()
+    {
+        var dist = Mathf.Max(2f, Mathf.Min(bellyCurrentChargeTime, bellyMaxChargeTime) / bellyMinChargeTime) * chargeIndicatorDistMultiplier;
+        indicatorRect.transform.localScale = new Vector3(1f, 0.05f, dist/2f);
+        indicatorRect.transform.localPosition = new Vector3(0f, 0f, dist/4f);
+    }
+
     public void RestStart()
     {
-        restTime = afterDashRestTime;
+        float chargeFactor = (Mathf.Clamp(bellyCurrentChargeTime, bellyMinChargeTime, bellyMaxChargeTime) - bellyMinChargeTime) / (bellyMaxChargeTime - bellyMinChargeTime);
+        restTime = Mathf.Lerp(afterDashMinRestTime, afterDashMaxRestTime, chargeFactor);
     }
 
     public void RestTick()

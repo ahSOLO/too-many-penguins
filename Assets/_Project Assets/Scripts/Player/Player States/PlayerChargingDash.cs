@@ -25,11 +25,13 @@ public class PlayerChargingDash : IState
     {
         pC.SetMovementProperties(pC.chargingRotSpeed, 0f, 0f);
         pC.ResetDashChargeTime();
+        pC.ToggleIndicatorRect(true);
+        pC.ResetIndicatorRect();
     }
 
     public void OnExit()
     {
-
+        pC.ToggleIndicatorRect(false);
     }
 
     public void Tick()
@@ -45,5 +47,6 @@ public class PlayerChargingDash : IState
         }
 
         pC.DashCharge();
+        pC.ChargeIndicatorRect();
     }
 }

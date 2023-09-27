@@ -23,6 +23,7 @@ public class PlayerOrdering : IState
     public void OnEnter()
     {
         pC.orderCircle.SetActive(true);
+        pC.SetMovementProperties(pC.walkingRotSpeed, pC.walkingAccel / 2f, pC.walkingMaxSpd / 2f);
     }
 
     public void OnExit()
@@ -34,6 +35,7 @@ public class PlayerOrdering : IState
 
     public void Tick()
     {
+        pC.MoveWithInput();
         var target = Mathf.Min(pC.orderCircle.transform.localScale.x + pC.circleExpansionRate * Time.deltaTime, pC.orderCircleEndRadius);
         pC.orderCircle.transform.localScale = new Vector3(target, pC.orderCircle.transform.localScale.y, target);
     }

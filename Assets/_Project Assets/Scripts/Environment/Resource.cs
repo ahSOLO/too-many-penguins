@@ -21,6 +21,8 @@ public class Resource : MonoBehaviour
     [SerializeField] private GameObject level1GO;
     [SerializeField] private GameObject level2GO;
     [SerializeField] private GameObject level3GO;
+    [SerializeField] private int harvestHighCapacityThreshold;
+    [SerializeField] private float highCapacityHarvestMultiplier;
 
     private int remainingResources;
     public int RemainingResources 
@@ -118,6 +120,10 @@ public class Resource : MonoBehaviour
 
     public void Harvest(float harvestRate)
     {
+        if (gatherers.Count >= harvestHighCapacityThreshold)
+        {
+            harvestRate *= highCapacityHarvestMultiplier;
+        }
         harvestProgress = Mathf.Min(1f, harvestProgress + harvestRate);
         if (harvestProgress == 1f)
         {

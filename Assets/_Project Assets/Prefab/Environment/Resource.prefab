@@ -949,3 +949,5 @@ MonoBehaviour:
   level1GO: {fileID: 2412034388347516405}
   level2GO: {fileID: 7829622032674328360}
   level3GO: {fileID: 6047293120600742425}
+  harvestHighCapacityThreshold: 4
+  highCapacityHarvestMultiplier: 0.85
