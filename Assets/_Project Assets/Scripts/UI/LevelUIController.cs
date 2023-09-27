@@ -67,11 +67,13 @@ public class LevelUIController : Singleton<LevelUIController>
 
     public void RestartLevel()
     {
+        pauseGameToggle.Raise(false);
         GameManager.Instance.LoadScene("Level");
     }
 
     public void MainMenu()
     {
+        pauseGameToggle.Raise(false);
         GameManager.Instance.LoadScene("Main Menu");
     }
 
