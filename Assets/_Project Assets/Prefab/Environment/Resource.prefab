@@ -943,9 +943,9 @@ MonoBehaviour:
   iceCubeSpawnVelocity: {x: 2, y: 10, z: 2}
   iceCubeSpawnPoint: {fileID: 5583007815472327976}
   progressBarShowDuration: 2.25
-  maxGatherers: 3
-  level2Threshold: 5
-  level1Threshold: 2
+  maxGatherers: 5
+  level2Threshold: 6
+  level1Threshold: 3
   level1GO: {fileID: 2412034388347516405}
   level2GO: {fileID: 7829622032674328360}
   level3GO: {fileID: 6047293120600742425}

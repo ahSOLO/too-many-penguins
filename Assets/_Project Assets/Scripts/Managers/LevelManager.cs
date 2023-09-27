@@ -26,7 +26,8 @@ public class LevelManager : Singleton<LevelManager>
     private AgentSpawner agentSpawner;
     [SerializeField] private float startingWorkerSpawnFrequency;
     [SerializeField] private float spawnFrequencyGrowthRate;
-    [SerializeField] private int startingWorkerSpawnCount;
+    [SerializeField] private int startingWorkerSpawnCountMin;
+    [SerializeField] private int startingWorkerSpawnCountMax;
     private ResourceSpawner resourceSpawner;
     [SerializeField] private float startingResourceSpawnFrequency;
     [SerializeField] private float resourceSpawnFrequencyGrowthRate;
@@ -60,7 +61,7 @@ public class LevelManager : Singleton<LevelManager>
         workerSpawnTimer -= Time.deltaTime;
         if (workerSpawnTimer <= 0)
         {
-            agentSpawner.SpawnWorkers(startingWorkerSpawnCount);
+            agentSpawner.SpawnWorkers(UnityEngine.Random.Range(startingWorkerSpawnCountMin, startingWorkerSpawnCountMax + 1));
             startingWorkerSpawnFrequency *= spawnFrequencyGrowthRate;
             workerSpawnTimer = startingWorkerSpawnFrequency;
         }
@@ -68,7 +69,10 @@ public class LevelManager : Singleton<LevelManager>
         resourceSpawnTimer -= Time.deltaTime;
         if (resourceSpawnTimer <= 0)
         {
-            resourceSpawner.SpawnResource(UnityEngine.Random.Range(startingResourcesMin, startingResourcesMax));
+            if (resourceParent.childCount < IslandGrid.Instance.GetMaxAllowedResources())
+            {
+                resourceSpawner.SpawnResource(UnityEngine.Random.Range(startingResourcesMin, startingResourcesMax));
+            }
             startingResourceSpawnFrequency *= resourceSpawnFrequencyGrowthRate;
             resourceSpawnTimer = startingResourceSpawnFrequency;
         }

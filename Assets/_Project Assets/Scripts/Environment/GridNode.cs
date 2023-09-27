@@ -161,6 +161,10 @@ public class GridNode: MonoBehaviour
                     col.enabled = false;
                 }
             }
+            else if (transform.GetChild(0).GetComponent<MeshCollider>() != null)
+            {
+                col.enabled = false;
+            }
         }
         else if (sidesFilled == 3)
         {

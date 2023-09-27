@@ -11,6 +11,7 @@ public class IslandGrid : Singleton<IslandGrid>
 
     [SerializeField] private ColliderEvent iceBlockHitsWater;
     [SerializeField] private IntEvent maxWeightUpdate;
+    [SerializeField] private float tileWeightCapacity;
     [SerializeField] private float newPlatformSpawnDelay;
     [SerializeField] private float newPlatformAnimateDistance;
     [SerializeField] private float newPlatformAnimateSpeed;
@@ -22,7 +23,7 @@ public class IslandGrid : Singleton<IslandGrid>
     private float cellWidth = 3f;
     private float cellLength = 3f;
     private float overlapSphereSize = 15f;
-    [SerializeField] private float approxIslandRadius;
+    private float approxIslandRadius;
 
     private int navMeshLastBakedNodeCount;
     private NavMeshSurface navMesh;
@@ -114,7 +115,7 @@ public class IslandGrid : Singleton<IslandGrid>
         {
             node.AssignMesh();
         }
-        maxWeightUpdate.Raise(nodes.Count / 4);
+        UpdateMaxWeight();
     }
 
     private void AddLayer()
@@ -226,7 +227,7 @@ public class IslandGrid : Singleton<IslandGrid>
         StartCoroutine(Utility.DelayedAction(() =>
         {
             var newPlatform = AddNode(newPlatformLoc, remeasureRadius: true);
-            maxWeightUpdate.Raise(nodes.Count / 4);
+            UpdateMaxWeight();
 
             newPlatform.SearchEmptySides(cellWidth, cellLength);
 
@@ -241,6 +242,11 @@ public class IslandGrid : Singleton<IslandGrid>
 
 
         }, newPlatformSpawnDelay));
+    }
+
+    private void UpdateMaxWeight()
+    {
+        maxWeightUpdate.Raise(Mathf.RoundToInt(nodes.Count * tileWeightCapacity));
     }
     #endregion
     #region Public API
@@ -271,6 +277,11 @@ public class IslandGrid : Singleton<IslandGrid>
         }
 
         return null;
+    }
+
+    public int GetMaxAllowedResources()
+    {
+        return Mathf.Min(3, nodes.Count / 17);
     }
     #endregion
 }

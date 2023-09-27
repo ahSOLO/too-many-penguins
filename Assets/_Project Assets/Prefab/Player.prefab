@@ -192,8 +192,8 @@ MonoBehaviour:
   chargingRotSpeed: 20
   bellyDashMinDuration: 0.1
   bellyDashMaxDuration: 0.17
-  bellyDashMinForce: 20
-  bellyDashMaxForce: 35
+  bellyDashMinForce: 15
+  bellyDashMaxForce: 25
   afterDashRestTime: 0.65
   afterDashRestDecelerationTarget: 0.05
   orderCircle: {fileID: 7995560971918227924}

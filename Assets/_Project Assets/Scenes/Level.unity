@@ -2096,13 +2096,14 @@ MonoBehaviour:
   resourceParent: {fileID: 1127932980}
   agentParent: {fileID: 937022436}
   agentPool: {fileID: 1052109033}
-  startingWorkerSpawnFrequency: 14
+  startingWorkerSpawnFrequency: 21
   spawnFrequencyGrowthRate: 0.98
-  startingWorkerSpawnCount: 2
-  startingResourceSpawnFrequency: 28
+  startingWorkerSpawnCountMin: 2
+  startingWorkerSpawnCountMax: 3
+  startingResourceSpawnFrequency: 26
   resourceSpawnFrequencyGrowthRate: 0.99
-  startingResourcesMin: 4
-  startingResourcesMax: 9
+  startingResourcesMin: 6
+  startingResourcesMax: 12
 --- !u!114 &924702113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4212,6 +4213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iceBlockHitsWater: {fileID: 11400000, guid: bd8d24df7fed8a640988dbbcd556607d, type: 2}
   maxWeightUpdate: {fileID: 11400000, guid: 1bb089d310dbb6648888c4443ad117cf, type: 2}
+  tileWeightCapacity: 0.35
   newPlatformSpawnDelay: 0.5
   newPlatformAnimateDistance: 1
   newPlatformAnimateSpeed: 1
@@ -4219,7 +4221,6 @@ MonoBehaviour:
     type: 3}
   nodes: []
   root: {fileID: 0}
-  approxIslandRadius: 0
 --- !u!54 &2057993604
 Rigidbody:
   m_ObjectHideFlags: 0
