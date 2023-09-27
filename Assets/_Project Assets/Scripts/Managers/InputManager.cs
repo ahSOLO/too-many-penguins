@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : Singleton<InputManager>
+public class InputManager : PersistentSingleton<InputManager>
 {
-    [SerializeField] private InputActionAsset playerInput;
+    [SerializeField] private InputActionAsset mainInput;
     public enum ControlScheme { KBM, Controller };
 
     protected override void Awake()
@@ -15,18 +15,23 @@ public class InputManager : Singleton<InputManager>
 
     public InputAction GetInputAction(string inputAction)
     {
-        return playerInput.FindAction(inputAction);
+        return mainInput.FindAction(inputAction);
     }
 
-    public void ToggleInput(bool isActive)
+    public InputActionMap GetActionMap(string actionMapName)
+    {
+        return mainInput.FindActionMap(actionMapName);
+    }
+
+    public void TogglePlayerInput(bool isActive)
     {
         if (isActive)
         {
-            playerInput.Enable();
+            mainInput.FindActionMap("PlayerInput").Enable();
         }
         else
         {
-            playerInput.Disable();
+            mainInput.FindActionMap("PlayerInput").Disable();
         }
     }
 }

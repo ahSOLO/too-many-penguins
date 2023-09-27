@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInput",
+    "name": "MainInput",
     "maps": [
         {
             "name": "PlayerInput",
@@ -278,6 +278,45 @@
                     "processors": "",
                     "groups": "KBM",
                     "action": "Work Order",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "GameInput",
+            "id": "b63a5d6b-2ac2-471b-9b65-c3008eef769a",
+            "actions": [
+                {
+                    "name": "Toggle Pause",
+                    "type": "Button",
+                    "id": "e1b97639-e534-4854-a0d6-bd58ce0912e1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b64414b6-a114-4cf8-8a6a-6bc0ce3c9047",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "Toggle Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3360c55-8c34-4ed8-a360-4d902eee725e",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Toggle Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -9,7 +9,7 @@ public class BouncyTop : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.GetContact(0).point.y > transform.position.y + col.bounds.extents.y - 0.1f)
+        if (collision.GetContact(0).point.y > transform.position.y + col.bounds.center.y + col.bounds.extents.y - 0.1f)
         {
             collision.collider.attachedRigidbody.AddForce(
                 collision.GetContact(0).normal.normalized + 

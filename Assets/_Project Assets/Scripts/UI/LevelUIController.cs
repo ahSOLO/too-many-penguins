@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,10 +13,27 @@ public class LevelUIController : Singleton<LevelUIController>
     [SerializeField] private TextMeshProUGUI overLimitText;
     [SerializeField] private GameObject gameOverStack;
     [SerializeField] private TextMeshProUGUI gameOverText;
+    [SerializeField] private Canvas pauseMenuCanvas;
+    [SerializeField] BoolEvent pauseGameToggle;
 
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    private void OnEnable()
+    {
+        pauseGameToggle.Register(OnPauseGameToggle);
+    }
+
+    private void OnDisable()
+    {
+        pauseGameToggle.Unregister(OnPauseGameToggle);
+    }
+
+    private void OnPauseGameToggle(bool isPaused)
+    {
+        pauseMenuCanvas.gameObject.SetActive(isPaused);
     }
 
     public void SetWeightDisplay(float percentage)
@@ -40,5 +58,25 @@ public class LevelUIController : Singleton<LevelUIController>
     {
         gameOverStack.SetActive(true);
         gameOverText.text = text;
+    }
+
+    public void ResumeGame()
+    {
+        pauseGameToggle.Raise(false);
+    }
+
+    public void RestartLevel()
+    {
+        GameManager.Instance.LoadScene("Level");
+    }
+
+    public void MainMenu()
+    {
+        GameManager.Instance.LoadScene("Main Menu");
+    }
+
+    public void Quit()
+    {
+        GameManager.Instance.Quit();
     }
 }

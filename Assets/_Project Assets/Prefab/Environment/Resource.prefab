@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6241859959306869965
 RectTransform:
   m_ObjectHideFlags: 0
@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 4043701357377196894}
   - component: {fileID: 878657746313988781}
   - component: {fileID: 7494433890245041367}
+  - component: {fileID: 4824971591962018555}
   m_Layer: 8
   m_Name: Level 1
   m_TagString: Untagged
@@ -161,7 +162,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 878657746313988781}
-  additionalFuzzyForce: 6
+  additionalFuzzyForce: 4
+--- !u!54 &4824971591962018555
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412034388347516405}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4966149354766634899
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +317,7 @@ GameObject:
   - component: {fileID: 1750371958223704519}
   - component: {fileID: 5486012543560178679}
   - component: {fileID: 5776896554822614948}
+  - component: {fileID: 8009106129808957458}
   m_Layer: 8
   m_Name: Level 3
   m_TagString: Untagged
@@ -362,7 +391,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 5486012543560178679}
-  additionalFuzzyForce: 6
+  additionalFuzzyForce: 4
+--- !u!54 &8009106129808957458
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6047293120600742425}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6626555389177957416
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +603,7 @@ GameObject:
   - component: {fileID: 9047741770643149025}
   - component: {fileID: 4904683073191447195}
   - component: {fileID: 2618527795383753819}
+  - component: {fileID: 5367165358443363553}
   m_Layer: 8
   m_Name: Level 2
   m_TagString: Untagged
@@ -620,7 +677,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 4904683073191447195}
-  additionalFuzzyForce: 6
+  additionalFuzzyForce: 4
+--- !u!54 &5367165358443363553
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829622032674328360}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8341864685528993360
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,11 +942,10 @@ MonoBehaviour:
   iceCubeExpansionRate: 3
   iceCubeSpawnVelocity: {x: 2, y: 10, z: 2}
   iceCubeSpawnPoint: {fileID: 5583007815472327976}
-  progressBarShowDuration: 1.75
+  progressBarShowDuration: 2.25
   maxGatherers: 3
   level2Threshold: 5
   level1Threshold: 2
   level1GO: {fileID: 2412034388347516405}
   level2GO: {fileID: 7829622032674328360}
   level3GO: {fileID: 6047293120600742425}
-  remainingResources: 8

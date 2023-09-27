@@ -25,6 +25,7 @@ public class ResourceSpawner : MonoBehaviour
             var resource = Instantiate(resourcePrefab, levelManager.resourceParent, false);
             resource.transform.position = new Vector3(tile.transform.position.x, resource.transform.position.y, tile.transform.position.z);
             resource.GetComponent<Resource>().RemainingResources = startingResources;
+            tile.occupied = true;
         }
     }
 }

@@ -34,11 +34,20 @@ public class IslandWeightController : Singleton<IslandWeightController>
         startingYPos = transform.position.y;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         currentWeightUpdate.Register(SetCurrentWeight);
         maxWeightUpdate.Register(SetMaxWeight);
-        
+    }
+
+    private void OnDisable()
+    {
+        currentWeightUpdate.Unregister(SetCurrentWeight);
+        maxWeightUpdate.Unregister(SetMaxWeight);
+    }
+
+    private void Start()
+    {        
         overlimitCountdown = LevelManager.Instance.overLimitTime;
     }
 
