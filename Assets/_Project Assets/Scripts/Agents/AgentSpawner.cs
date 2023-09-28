@@ -21,13 +21,21 @@ public class AgentSpawner : MonoBehaviour
     {
         for (int i = 0; i < number; i++)
         {
-            var point = IslandGrid.Instance.GetCircleEdgePoint(IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, UnityEngine.Random.Range(0, 360));
-
-            Ray ray = new Ray(point, IslandGrid.Instance.root.transform.position - point);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, LayerMask.GetMask("Platform")))
+            for (int j = 0; j < 10f; j++)
             {
-                var spawnPoint = hitInfo.point - (ray.direction * spawnDistanceFromShore);
-                Instantiate(workerPrefab, spawnPoint + spawnOffset, Quaternion.LookRotation(ray.direction, Vector3.up), levelManager.agentParent);
+                var point = IslandGrid.Instance.GetCircleEdgePoint(IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, UnityEngine.Random.Range(0, 360));
+
+                Ray ray = new Ray(point, IslandGrid.Instance.root.transform.position - point);
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, LayerMask.GetMask("Platform")))
+                {
+                    if (hitInfo.collider.GetComponentInParent<GridNode>().occupied == true)
+                    {
+                        continue;
+                    }
+                    var spawnPoint = hitInfo.point - (ray.direction * spawnDistanceFromShore);
+                    Instantiate(workerPrefab, spawnPoint + spawnOffset, Quaternion.LookRotation(ray.direction, Vector3.up), levelManager.agentParent);
+                    break;
+                }
             }
         }
     }
