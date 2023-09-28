@@ -54,6 +54,9 @@ public class PlayerController : Singleton<PlayerController>
     public float afterDashMinRestTime;
     public float afterDashMaxRestTime;
     public float afterDashRestDecelerationTarget;
+    public float backhopCollisionImpulseThreshold;
+    public Vector3 backhopDampeningFactor;
+    public Vector3 backhopVelocity;
 
     [Header("Order Params")]
     public GameObject orderCircle;
@@ -139,6 +142,23 @@ public class PlayerController : Singleton<PlayerController>
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Worker") || collision.collider.CompareTag("Ice Block") || collision.collider.CompareTag("Resource"))
+        {
+            var currentState = sM.GetCurrentState();
+            if (currentState is PlayerDashing or PlayerResting)
+            {
+                var impulse = collision.GetContact(0).impulse.magnitude / Time.fixedDeltaTime;
+                if (impulse >= backhopCollisionImpulseThreshold)
+                {
+                    rb.velocity = new Vector3(rb.velocity.x * backhopDampeningFactor.x, rb.velocity.y * backhopDampeningFactor.y, rb.velocity.z * backhopDampeningFactor.z);
+                    rb.AddForce(transform.rotation * backhopVelocity, ForceMode.VelocityChange);
+                }
+            }
+        }
     }
 
     #endregion
@@ -235,7 +255,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         pushCollider.enabled = true;
         dashOver = false;
-        rb.constraints = rb.constraints | RigidbodyConstraints.FreezeRotationY;
         float chargeFactor = (Mathf.Clamp(bellyCurrentChargeTime, bellyMinChargeTime, bellyMaxChargeTime) - bellyMinChargeTime) / (bellyMaxChargeTime - bellyMinChargeTime);
         var dashForce = Mathf.Lerp(bellyDashMinForce, bellyDashMaxForce, chargeFactor);
         dashTimer = Mathf.Lerp(bellyDashMinDuration, bellyDashMaxDuration, chargeFactor);
@@ -248,7 +267,6 @@ public class PlayerController : Singleton<PlayerController>
         if (dashTimer <= 0)
         {
             dashOver = true;
-            rb.constraints = rb.constraints & ~RigidbodyConstraints.FreezeRotationY;
             pushCollider.enabled = false;
             return;
         }

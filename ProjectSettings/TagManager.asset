@@ -9,6 +9,7 @@ TagManager:
   - Platform Center
   - Platform Side
   - Platform Corner
+  - Resource
   layers:
   - Default
   - TransparentFX

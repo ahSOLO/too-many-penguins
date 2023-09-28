@@ -137,7 +137,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1.2
   m_Drag: 0.4
-  m_AngularDrag: 1
+  m_AngularDrag: 20
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -199,6 +199,9 @@ MonoBehaviour:
   afterDashMinRestTime: 0.2
   afterDashMaxRestTime: 0.6
   afterDashRestDecelerationTarget: 0.05
+  backhopCollisionImpulseThreshold: 10
+  backhopDampeningFactor: {x: 0.1, y: 0, z: 0.1}
+  backhopVelocity: {x: 0, y: 2.25, z: -1}
   orderCircle: {fileID: 7995560971918227924}
   orderCircleStartRadius: 4
   orderCircleEndRadius: 14
@@ -260,7 +263,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.25, z: 0.05}
-  m_LocalScale: {x: 1.35, y: 1.5, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1896203794922260743}
@@ -314,7 +317,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.05, z: 1}
+  m_LocalScale: {x: 1.2, y: 0.05, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 181598222463502193}

@@ -103,7 +103,12 @@ public class StateMachine : MonoBehaviour
     public void AddGlobalTransition(Func<bool> cond, IState toState)
     {
         globalTransitions.Add(new Transition(cond, toState));
-    } 
+    }
+
+    public IState GetCurrentState()
+    {
+        return state;
+    }
     #endregion
 }
 
