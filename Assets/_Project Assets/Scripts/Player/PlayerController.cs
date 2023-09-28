@@ -270,7 +270,7 @@ public class PlayerController : Singleton<PlayerController>
     public void ChargeIndicatorRect()
     {
         var dist = Mathf.Max(2f, Mathf.Min(bellyCurrentChargeTime, bellyMaxChargeTime) / bellyMinChargeTime) * chargeIndicatorDistMultiplier;
-        indicatorRect.transform.localScale = new Vector3(1f, 0.05f, dist/2f);
+        indicatorRect.transform.localScale = new Vector3(startingIndicatorRectScale.x, startingIndicatorRectScale.y, dist/2f);
         indicatorRect.transform.localPosition = new Vector3(0f, 0f, dist/4f);
     }
 

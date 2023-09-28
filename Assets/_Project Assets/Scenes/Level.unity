@@ -1495,6 +1495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseGameToggle: {fileID: 11400000, guid: 5bf05fa0fa6c10d488a8eca40427e862, type: 2}
+  gameIsPausable: 0
 --- !u!1 &684533636
 GameObject:
   m_ObjectHideFlags: 0
@@ -4841,11 +4842,6 @@ PrefabInstance:
     - target: {fileID: 1896203794922260743, guid: e0e238193f4382040a81f931e5d5abc4,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4646528858875693882, guid: e0e238193f4382040a81f931e5d5abc4,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
