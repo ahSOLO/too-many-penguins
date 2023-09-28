@@ -30,7 +30,6 @@ public class IslandWeightController : Singleton<IslandWeightController>
     {
         base.Awake();
 
-        weightSampleTimer = weightSampleRate;
         startingYPos = transform.position.y;
     }
 

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class LevelUIController : Singleton<LevelUIController>
 {
     [SerializeField] private Image weightBar;
-    [SerializeField] private TextMeshProUGUI weightText;
+    [SerializeField] private TextMeshProUGUI weightPercentText;
     [SerializeField] private GameObject overLimitStack;
     [SerializeField] private TextMeshProUGUI overLimitText;
     [SerializeField] private GameObject gameOverStack;
@@ -19,6 +19,7 @@ public class LevelUIController : Singleton<LevelUIController>
     [SerializeField] private GameObject scoreRowPrefab;
     [SerializeField] private Transform scoreRowParent;
     [SerializeField] private float presentScorePauseDuration;
+    [SerializeField] private TextMeshProUGUI clockText;
 
     protected override void Awake()
     {
@@ -43,7 +44,7 @@ public class LevelUIController : Singleton<LevelUIController>
     public void SetWeightDisplay(float percentage)
     {
         weightBar.fillAmount = percentage;
-        weightText.text = $"{Mathf.Round(percentage * 100)}%";
+        weightPercentText.text = $"{Mathf.Round(percentage * 100)}%";
     }
 
     public void UpdateOverlimitCountdown(float countdownValue)
@@ -90,6 +91,15 @@ public class LevelUIController : Singleton<LevelUIController>
     public void PresentScore(float delay)
     {
         StartCoroutine(PresentScoreCoroutine(presentScorePauseDuration, delay));
+    }
+
+    public void PresentTime(float totalSeconds)
+    {
+        int minutes = (int)totalSeconds / 60;
+        int seconds = (int)totalSeconds % 60;
+        if (minutes < 0) minutes = 0;
+        if (seconds < 0) seconds = 0;
+        clockText.text = $"{minutes.ToString("0")}:{seconds.ToString("00")}";
     }
 
     private IEnumerator PresentScoreCoroutine(float pauseBetweenUpdates, float delay)

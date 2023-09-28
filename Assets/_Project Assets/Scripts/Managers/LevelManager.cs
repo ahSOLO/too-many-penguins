@@ -11,6 +11,8 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private ColliderEvent workerHitsWater;
     [SerializeField] private IntEvent currentWeightUpdate;
     [SerializeField] private VoidEvent gameLoss;
+    [SerializeField] private VoidEvent gameWon;
+    [SerializeField] private float gameTimeRemaining;
 
     [SerializeField] private float playerRespawnTime;
     [SerializeField] private float entityHitsWaterProcessingDelay;
@@ -35,6 +37,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private int startingResourcesMax;
 
     private int timesPlayerFell;
+    private bool levelCompleted = false;
 
     protected override void Awake()
     {
@@ -54,6 +57,7 @@ public class LevelManager : Singleton<LevelManager>
         playerHitsWater.Register(OnPlayerHitsWater);
         workerHitsWater.Register(OnWorkerHitsWater);
         gameLoss.Register(OnGameLoss);
+        gameWon.Register(OnGameWon);
     }
 
     private void OnDisable()
@@ -61,12 +65,13 @@ public class LevelManager : Singleton<LevelManager>
         playerHitsWater.Unregister(OnPlayerHitsWater);
         workerHitsWater.Unregister(OnWorkerHitsWater);
         gameLoss.Unregister(OnGameLoss);
+        gameWon.Register(OnGameWon);
     }
 
     private void Update()
     {
         workerSpawnTimer -= Time.deltaTime;
-        if (workerSpawnTimer <= 0)
+        if (!levelCompleted && workerSpawnTimer <= 0)
         {
             agentSpawner.SpawnWorkers(UnityEngine.Random.Range(startingWorkerSpawnCountMin, startingWorkerSpawnCountMax + 1));
             startingWorkerSpawnFrequency *= spawnFrequencyGrowthRate;
@@ -74,7 +79,7 @@ public class LevelManager : Singleton<LevelManager>
         }
 
         resourceSpawnTimer -= Time.deltaTime;
-        if (resourceSpawnTimer <= 0)
+        if (!levelCompleted && resourceSpawnTimer <= 0)
         {
             if (resourceParent.childCount < IslandGrid.Instance.GetMaxAllowedResources())
             {
@@ -82,6 +87,17 @@ public class LevelManager : Singleton<LevelManager>
             }
             startingResourceSpawnFrequency *= resourceSpawnFrequencyGrowthRate;
             resourceSpawnTimer = startingResourceSpawnFrequency;
+        }
+
+        if (!levelCompleted)
+        {
+            gameTimeRemaining -= Time.deltaTime;
+            LevelUIController.Instance.PresentTime(gameTimeRemaining);
+
+            if (gameTimeRemaining <= 0)
+            {
+                gameWon.Raise();
+            }
         }
     }
 
@@ -118,7 +134,12 @@ public class LevelManager : Singleton<LevelManager>
 
     private void OnGameLoss()
     {
-        CalculateScore();
+        if (levelCompleted)
+        {
+            return;
+        }
+
+        CompleteLevel();
         LevelUIController.Instance.ShowGameOverUI("THE ISLAND SUNK");
         iceBlockParent.gameObject.SetActive(false);
         resourceParent.gameObject.SetActive(false);
@@ -128,12 +149,19 @@ public class LevelManager : Singleton<LevelManager>
 
     private void OnGameWon()
     {
-        CalculateScore();
+        if (levelCompleted)
+        {
+            return;
+        }
+
+        CompleteLevel();
         LevelUIController.Instance.ShowGameOverUI("YOU WIN!");
     }
 
-    private void CalculateScore()
+    private void CompleteLevel()
     {
+        levelCompleted = true;
+        InputManager.Instance.TogglePlayerInput(false);
         var endingWeightScore = agentParent.childCount * 100;
         var averageWeightScore = IslandWeightController.Instance.CalculateAverageWeight() * 100;
         var fallingPenaltyScore = timesPlayerFell * -100;
