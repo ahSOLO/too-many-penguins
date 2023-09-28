@@ -15,6 +15,10 @@ public class LevelUIController : Singleton<LevelUIController>
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private Canvas pauseMenuCanvas;
     [SerializeField] BoolEvent pauseGameToggle;
+    [SerializeField] private Canvas scoreCanvas;
+    [SerializeField] private GameObject scoreRowPrefab;
+    [SerializeField] private Transform scoreRowParent;
+    [SerializeField] private float presentScorePauseDuration;
 
     protected override void Awake()
     {
@@ -75,6 +79,29 @@ public class LevelUIController : Singleton<LevelUIController>
     {
         pauseGameToggle.Raise(false);
         GameManager.Instance.LoadScene("Main Menu");
+    }
+
+    public void AddScoreRow(string name, int score)
+    {
+        var row = Instantiate(scoreRowPrefab, scoreRowParent, false);
+        row.GetComponent<ScoreRow>().Populate(name, score);
+    }
+
+    public void PresentScore(float delay)
+    {
+        StartCoroutine(PresentScoreCoroutine(presentScorePauseDuration, delay));
+    }
+
+    private IEnumerator PresentScoreCoroutine(float pauseBetweenUpdates, float delay)
+    {
+        GameManager.Instance.gameIsPausable = false;
+        yield return new WaitForSeconds(delay);
+        scoreCanvas.gameObject.SetActive(true);
+        for (int i = 0; i < scoreRowParent.childCount; i++)
+        {
+            yield return new WaitForSeconds(pauseBetweenUpdates);
+            scoreRowParent.GetChild(i).gameObject.SetActive(true);
+        }
     }
 
     public void Quit()

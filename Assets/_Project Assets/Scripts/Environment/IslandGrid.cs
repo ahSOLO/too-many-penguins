@@ -265,7 +265,7 @@ public class IslandGrid : Singleton<IslandGrid>
     {
         for (int i = 0; i < 25; i++)
         {
-            var randomTile = nodes[UnityEngine.Random.Range(0, nodes.Count)];
+            var randomTile = nodes[UnityEngine.Random.Range(1, nodes.Count)]; // Exclude the root tile
             if (tileTest == null)
             {
                 return randomTile;

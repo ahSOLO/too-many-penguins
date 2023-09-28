@@ -131,6 +131,11 @@ public class WorkerController : MonoBehaviour
         nav.enabled = !isEnabled;
         rb.isKinematic = !isEnabled;
         rb.interpolation = isEnabled ? RigidbodyInterpolation.Interpolate : RigidbodyInterpolation.None;
+        
+        if (!isEnabled && TargetResource != null)
+        {
+            SetNavDestination(TargetResource.transform.position);
+        }
     }
 
     public void ReenableNavMeshCheck()

@@ -34,12 +34,19 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private int startingResourcesMin;
     [SerializeField] private int startingResourcesMax;
 
+    private int timesPlayerFell;
+
     protected override void Awake()
     {
         base.Awake();
 
         agentSpawner = GetComponent<AgentSpawner>();
         resourceSpawner = GetComponent<ResourceSpawner>();
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.gameIsPausable = true;
     }
 
     private void OnEnable()
@@ -80,6 +87,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private void OnPlayerHitsWater()
     {
+        timesPlayerFell++;
         StartCoroutine(Utility.DelayedAction(() =>
         {
             var playerGO = PlayerController.Instance.gameObject;
@@ -110,11 +118,32 @@ public class LevelManager : Singleton<LevelManager>
 
     private void OnGameLoss()
     {
+        CalculateScore();
         LevelUIController.Instance.ShowGameOverUI("THE ISLAND SUNK");
         iceBlockParent.gameObject.SetActive(false);
         resourceParent.gameObject.SetActive(false);
         agentParent.gameObject.SetActive(false);
         IslandWeightController.Instance.SinkIsland();
+    }
+
+    private void OnGameWon()
+    {
+        CalculateScore();
+        LevelUIController.Instance.ShowGameOverUI("YOU WIN!");
+    }
+
+    private void CalculateScore()
+    {
+        var endingWeightScore = agentParent.childCount * 100;
+        var averageWeightScore = IslandWeightController.Instance.CalculateAverageWeight() * 100;
+        var fallingPenaltyScore = timesPlayerFell * -100;
+
+        LevelUIController.Instance.AddScoreRow("Final Weight", endingWeightScore);
+        LevelUIController.Instance.AddScoreRow("Average Weight", averageWeightScore);
+        LevelUIController.Instance.AddScoreRow("Falling Penalty", fallingPenaltyScore);
+        LevelUIController.Instance.AddScoreRow("Total Score", endingWeightScore + averageWeightScore + fallingPenaltyScore);
+
+        LevelUIController.Instance.PresentScore(3f);
     }
 
     public void ReloadScene()

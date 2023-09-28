@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : PersistentSingleton<GameManager>
 {
     [SerializeField] private BoolEvent pauseGameToggle;
+    public bool gameIsPausable;
     private InputAction pauseAction;
     private bool gameIsPaused;
 
@@ -28,7 +29,10 @@ public class GameManager : PersistentSingleton<GameManager>
 
     private void OnPauseAction()
     {
-        pauseGameToggle.Raise(!gameIsPaused);        
+        if (gameIsPausable)
+        {
+            pauseGameToggle.Raise(!gameIsPaused);        
+        }
     }
 
     private void OnPauseGameToggle(bool isPaused)

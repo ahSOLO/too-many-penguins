@@ -79,6 +79,7 @@ public class IslandWeightController : Singleton<IslandWeightController>
             if (overlimitCountdown <= 0)
             {
                 gameLoss.Raise();
+                enabled = false;
             }
 
             LevelUIController.Instance.UpdateOverlimitCountdown(overlimitCountdown);
@@ -121,5 +122,10 @@ public class IslandWeightController : Singleton<IslandWeightController>
     public void SinkIsland()
     {
         SetIslandSinkTarget(new Vector3(0f, startingYPos - (sinkDistance * 2.5f), 0f));
+    }
+
+    public int CalculateAverageWeight()
+    {
+        return totalSampledWeight / totalSamples;
     }
 }
