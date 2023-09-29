@@ -8,6 +8,8 @@ using UnityEngine.AI;
 public class WorkerController : MonoBehaviour
 {
     [SerializeField] private Renderer rend;
+    [SerializeField] private GameObject hat;
+    [SerializeField] private GameObject pickaxe;
     private NavMeshAgent nav;
     private Rigidbody rb;
     private StateMachine sM;
@@ -192,6 +194,12 @@ public class WorkerController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void ToggleHarvestGear(bool isEnabled)
+    {
+        hat.SetActive(isEnabled);
+        pickaxe.SetActive(isEnabled);
     }
 
     public void LocatedResource()
