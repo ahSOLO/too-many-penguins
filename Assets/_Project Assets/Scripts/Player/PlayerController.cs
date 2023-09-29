@@ -106,6 +106,7 @@ public class PlayerController : Singleton<PlayerController>
         sM.AddTransition(walkingState, () => !wantsToMove, idleState);
         sM.AddTransition(idleState, () => wantsToDash, chargingDashState);
         sM.AddTransition(walkingState, () => wantsToDash, chargingDashState);
+        sM.AddTransition(chargingDashState, () => wantsToOrder, orderingState);
         sM.AddTransition(chargingDashState, () => !wantsToDash, dashingState);
         sM.AddTransition(dashingState, () => dashOver, restingState);
         sM.AddTransition(restingState, () => restTime <= 0, idleState);
@@ -125,11 +126,13 @@ public class PlayerController : Singleton<PlayerController>
         if (followOrderAction.ReadValue<float>() == 1f)
         {
             wantsToOrder = true;
+            wantsToDash = false;
             currentOrder = OrderType.Follow;
         }
         else if (workOrderAction.ReadValue<float>() == 1f)
         {
             wantsToOrder = true;
+            wantsToDash = false;
             currentOrder = OrderType.Work;
         }
         else
