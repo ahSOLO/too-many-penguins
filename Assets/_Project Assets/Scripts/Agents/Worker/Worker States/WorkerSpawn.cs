@@ -29,7 +29,7 @@ public class WorkerSpawn : IState
     public void OnExit()
     {
         controller.spawnComplete = true;
-        controller.currentWeightUpdate.Raise(controller.transform.parent.childCount);
+        controller.currentWeightUpdate.Raise(Mathf.RoundToInt(IslandWeightController.Instance.penguinWeight * controller.transform.parent.childCount));
         controller.TogglePhysics(false);
     }
 

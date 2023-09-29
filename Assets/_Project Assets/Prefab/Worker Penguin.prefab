@@ -121,7 +121,7 @@ MonoBehaviour:
   col: {fileID: 3390556990617168118}
   minWanderStartTime: 5
   maxWanderStartTime: 8
-  maxWanderRange: 4.25
+  maxWanderRange: 4.75
   disablePhysicsSqredVelocityThreshold: 0.005
   navUpdateFrequency: 0.3
   maxSeekDistance: 20
@@ -410,22 +410,22 @@ PrefabInstance:
     - target: {fileID: 6385203839690520313, guid: 2e13fc7aeb917f4438d824e1e0ed9a7b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -3.7493994e-33
-      objectReference: {fileID: 0}
-    - target: {fileID: 6385203839690520313, guid: 2e13fc7aeb917f4438d824e1e0ed9a7b,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -6.123234e-17
-      objectReference: {fileID: 0}
-    - target: {fileID: 6385203839690520313, guid: 2e13fc7aeb917f4438d824e1e0ed9a7b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6385203839690520313, guid: 2e13fc7aeb917f4438d824e1e0ed9a7b,
         type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385203839690520313, guid: 2e13fc7aeb917f4438d824e1e0ed9a7b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385203839690520313, guid: 2e13fc7aeb917f4438d824e1e0ed9a7b,
+        type: 3}
       propertyPath: m_LocalRotation.z
-      value: 6.123234e-17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6385203839690520313, guid: 2e13fc7aeb917f4438d824e1e0ed9a7b,
         type: 3}

@@ -10,7 +10,8 @@ public class IslandWeightController : Singleton<IslandWeightController>
     [SerializeField] private IntEvent maxWeightUpdate;
     [SerializeField] private TextMeshProUGUI weightText;
     [SerializeField] private VoidEvent gameLoss;
-    
+    public float penguinWeight;
+
     private int currentWeight;
     private int maxWeight;
     private int totalSampledWeight;

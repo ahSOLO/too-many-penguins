@@ -162,9 +162,9 @@ public class LevelManager : Singleton<LevelManager>
     {
         levelCompleted = true;
         InputManager.Instance.TogglePlayerInput(false);
-        var endingWeightScore = agentParent.childCount * 100;
+        var endingWeightScore = agentParent.childCount * Mathf.RoundToInt(IslandWeightController.Instance.penguinWeight * 100);
         var averageWeightScore = IslandWeightController.Instance.CalculateAverageWeight() * 100;
-        var fallingPenaltyScore = timesPlayerFell * -100;
+        var fallingPenaltyScore = timesPlayerFell * Mathf.RoundToInt(IslandWeightController.Instance.penguinWeight * -100);
 
         LevelUIController.Instance.AddScoreRow("Final Weight", endingWeightScore);
         LevelUIController.Instance.AddScoreRow("Average Weight", averageWeightScore);
