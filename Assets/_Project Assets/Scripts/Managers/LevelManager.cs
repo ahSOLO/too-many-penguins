@@ -123,7 +123,7 @@ public class LevelManager : Singleton<LevelManager>
         if (col.GetComponentInParent<WorkerController>().spawnComplete)
         {
             col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
-            currentWeightUpdate.Raise(agentParent.childCount);
+            currentWeightUpdate.Raise(Mathf.RoundToInt(agentParent.childCount * IslandWeightController.Instance.penguinWeight));
 
             StartCoroutine(Utility.DelayedAction(() =>
             {
