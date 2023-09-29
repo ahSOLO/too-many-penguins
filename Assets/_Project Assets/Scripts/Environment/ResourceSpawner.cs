@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(LevelManager))]
 public class ResourceSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject resourcePrefab;
+    [SerializeField] private float preSpawnAnimationDisplacement;
+    [SerializeField] private float spawnAnimationSpeed;
 
     private LevelManager levelManager;
 
@@ -28,7 +31,10 @@ public class ResourceSpawner : MonoBehaviour
         if (tile != null)
         {
             var resource = Instantiate(resourcePrefab, levelManager.resourceParent, false);
-            resource.transform.position = new Vector3(tile.transform.position.x, resource.transform.position.y, tile.transform.position.z);
+            resource.transform.position = new Vector3(tile.transform.position.x, resource.transform.position.y - preSpawnAnimationDisplacement, tile.transform.position.z);
+            resource.transform.localScale = Vector3.zero;
+            StartCoroutine(Utility.ExpandGO(resource.transform, 1f, spawnAnimationSpeed));
+            StartCoroutine(Utility.MoveLocalTransformOverTime(resource.transform, new Vector3(resource.transform.position.x, resource.transform.position.y + preSpawnAnimationDisplacement, resource.transform.position.z), spawnAnimationSpeed));
             resource.GetComponent<Resource>().RemainingResources = startingResources;
             tile.occupied = true;
         }
