@@ -103,20 +103,30 @@ public class WorkerController : MonoBehaviour
         if (Vector3.Dot(rb.velocity, transform.position - rb.position) > 0)
         {
             canResumeNavigation = false;
-            TogglePhysics(true);
-            if (activeCoroutine != null)
-            {
-                StopCoroutine(activeCoroutine);
-            }
-            activeCoroutine = StartCoroutine(Utility.DelayedAction(() => canResumeNavigation = true, 0.6f));
+            TogglePhysics(true, 0.6f);
         }
     }
 
     private bool IsGrounded()
     {
-        var raycastLength = rend.bounds.extents.y + 0.1f;
+        var raycastLength = col.bounds.extents.y + 0.1f;
         var layerMask = LayerMask.GetMask("Platform");
         return Physics.Raycast(transform.position, Vector3.down, raycastLength, layerMask);
+    }
+
+    private bool IsInTheGround()
+    {
+        var raycastLength = col.bounds.extents.y - 0.1f;
+        var layerMask = LayerMask.GetMask("Platform");
+        return Physics.Raycast(transform.position, Vector3.down, raycastLength, layerMask);
+    }
+
+    public void IslandShiftingCheck()
+    {
+        if (!IsGrounded() || IsInTheGround())
+        {
+            TogglePhysics(true, 0.2f);
+        }
     }
 
     public void SetSpawnVelocity()
@@ -148,7 +158,7 @@ public class WorkerController : MonoBehaviour
         wantsToWander = false;
     }
 
-    public void TogglePhysics(bool isEnabled)
+    public void TogglePhysics(bool isEnabled, float resumeNavigationTime = 0.6f)
     {
         nav.enabled = !isEnabled;
         rb.isKinematic = !isEnabled;
@@ -163,6 +173,13 @@ public class WorkerController : MonoBehaviour
         {
             SetNavDestination(TargetResource.transform.position);
         }
+
+        canResumeNavigation = false;
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+        activeCoroutine = StartCoroutine(Utility.DelayedAction(() => canResumeNavigation = true, resumeNavigationTime));
     }
 
     public void ReenableNavMeshCheck()
@@ -185,6 +202,7 @@ public class WorkerController : MonoBehaviour
     public void ResourceNotFound()
     {
         wantsToSeekResource = false;
+        wantsToHarvestResource = false;
     }
 
     public bool ReachedPathEnd()

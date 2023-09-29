@@ -54,5 +54,7 @@ public class WorkerHarvestResource : IState
         }
 
         controller.RotateTowards(controller.TargetResource.transform.position);
+
+        controller.IslandShiftingCheck();
     }
 }

@@ -182,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentOrder: 0
   rend: {fileID: 6643209781739566504}
+  mainCollider: {fileID: 4424272516206572483}
   walkingRotSpeed: 11
   walkingAccel: 37
   walkingMaxSpd: 9
@@ -196,6 +197,8 @@ MonoBehaviour:
   bellyDashMaxDuration: 0.17
   bellyDashMinForce: 15
   bellyDashMaxForce: 35
+  bellyDashVerticalMinForce: 1
+  bellyDashVerticalMaxForce: 1.5
   afterDashMinRestTime: 0.2
   afterDashMaxRestTime: 0.6
   afterDashRestDecelerationTarget: 0.05

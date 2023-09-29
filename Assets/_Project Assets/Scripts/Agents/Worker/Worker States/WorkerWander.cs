@@ -47,5 +47,7 @@ public class WorkerWander : IState
         {
             controller.WanderEnd();
         }
+
+        controller.IslandShiftingCheck();
     }
 }

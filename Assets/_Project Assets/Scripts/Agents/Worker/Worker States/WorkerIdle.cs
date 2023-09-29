@@ -39,5 +39,7 @@ public class WorkerIdle : IState
         {
             controller.Wander();
         }
+
+        controller.IslandShiftingCheck();
     }
 }

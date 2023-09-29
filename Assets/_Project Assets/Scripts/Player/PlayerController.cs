@@ -13,6 +13,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private Rigidbody rb;
     public Renderer rend;
+    public Collider mainCollider;
     private StateMachine sM;
 
     private PlayerIdle idleState;
@@ -51,6 +52,8 @@ public class PlayerController : Singleton<PlayerController>
     public float bellyDashMaxDuration;
     public float bellyDashMinForce;
     public float bellyDashMaxForce;
+    public float bellyDashVerticalMinForce;
+    public float bellyDashVerticalMaxForce;
     public float afterDashMinRestTime;
     public float afterDashMaxRestTime;
     public float afterDashRestDecelerationTarget;
@@ -198,12 +201,12 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool IsGrounded()
     {
-        var raycastLength = rend.bounds.extents.y + 0.1f;
+        var raycastLength = mainCollider.bounds.extents.y + 0.1f;
         var layerMask = LayerMask.GetMask("Platform");
-        return Physics.Raycast(new Vector3(transform.position.x + (rend.bounds.extents.x - groundedRaycastRadiusShrinkage), transform.position.y, transform.position.z), Vector3.down, raycastLength, layerMask) ||
-            Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z + (rend.bounds.extents.z - groundedRaycastRadiusShrinkage)), Vector3.down, raycastLength, layerMask) ||
-            Physics.Raycast(new Vector3(transform.position.x - (rend.bounds.extents.x - groundedRaycastRadiusShrinkage), transform.position.y, transform.position.z), Vector3.down, raycastLength, layerMask) ||
-            Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z - (rend.bounds.extents.z - groundedRaycastRadiusShrinkage)), Vector3.down, raycastLength, layerMask);
+        return Physics.Raycast(new Vector3(transform.position.x + (mainCollider.bounds.extents.x - groundedRaycastRadiusShrinkage), transform.position.y, transform.position.z), Vector3.down, raycastLength, layerMask) ||
+            Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z + (mainCollider.bounds.extents.z - groundedRaycastRadiusShrinkage)), Vector3.down, raycastLength, layerMask) ||
+            Physics.Raycast(new Vector3(transform.position.x - (mainCollider.bounds.extents.x - groundedRaycastRadiusShrinkage), transform.position.y, transform.position.z), Vector3.down, raycastLength, layerMask) ||
+            Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z - (mainCollider.bounds.extents.z - groundedRaycastRadiusShrinkage)), Vector3.down, raycastLength, layerMask);
     }
 
     #endregion
@@ -260,9 +263,10 @@ public class PlayerController : Singleton<PlayerController>
         dashOver = false;
         float chargeFactor = (Mathf.Clamp(bellyCurrentChargeTime, bellyMinChargeTime, bellyMaxChargeTime) - bellyMinChargeTime) / (bellyMaxChargeTime - bellyMinChargeTime);
         var dashForce = Mathf.Lerp(bellyDashMinForce, bellyDashMaxForce, chargeFactor);
+        var verticalDashForce = Mathf.Lerp(bellyDashVerticalMinForce, bellyDashVerticalMaxForce, chargeFactor);
         dashTimer = Mathf.Lerp(bellyDashMinDuration, bellyDashMaxDuration, chargeFactor);
         SetMovementProperties(0f, 0f, 0f);
-        rb.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
+        rb.AddForce(transform.forward * dashForce + Vector3.up * verticalDashForce, ForceMode.VelocityChange);
     }
 
     public void DashTick()

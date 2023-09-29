@@ -940,7 +940,7 @@ MonoBehaviour:
     type: 3}
   iceCubeTargetSize: 1.5
   iceCubeExpansionRate: 3
-  iceCubeSpawnVelocity: {x: 2, y: 10, z: 2}
+  iceCubeSpawnVelocity: {x: 2.4, y: 10, z: 2.4}
   iceCubeSpawnPoint: {fileID: 5583007815472327976}
   progressBarShowDuration: 2.25
   maxGatherers: 5
