@@ -130,7 +130,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 809943516306186561}
   m_Enabled: 0
   m_AgentTypeID: 0
-  m_Radius: 0.55
+  m_Radius: 0.65
   m_Speed: 4.5
   m_Acceleration: 12
   avoidancePriority: 50
@@ -200,12 +200,15 @@ MonoBehaviour:
   currentWeightUpdate: {fileID: 11400000, guid: 3f4edfaf194837f41ab0fdb28853499a,
     type: 2}
   col: {fileID: 3390556990617168118}
+  minWanderStartTime: 5
+  maxWanderStartTime: 8
+  maxWanderRange: 4.25
   disablePhysicsSqredVelocityThreshold: 0.005
   navUpdateFrequency: 0.3
   maxSeekDistance: 20
   harvestDuration: 1.8
   maxHarvestDistance: 2.1
-  harvestRate: 0.1
+  harvestRate: 0.08
   spawnVelocity: {x: 0, y: 16, z: 5}
   spawnComplete: 0
 --- !u!114 &6677052756760275241
@@ -221,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 3390556990617168118}
-  additionalFuzzyForce: 2.5
+  additionalFuzzyForce: 4
 --- !u!1 &7796951669167592999
 GameObject:
   m_ObjectHideFlags: 0

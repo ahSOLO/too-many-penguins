@@ -106,7 +106,7 @@ public class IslandWeightController : Singleton<IslandWeightController>
 
     private void UpdateWeightText()
     {
-        LevelUIController.Instance.SetWeightDisplay((float)currentWeight / maxWeight);
+        LevelUIController.Instance.SetWeightDisplay(currentWeight, maxWeight);
     }
 
     private void SetIslandSinkTarget(Vector3 target)

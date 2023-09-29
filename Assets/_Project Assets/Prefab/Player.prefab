@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 4424272516206572483}
-  additionalFuzzyForce: 2.5
+  additionalFuzzyForce: 4
 --- !u!1 &4362726454182797876
 GameObject:
   m_ObjectHideFlags: 0

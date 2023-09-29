@@ -9,6 +9,7 @@ public class LevelUIController : Singleton<LevelUIController>
 {
     [SerializeField] private Image weightBar;
     [SerializeField] private TextMeshProUGUI weightPercentText;
+    [SerializeField] private TextMeshProUGUI weightText;
     [SerializeField] private GameObject overLimitStack;
     [SerializeField] private TextMeshProUGUI overLimitText;
     [SerializeField] private GameObject gameOverStack;
@@ -41,10 +42,12 @@ public class LevelUIController : Singleton<LevelUIController>
         pauseMenuCanvas.gameObject.SetActive(isPaused);
     }
 
-    public void SetWeightDisplay(float percentage)
+    public void SetWeightDisplay(int current, int max)
     {
+        var percentage = Mathf.Clamp01((float) current / max);
         weightBar.fillAmount = percentage;
         weightPercentText.text = $"{Mathf.Round(percentage * 100)}%";
+        weightText.text = $"{current}/{max}";
     }
 
     public void UpdateOverlimitCountdown(float countdownValue)

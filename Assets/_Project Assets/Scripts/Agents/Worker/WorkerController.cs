@@ -17,10 +17,14 @@ public class WorkerController : MonoBehaviour
 
     private WorkerSpawn spawnState;
     private WorkerIdle idleState;
+    private WorkerWander wanderState;
     private WorkerFollow followState;
     private WorkerSeekResource seekResourceState;
     private WorkerHarvestResource harvestState;
 
+    public float minWanderStartTime;
+    public float maxWanderStartTime;
+    public float maxWanderRange;
     public float disablePhysicsSqredVelocityThreshold;
     public float navUpdateFrequency;
     public float maxSeekDistance;
@@ -31,6 +35,7 @@ public class WorkerController : MonoBehaviour
     [SerializeField] private Vector3 spawnVelocity;
     public bool spawnComplete;
 
+    private bool wantsToWander;
     private bool wantsToFollow;
     private bool wantsToSeekResource;
     private bool wantsToHarvestResource;
@@ -45,6 +50,7 @@ public class WorkerController : MonoBehaviour
 
         spawnState = new WorkerSpawn(this);
         idleState = new WorkerIdle(this);
+        wanderState = new WorkerWander(this);
         followState = new WorkerFollow(this);
         seekResourceState = new WorkerSeekResource(this);
         harvestState = new WorkerHarvestResource(this);
@@ -57,6 +63,10 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(spawnState, IsGrounded, idleState);
         sM.AddTransition(idleState, () => wantsToFollow, followState);
         sM.AddTransition(idleState, () => wantsToSeekResource, seekResourceState);
+        sM.AddTransition(idleState, () => wantsToWander, wanderState);
+        sM.AddTransition(wanderState, () => wantsToFollow, followState);
+        sM.AddTransition(wanderState, () => wantsToSeekResource, seekResourceState);
+        sM.AddTransition(wanderState, () => !wantsToFollow, idleState);
         sM.AddTransition(followState, () => wantsToSeekResource, seekResourceState);
         sM.AddTransition(seekResourceState, () => !wantsToSeekResource && !wantsToHarvestResource, idleState);
         sM.AddTransition(seekResourceState, () => wantsToFollow, followState);
@@ -104,7 +114,7 @@ public class WorkerController : MonoBehaviour
     {
         var raycastLength = rend.bounds.extents.y + 0.1f;
         var layerMask = LayerMask.GetMask("Platform");
-        return Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down, raycastLength, layerMask);
+        return Physics.Raycast(transform.position, Vector3.down, raycastLength, layerMask);
     }
 
     public void SetSpawnVelocity()
@@ -126,11 +136,26 @@ public class WorkerController : MonoBehaviour
         wantsToHarvestResource = false;
     }
 
+    public void Wander()
+    {
+        wantsToWander = true;
+    }
+
+    public void WanderEnd()
+    {
+        wantsToWander = false;
+    }
+
     public void TogglePhysics(bool isEnabled)
     {
         nav.enabled = !isEnabled;
         rb.isKinematic = !isEnabled;
         rb.interpolation = isEnabled ? RigidbodyInterpolation.Interpolate : RigidbodyInterpolation.None;
+
+        if (isEnabled)
+        {
+            WanderEnd();
+        }
         
         if (!isEnabled && TargetResource != null)
         {

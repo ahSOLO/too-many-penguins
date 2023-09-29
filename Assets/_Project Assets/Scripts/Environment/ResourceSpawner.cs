@@ -18,7 +18,12 @@ public class ResourceSpawner : MonoBehaviour
     {
         var tile = IslandGrid.Instance.GetRandomTile(node =>
         {
-            return node.occupied == false && node.IsTrueCenterTile();
+            return node.occupied == false &&
+                node.IsTrueCenterTile() &&
+                node.L.occupied == false &&
+                node.T.occupied == false &&
+                node.R.occupied == false &&
+                node.B.occupied == false;
         });
         if (tile != null)
         {
