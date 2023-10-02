@@ -32,7 +32,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: fc7df81110c0e4d2498739bf4d47a49d, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.2, y: 0.2}
         m_Offset: {x: 0, y: 0}
     - _FoamMap:
         m_Texture: {fileID: 2800000, guid: 67b60641204024dcfa5b302dc1c0c287, type: 3}
@@ -67,18 +67,18 @@ Material:
     - _Help: 1
     - _OrthoSpport: 1
     - _ReceiveShadows: 1
-    - _ReflectionBumpScale: 0.35
+    - _ReflectionBumpScale: 0.19
     - _Refraction: 0.384
     - _Shadows: 0
-    - _Smoothness: 0.9
+    - _Smoothness: 0.97
     - _SpecularHighlights: 1
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0, g: 0.09059494, b: 0.3207547, a: 1}
+    - _Color: {r: 0.013127446, g: 0.19235902, b: 0.5566038, a: 1}
     - _FoamSpeed: {r: 0.05, g: 0.05, b: 0, a: 0}
     - _SecondaryTilingSpeed: {r: 2, g: 2.3, b: 0, a: 0}
-    - _SecondaryTilingSpeedRefractBump: {r: 2, g: 2, b: 2, a: 2.5}
-    - _SpecColor: {r: 0.79294235, g: 0.8242014, b: 0.9716981, a: 1}
-    - _Speed: {r: 0.04, g: 0.07, b: 0, a: 0}
+    - _SecondaryTilingSpeedRefractBump: {r: 2, g: 1, b: 1, a: 2.5}
+    - _SpecColor: {r: 0.7921569, g: 0.9005049, b: 0.972549, a: 1}
+    - _Speed: {r: 0.008, g: 0.014, b: 0, a: 0}
   m_BuildTextureStacks: []

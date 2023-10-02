@@ -263,7 +263,7 @@ public class IslandGrid : Singleton<IslandGrid>
 
     public GridNode GetRandomTile(Func<GridNode, bool> tileTest = null)
     {
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 35; i++)
         {
             var randomTile = nodes[UnityEngine.Random.Range(1, nodes.Count)]; // Exclude the root tile
             if (tileTest == null)

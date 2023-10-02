@@ -24,6 +24,7 @@ public class Resource : MonoBehaviour
     [SerializeField] private int harvestHighCapacityThreshold;
     [SerializeField] private float highCapacityHarvestMultiplier;
 
+    public GridNode attachedNode;
     private int remainingResources;
     public int RemainingResources 
     {
@@ -93,6 +94,7 @@ public class Resource : MonoBehaviour
             LevelManager.Instance.StartCoroutine(Utility.ExpandGO(GO.transform, iceCubeTargetSize, iceCubeExpansionRate));
             if (remainingResources == 0)
             {
+                attachedNode.occupied = false;
                 Destroy(gameObject);
             }
         }

@@ -186,7 +186,7 @@ MonoBehaviour:
   walkingRotSpeed: 11
   walkingAccel: 37
   walkingMaxSpd: 9
-  groundedRaycastRadiusShrinkage: 0.175
+  groundedRaycastRadiusShrinkage: 0.17
   pushCollider: {fileID: 151087015024936163}
   indicatorRect: {fileID: 4646528858875693882}
   chargeIndicatorDistMultiplier: 4.25

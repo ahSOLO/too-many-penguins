@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,6 +24,7 @@ public class PlayerController : Singleton<PlayerController>
     private PlayerResting restingState;
     private PlayerOrdering orderingState;
     private PlayerFalling fallingState;
+    private bool isGrounded;
     private bool wantsToMove;
     private float rotationSpeed;
     private float acceleration;
@@ -33,6 +35,7 @@ public class PlayerController : Singleton<PlayerController>
     private float bellyCurrentChargeTime;
     private float restTime;
     private bool wantsToOrder;
+    private int platformLayer;
 
     [Header("Walking Params")]
     public float walkingRotSpeed;
@@ -91,6 +94,8 @@ public class PlayerController : Singleton<PlayerController>
         sM.SetInitialState(idleState);
 
         startingIndicatorRectScale = indicatorRect.transform.localScale;
+
+        platformLayer = LayerMask.NameToLayer("Platform");
     }
 
     private void Start()
@@ -107,18 +112,27 @@ public class PlayerController : Singleton<PlayerController>
 
         sM.AddTransition(idleState, () => wantsToMove, walkingState);
         sM.AddTransition(walkingState, () => !wantsToMove, idleState);
+
         sM.AddTransition(idleState, () => wantsToDash, chargingDashState);
         sM.AddTransition(walkingState, () => wantsToDash, chargingDashState);
+
         sM.AddTransition(chargingDashState, () => wantsToOrder, orderingState);
         sM.AddTransition(chargingDashState, () => !wantsToDash, dashingState);
+
         sM.AddTransition(dashingState, () => dashOver, restingState);
         sM.AddTransition(restingState, () => restTime <= 0, idleState);
+
         sM.AddTransition(idleState, () => wantsToOrder, orderingState);
         sM.AddTransition(walkingState, () => wantsToOrder, orderingState);
+
         sM.AddTransition(orderingState, () => !wantsToOrder, idleState);
         sM.AddTransition(fallingState, IsGrounded, idleState);
 
-        sM.AddGlobalTransition(() => !IsGrounded(), fallingState);
+        sM.AddTransition(idleState, () => !IsGrounded(), fallingState);
+        sM.AddTransition(walkingState, () => !IsGrounded(), fallingState);
+        sM.AddTransition(chargingDashState, () => !IsGrounded(), fallingState);
+        sM.AddTransition(restingState, () => !IsGrounded(), fallingState);
+        sM.AddTransition(orderingState, () => !IsGrounded(), fallingState);
     }
 
     private void Update()

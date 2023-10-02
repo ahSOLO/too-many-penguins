@@ -30,13 +30,18 @@ public class ResourceSpawner : MonoBehaviour
         });
         if (tile != null)
         {
-            var resource = Instantiate(resourcePrefab, levelManager.resourceParent, false);
+            var resource = Instantiate(resourcePrefab, levelManager.resourceParent, false).GetComponent<Resource>();
             resource.transform.position = new Vector3(tile.transform.position.x, resource.transform.position.y - preSpawnAnimationDisplacement, tile.transform.position.z);
             resource.transform.localScale = Vector3.zero;
             StartCoroutine(Utility.ExpandGO(resource.transform, 1f, spawnAnimationSpeed));
             StartCoroutine(Utility.MoveLocalTransformOverTime(resource.transform, new Vector3(resource.transform.position.x, resource.transform.position.y + preSpawnAnimationDisplacement, resource.transform.position.z), spawnAnimationSpeed));
-            resource.GetComponent<Resource>().RemainingResources = startingResources;
+            resource.RemainingResources = startingResources;
             tile.occupied = true;
+            resource.attachedNode = tile;
+        }
+        else
+        {
+            StartCoroutine(Utility.DelayedAction(() => SpawnResource(startingResources), 0.5f));
         }
     }
 }
