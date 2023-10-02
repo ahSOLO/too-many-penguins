@@ -11,6 +11,7 @@ public class ResourceSpawner : MonoBehaviour
     [SerializeField] private float spawnAnimationSpeed;
 
     private LevelManager levelManager;
+    private Coroutine currentCoroutine;
 
     private void Awake()
     {
@@ -41,7 +42,11 @@ public class ResourceSpawner : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Utility.DelayedAction(() => SpawnResource(startingResources), 0.5f));
+            if (currentCoroutine != null)
+            {
+                StopCoroutine(currentCoroutine);
+            }
+            currentCoroutine = StartCoroutine(Utility.DelayedAction(() => SpawnResource(startingResources), 0.5f));
         }
     }
 }
