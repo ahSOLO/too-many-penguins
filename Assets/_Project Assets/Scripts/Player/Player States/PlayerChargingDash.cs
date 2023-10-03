@@ -27,11 +27,13 @@ public class PlayerChargingDash : IState
         pC.ResetDashChargeTime();
         pC.ToggleIndicatorRect(true);
         pC.ResetIndicatorRect();
+        ToggleVFX(true);
     }
 
     public void OnExit()
     {
         pC.ToggleIndicatorRect(false);
+        ToggleVFX(false);
     }
 
     public void Tick()
@@ -48,5 +50,19 @@ public class PlayerChargingDash : IState
 
         pC.DashCharge();
         pC.ChargeIndicatorRect();
+    }
+
+    private void ToggleVFX(bool isActive)
+    {
+        if (isActive)
+        {
+            pC.chargingVFX.SetActive(true);
+            pC.chargingVFXParticleSystemRipples.Simulate(0.5f);
+            pC.chargingVFXParticleSystemRipples.Play();
+        }
+        else
+        {
+            pC.chargingVFX.SetActive(false);
+        }
     }
 }

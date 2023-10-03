@@ -46,6 +46,8 @@ public class PlayerController : Singleton<PlayerController>
     [Header("Belly Dash Params")]
     [SerializeField] private BoxCollider pushCollider;
     public GameObject indicatorRect;
+    public GameObject chargingVFX;
+    public ParticleSystem chargingVFXParticleSystemRipples;
     private Vector3 startingIndicatorRectScale;
     public float chargeIndicatorDistMultiplier;
     public float bellyMinChargeTime;
