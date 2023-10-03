@@ -19,11 +19,19 @@ public class AgentSpawner : MonoBehaviour
 
     public void SpawnWorkers(int number)
     {
+        HashSet<int> selectedRotations = new HashSet<int>();
         for (int i = 0; i < number; i++)
         {
-            for (int j = 0; j < 10f; j++)
+            for (int j = 0; j < 10; j++)
             {
-                var point = IslandGrid.Instance.GetCircleEdgePoint(IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, UnityEngine.Random.Range(0, 360));
+                var randomRotation = Random.Range(0, 45);
+                while (selectedRotations.Contains(randomRotation))
+                {
+                    randomRotation = Random.Range(0, 45);
+                }
+                selectedRotations.Add(randomRotation);
+
+                var point = IslandGrid.Instance.GetCircleEdgePoint(IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, randomRotation * 8);
 
                 Ray ray = new Ray(point, IslandGrid.Instance.root.transform.position - point);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, LayerMask.GetMask("Platform")))
