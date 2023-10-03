@@ -40,7 +40,8 @@ public class AgentSpawner : MonoBehaviour
                     {
                         continue;
                     }
-                    var spawnPoint = hitInfo.point - (ray.direction * spawnDistanceFromShore);
+                    var hitColliderCenter = hitInfo.collider.bounds.center;
+                    var spawnPoint = hitColliderCenter - ((hitColliderCenter - point).normalized * spawnDistanceFromShore);
                     Instantiate(workerPrefab, spawnPoint + spawnOffset, Quaternion.LookRotation(ray.direction, Vector3.up), levelManager.agentParent);
                     break;
                 }
