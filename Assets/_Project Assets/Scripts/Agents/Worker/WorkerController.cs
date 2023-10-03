@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.XR;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody), typeof(StateMachine))]
 public class WorkerController : MonoBehaviour
@@ -143,6 +144,11 @@ public class WorkerController : MonoBehaviour
 
     public void SeekResource()
     {
+        if (GetCurrentState() is WorkerHarvestResource)
+        {
+            return;
+        }
+
         wantsToFollow = false;
         wantsToSeekResource = true;
         wantsToHarvestResource = false;

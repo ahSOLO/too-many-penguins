@@ -345,11 +345,7 @@ public class PlayerController : Singleton<PlayerController>
             }
             else if (type == OrderType.Work)
             {
-                var controller = worker.GetComponentInParent<WorkerController>();
-                if (controller.GetCurrentState() is not WorkerHarvestResource)
-                {
-                    controller.SeekResource();
-                }
+                worker.GetComponentInParent<WorkerController>().SeekResource();
             }
         }
     }
