@@ -236,4 +236,9 @@ public class WorkerController : MonoBehaviour
     {
         rb.rotation = Quaternion.RotateTowards(rb.rotation, Quaternion.LookRotation(new Vector3(target.x - transform.position.x, 0f, target.z - transform.position.z), Vector3.up), nav.angularSpeed * Time.deltaTime);
     }
+
+    public IState GetCurrentState()
+    {
+        return sM.GetCurrentState();
+    }
 }
