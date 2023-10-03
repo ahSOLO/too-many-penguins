@@ -137,7 +137,7 @@ Rigidbody:
   m_GameObject: {fileID: 1820745324109499048}
   serializedVersion: 4
   m_Mass: 1.3
-  m_Drag: 0.5
+  m_Drag: 0.7
   m_AngularDrag: 20
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -185,20 +185,20 @@ MonoBehaviour:
   rend: {fileID: 6643209781739566504}
   mainCollider: {fileID: 4424272516206572483}
   walkingRotSpeed: 11
-  walkingAccel: 37
-  walkingMaxSpd: 9
+  walkingAccel: 34
+  walkingMaxSpd: 8
   groundedRaycastRadiusShrinkage: 0.17
   pushCollider: {fileID: 151087015024936163}
   indicatorRect: {fileID: 4646528858875693882}
   chargingVFX: {fileID: 5763297394796777663}
   chargingVFXParticleSystemRipples: {fileID: 8226323204391761511}
-  chargeIndicatorDistMultiplier: 4.25
+  chargeIndicatorDistMultiplier: 3.6
   bellyMinChargeTime: 0.1
   bellyMaxChargeTime: 1
   chargingRotSpeed: 20
   bellyDashMinDuration: 0.1
-  bellyDashMaxDuration: 0.17
-  bellyDashMinForce: 15
+  bellyDashMaxDuration: 0.16
+  bellyDashMinForce: 14
   bellyDashMaxForce: 35
   bellyDashVerticalMinForce: 1
   bellyDashVerticalMaxForce: 1.5
@@ -222,7 +222,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 0.6, y: 1, z: 0.6}
+  m_Extents: {x: 0.4, y: 1, z: 0.4}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1

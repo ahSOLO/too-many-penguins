@@ -11,9 +11,14 @@ public class GridNode: MonoBehaviour
     public Collider col;
     public bool occupied = false;
 
+    [SerializeField] private Transform platformParent;
+    [SerializeField] private Transform decorationsParent;
+
     [SerializeField] private GameObject[] centerTiles;
     [SerializeField] private GameObject[] sideTiles;
     [SerializeField] private GameObject[] cornerTiles;
+    [SerializeField] private GameObject iceRock;
+    [SerializeField] private GameObject snowPatch;
 
     private void Awake()
     {
@@ -113,9 +118,116 @@ public class GridNode: MonoBehaviour
         }
     }
 
-    public void AssignMesh(bool animate = false, float animateDistance = 0f, float animateDuration = 0f)
+    public void Decorate()
+    {
+        if (decorationsParent.childCount > 0)
+        {
+            return;
+        }
+
+        int numberOfRocks = UnityEngine.Random.Range(0, 3);
+        int patchRandomizer = UnityEngine.Random.Range(0, 3);
+
+        for (int i = 0; i < numberOfRocks; i++)
+        {
+            SpawnDecoration(iceRock, 1.2f);
+        }
+
+        if (patchRandomizer == 2)
+        {
+            SpawnDecoration(snowPatch, 0.6f);
+        }
+    }
+
+    private GameObject SpawnDecoration(GameObject gO, float radius)
+    {
+        var randomPoint = Random.insideUnitCircle * radius;
+        return Instantiate(gO, decorationsParent.position + new Vector3(randomPoint.x, 0, randomPoint.y), Quaternion.Euler(0f, UnityEngine.Random.Range(0, 360), 0f), decorationsParent);
+    }
+
+    public void AssignMesh(bool animate = false, float animateDistance = 0f, float animateSpeed = 0f)
     {
         col.enabled = true;
+        int sidesFilled = SidesFilled();
+
+        GameObject meshGO = null;
+
+        if (sidesFilled == 2 && (
+            (T == null && R == null) ||
+            (T == null && L == null) ||
+            (B == null && L == null) ||
+            (B == null && R == null)))
+        {
+            if (platformParent.childCount == 0 || !platformParent.GetChild(0).CompareTag("Platform Corner"))
+            {
+                if (platformParent.childCount > 0)
+                {
+                    Destroy(platformParent.GetChild(0).gameObject);
+                }
+                var tile = Utility.RandomFromArray<GameObject>(cornerTiles);
+                meshGO = Instantiate(tile, platformParent, false);
+                var rotation =
+                    T == null && R == null ? Quaternion.identity :
+                    R == null && B == null? Quaternion.Euler(0f, 90f, 0f) :
+                    B == null && L == null ? Quaternion.Euler(0f, 180f, 0f) :
+                    Quaternion.Euler(0, -90f, 0f);
+                meshGO.transform.rotation = rotation;
+                if (meshGO.GetComponent<MeshCollider>() != null)
+                {
+                    col.enabled = false;
+                }
+            }
+            else if (platformParent.GetChild(0).GetComponent<MeshCollider>() != null)
+            {
+                col.enabled = false;
+            }
+        }
+        else if (sidesFilled == 3)
+        {
+            if (platformParent.childCount == 0 || !platformParent.GetChild(0).CompareTag("Platform Side"))
+            {
+                if (platformParent.childCount > 0)
+                {
+                    Destroy(platformParent.GetChild(0).gameObject);
+                }
+                var tile = Utility.RandomFromArray<GameObject>(sideTiles);
+                meshGO = Instantiate(tile, platformParent, false);
+                var rotation =
+                    R == null ? Quaternion.identity :
+                    B == null ? Quaternion.Euler(0f, 90f, 0f) :
+                    L == null ? Quaternion.Euler(0f, 180f, 0f) :
+                    Quaternion.Euler(0, -90f, 0f);
+                meshGO.transform.rotation = rotation;
+            }
+        }
+        else
+        {
+            if (platformParent.childCount == 0 || !platformParent.GetChild(0).CompareTag("Platform Center"))
+            {
+                if (platformParent.childCount > 0)
+                {
+                    Destroy(platformParent.GetChild(0).gameObject);
+                }
+                var tile = Utility.RandomFromArray<GameObject>(centerTiles);
+                meshGO = Instantiate(tile, platformParent, false);
+            }
+        }
+
+        if (animate && meshGO != null)
+        {
+            var target = platformParent.localPosition;
+            platformParent.localPosition += new Vector3(0f, -animateDistance, 0f);
+            StartCoroutine(Utility.MoveLocalTransformOverTime(platformParent, target, animateSpeed));
+        }
+    }
+
+    public bool IsTrueCenterTile()
+    {
+        return T != null && R != null & B != null & L != null;
+    }
+
+    public int SidesFilled()
+    {
         int sidesFilled = 0;
         if (T != null)
         {
@@ -133,80 +245,34 @@ public class GridNode: MonoBehaviour
         {
             sidesFilled++;
         }
-
-        GameObject meshGO = null;
-
-        if (sidesFilled == 2 && (
-            (T == null && R == null) ||
-            (T == null && L == null) ||
-            (B == null && L == null) ||
-            (B == null && R == null)))
-        {
-            if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Corner"))
-            {
-                if (transform.childCount > 0)
-                {
-                    Destroy(transform.GetChild(0).gameObject);
-                }
-                var tile = Utility.RandomFromArray<GameObject>(cornerTiles);
-                meshGO = Instantiate(tile, transform, false);
-                var rotation =
-                    T == null && R == null ? Quaternion.identity :
-                    R == null && B == null? Quaternion.Euler(0f, 90f, 0f) :
-                    B == null && L == null ? Quaternion.Euler(0f, 180f, 0f) :
-                    Quaternion.Euler(0, -90f, 0f);
-                meshGO.transform.rotation = rotation;
-                if (meshGO.GetComponent<MeshCollider>() != null)
-                {
-                    col.enabled = false;
-                }
-            }
-            else if (transform.GetChild(0).GetComponent<MeshCollider>() != null)
-            {
-                col.enabled = false;
-            }
-        }
-        else if (sidesFilled == 3)
-        {
-            if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Side"))
-            {
-                if (transform.childCount > 0)
-                {
-                    Destroy(transform.GetChild(0).gameObject);
-                }
-                var tile = Utility.RandomFromArray<GameObject>(sideTiles);
-                meshGO = Instantiate(tile, transform, false);
-                var rotation =
-                    R == null ? Quaternion.identity :
-                    B == null ? Quaternion.Euler(0f, 90f, 0f) :
-                    L == null ? Quaternion.Euler(0f, 180f, 0f) :
-                    Quaternion.Euler(0, -90f, 0f);
-                meshGO.transform.rotation = rotation;
-            }
-        }
-        else
-        {
-            if (transform.childCount == 0 || !transform.GetChild(0).CompareTag("Platform Center"))
-            {
-                if (transform.childCount > 0)
-                {
-                    Destroy(transform.GetChild(0).gameObject);
-                }
-                var tile = Utility.RandomFromArray<GameObject>(centerTiles);
-                meshGO = Instantiate(tile, transform, false);
-            }
-        }
-
-        if (animate && meshGO != null)
-        {
-            var target = meshGO.transform.localPosition;
-            meshGO.transform.localPosition += new Vector3(0f, -animateDistance, 0f);
-            StartCoroutine(Utility.MoveLocalTransformOverTime(meshGO.transform, target, animateDuration));
-        }
+        return sidesFilled;
     }
 
-    public bool IsTrueCenterTile()
+    public bool isDecorated()
     {
-        return T != null && R != null & B != null & L != null;
+        return decorationsParent.childCount > 0;
+    }
+
+    public int SidesDecorated()
+    {
+        int sidesDecorated = 0;
+        if (T != null && T.isDecorated())
+        {
+            sidesDecorated++;
+        }
+        if (R != null && R.isDecorated())
+        {
+            sidesDecorated++;
+        }
+        if (B != null && B.isDecorated())
+        {
+            sidesDecorated++;
+        }
+        if (L != null && L.isDecorated())
+        {
+            sidesDecorated++;
+        }
+
+        return sidesDecorated;
     }
 }

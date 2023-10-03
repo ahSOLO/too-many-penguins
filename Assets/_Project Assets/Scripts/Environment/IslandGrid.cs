@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityAtoms.BaseAtoms;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class IslandGrid : Singleton<IslandGrid>
@@ -15,6 +16,8 @@ public class IslandGrid : Singleton<IslandGrid>
     [SerializeField] private float newPlatformSpawnDelay;
     [SerializeField] private float newPlatformAnimateDistance;
     [SerializeField] private float newPlatformAnimateSpeed;
+    [SerializeField] private int spawnNewDecorationOdds;
+    [SerializeField] private int initialDecorationSpawningOdds;
 
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private List<GridNode> nodes = new List<GridNode>();
@@ -22,7 +25,7 @@ public class IslandGrid : Singleton<IslandGrid>
     private int startingLayers;
     private float cellWidth = 3f;
     private float cellLength = 3f;
-    private float overlapSphereSize = 15f;
+    private float overlapSphereSize = 12f;
     private float approxIslandRadius;
 
     private int navMeshLastBakedNodeCount;
@@ -114,6 +117,14 @@ public class IslandGrid : Singleton<IslandGrid>
         foreach (GridNode node in nodes)
         {
             node.AssignMesh();
+            if (node.SidesFilled() >= 3 && node.SidesDecorated() <= 2)
+            {
+                var randomNumber = UnityEngine.Random.Range(0, initialDecorationSpawningOdds);
+                if (randomNumber == initialDecorationSpawningOdds - 1)
+                {
+                    node.Decorate();
+                }
+            }
         }
         UpdateMaxWeight();
     }
@@ -233,10 +244,20 @@ public class IslandGrid : Singleton<IslandGrid>
 
             foreach (var hit in hits)
             {
-                hit.GetComponentInParent<GridNode>().AssignMesh();
+                var hitNode = hit.GetComponentInParent<GridNode>();
+                hitNode.AssignMesh();
+                if (hitNode.SidesFilled() >= 3 && hitNode.SidesDecorated() <= 1)
+                {
+                    var randomNumber = UnityEngine.Random.Range(0, spawnNewDecorationOdds);
+                    if (randomNumber == spawnNewDecorationOdds - 1)
+                    {
+                        hitNode.Decorate();
+                    }
+                }
             }
 
             newPlatform.AssignMesh(true, newPlatformAnimateDistance, newPlatformAnimateSpeed);
+            
 
             Destroy(other.gameObject);
 

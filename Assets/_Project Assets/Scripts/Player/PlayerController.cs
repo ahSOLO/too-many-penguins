@@ -35,7 +35,6 @@ public class PlayerController : Singleton<PlayerController>
     private float bellyCurrentChargeTime;
     private float restTime;
     private bool wantsToOrder;
-    private int platformLayer;
 
     [Header("Walking Params")]
     public float walkingRotSpeed;
@@ -96,8 +95,6 @@ public class PlayerController : Singleton<PlayerController>
         sM.SetInitialState(idleState);
 
         startingIndicatorRectScale = indicatorRect.transform.localScale;
-
-        platformLayer = LayerMask.NameToLayer("Platform");
     }
 
     private void Start()
