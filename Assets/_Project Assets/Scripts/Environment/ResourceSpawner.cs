@@ -27,7 +27,11 @@ public class ResourceSpawner : MonoBehaviour
                 node.L.occupied == false &&
                 node.T.occupied == false &&
                 node.R.occupied == false &&
-                node.B.occupied == false;
+                node.B.occupied == false &&
+                (node.T.R == null || node.T.R.occupied == false) &&
+                (node.T.L == null || node.T.L.occupied == false) &&
+                (node.B.R == null || node.B.R.occupied == false) &&
+                (node.B.L == null || node.B.L.occupied == false);
         });
         if (tile != null)
         {

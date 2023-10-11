@@ -44,6 +44,7 @@ public class WorkerController : MonoBehaviour
     private bool wantsToHarvestResource;
     private bool canResumeNavigation;
     private Coroutine activeCoroutine;
+    public enum GroundedState { Airborne, Grounded, InGround };
 
     private void Awake()
     {
@@ -108,25 +109,41 @@ public class WorkerController : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
+    private GroundedState GroundCheck()
     {
         var raycastLength = col.bounds.extents.y + 0.1f;
         var layerMask = LayerMask.GetMask("Platform");
-        return Physics.Raycast(transform.position, Vector3.down, raycastLength, layerMask);
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, raycastLength, layerMask))
+        {
+            if (transform.position.y - hitInfo.point.y >= col.bounds.extents.y)
+            {
+                return GroundedState.Grounded;
+            }
+            else
+            {
+                return GroundedState.InGround;
+            }
+        }
+        else
+        {
+            return GroundedState.Airborne;
+        }
     }
 
-    private bool IsInTheGround()
+    private bool IsGrounded()
     {
-        var raycastLength = col.bounds.extents.y - 0.1f;
-        var layerMask = LayerMask.GetMask("Platform");
-        return Physics.Raycast(transform.position, Vector3.down, raycastLength, layerMask);
+        return GroundCheck() == GroundedState.Grounded;
     }
 
     public void IslandShiftingCheck()
     {
-        if (!IsGrounded() || IsInTheGround())
+        if (rb.isKinematic)
         {
-            TogglePhysics(true, 0.2f);
+            var groundCheck = GroundCheck();
+            if (groundCheck != GroundedState.Grounded)
+            {
+                TogglePhysics(true, 0.2f);
+            }
         }
     }
 
@@ -144,7 +161,7 @@ public class WorkerController : MonoBehaviour
 
     public void SeekResource()
     {
-        if (GetCurrentState() is WorkerHarvestResource)
+        if (sM.GetCurrentState() is WorkerHarvestResource)
         {
             return;
         }
@@ -241,10 +258,5 @@ public class WorkerController : MonoBehaviour
     public void RotateTowards(Vector3 target)
     {
         rb.rotation = Quaternion.RotateTowards(rb.rotation, Quaternion.LookRotation(new Vector3(target.x - transform.position.x, 0f, target.z - transform.position.z), Vector3.up), nav.angularSpeed * Time.deltaTime);
-    }
-
-    public IState GetCurrentState()
-    {
-        return sM.GetCurrentState();
     }
 }

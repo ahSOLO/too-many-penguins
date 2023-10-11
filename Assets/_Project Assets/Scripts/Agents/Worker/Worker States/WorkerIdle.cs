@@ -24,7 +24,7 @@ public class WorkerIdle : IState
 
     public void OnEnter()
     {
-        startWanderTimer = UnityEngine.Random.Range(controller.minWanderStartTime, controller.maxWanderStartTime);
+        startWanderTimer = Random.Range(controller.minWanderStartTime, controller.maxWanderStartTime);
     }
 
     public void OnExit()
@@ -34,12 +34,12 @@ public class WorkerIdle : IState
 
     public void Tick()
     {
+        controller.IslandShiftingCheck();
+
         startWanderTimer -= Time.deltaTime;
         if (startWanderTimer <= 0)
         {
             controller.Wander();
         }
-
-        controller.IslandShiftingCheck();
     }
 }

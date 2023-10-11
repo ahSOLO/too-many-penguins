@@ -127,7 +127,7 @@ public class LevelManager : Singleton<LevelManager>
 
             StartCoroutine(Utility.DelayedAction(() =>
             {
-                col.attachedRigidbody.gameObject.SetActive(false);
+                Destroy(col.attachedRigidbody.gameObject);
             }, entityHitsWaterProcessingDelay));
         }
     }

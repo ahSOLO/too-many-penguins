@@ -26,7 +26,7 @@ public class WorkerFollow : IState
 
     public void OnEnter()
     {
-        controller.TogglePhysics(false);
+        
     }
 
     public void OnExit()

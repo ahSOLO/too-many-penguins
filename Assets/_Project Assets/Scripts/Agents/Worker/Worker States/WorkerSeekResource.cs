@@ -56,6 +56,7 @@ public class WorkerSeekResource : IState
         else
         {
             controller.ResourceNotFound();
+            controller.TogglePhysics(true); // Disable navigation
         }
     }
 
