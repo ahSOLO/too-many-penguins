@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
@@ -281,11 +282,14 @@ public class IslandGrid : Singleton<IslandGrid>
         return transform.position + (rot * Vector3.forward * radius);
     }
 
-    public GridNode GetRandomTile(Func<GridNode, bool> tileTest = null)
+    public GridNode GetRandomTile(HashSet<GridNode> exemptNodes, Func<GridNode, bool> tileTest = null)
     {
-        for (int i = 0; i < 35; i++)
+        var length = nodes.Count - exemptNodes.Count;
+        var eligibleNodes = nodes.Except(exemptNodes);
+
+        for (int i = 0; i < 30; i++)
         {
-            var randomTile = nodes[UnityEngine.Random.Range(1, nodes.Count)]; // Exclude the root tile
+            var randomTile = eligibleNodes.ElementAt(UnityEngine.Random.Range(0, length));
             if (tileTest == null)
             {
                 return randomTile;

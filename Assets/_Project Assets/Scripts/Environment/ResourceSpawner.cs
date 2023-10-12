@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -20,19 +21,32 @@ public class ResourceSpawner : MonoBehaviour
 
     public void SpawnResource(int startingResources)
     {
-        var tile = IslandGrid.Instance.GetRandomTile(node =>
+        HashSet<GridNode> exemptNodes = new HashSet<GridNode>();
+        foreach (Transform resourceTransform in levelManager.resourceParent)
         {
-            return node.occupied == false &&
-                node.IsTrueCenterTile() &&
-                node.L.occupied == false &&
-                node.T.occupied == false &&
-                node.R.occupied == false &&
-                node.B.occupied == false &&
-                (node.T.R == null || node.T.R.occupied == false) &&
-                (node.T.L == null || node.T.L.occupied == false) &&
-                (node.B.R == null || node.B.R.occupied == false) &&
-                (node.B.L == null || node.B.L.occupied == false);
-        });
+            var resource = resourceTransform.gameObject.GetComponent<Resource>();
+            exemptNodes.Add(resource.attachedNode);
+            AddExemption(resource.attachedNode.L);
+            AddExemption(resource.attachedNode.T);
+            AddExemption(resource.attachedNode.R);
+            AddExemption(resource.attachedNode.B);
+            AddExemption(resource.attachedNode.T?.R);
+            AddExemption(resource.attachedNode.T?.L);
+            AddExemption(resource.attachedNode.B?.R);
+            AddExemption(resource.attachedNode.B?.L);
+            AddExemption(IslandGrid.Instance.root);
+        }
+
+        void AddExemption(GridNode exemptNode)
+        {
+            if (exemptNode != null)
+            {
+                exemptNodes.Add(exemptNode);
+            }
+        }
+
+        var tile = IslandGrid.Instance.GetRandomTile(exemptNodes, (node) => node.IsTrueCenterTile());
+
         if (tile != null)
         {
             var resource = Instantiate(resourcePrefab, levelManager.resourceParent, false).GetComponent<Resource>();
@@ -43,14 +57,6 @@ public class ResourceSpawner : MonoBehaviour
             resource.RemainingResources = startingResources;
             tile.occupied = true;
             resource.attachedNode = tile;
-        }
-        else
-        {
-            if (currentCoroutine != null)
-            {
-                StopCoroutine(currentCoroutine);
-            }
-            currentCoroutine = StartCoroutine(Utility.DelayedAction(() => SpawnResource(startingResources), 0.5f));
         }
     }
 }
