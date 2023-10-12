@@ -8,6 +8,7 @@ public class WaterTrigger : MonoBehaviour
     [SerializeField] private ColliderEvent iceBlockHitsWater;
     [SerializeField] private ColliderEvent playerHitsWater;
     [SerializeField] private ColliderEvent workerHitsWater;
+    [SerializeField] private ColliderEvent seaLionHitsWater;
 
     private Collider col;
 
@@ -36,6 +37,12 @@ public class WaterTrigger : MonoBehaviour
         {
             workerHitsWater.Raise(other);
             VFXController.Instance.PlayVFX(collisionPoint - Vector3.up * 0.025f, VFXController.Instance.workerSplashVFX);
+        }
+
+        else if (other.CompareTag("Sea Lion"))
+        {
+            seaLionHitsWater.Raise(other);
+            VFXController.Instance.PlayVFX(collisionPoint - Vector3.up * 0.125f, VFXController.Instance.workerSplashVFX, 1.5f);
         }
     }
 }

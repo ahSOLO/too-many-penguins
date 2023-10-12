@@ -55,14 +55,4 @@ public class Utility
             yield return null;
         }
     }
-
-    public static Vector3 SampleParabola(Vector3 start, Vector3 end, float height, float t, Vector3 outDirection)
-    {
-        float parabolicT = t * 2 - 1;
-        Vector3 travelDirection = end - start;
-        Vector3 up = outDirection;
-        Vector3 result = start + t * travelDirection;
-        result += ((-parabolicT * parabolicT + 1) * height) * up.normalized;
-        return result;
-    }
 }

@@ -9,6 +9,7 @@ public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private ColliderEvent playerHitsWater;
     [SerializeField] private ColliderEvent workerHitsWater;
+    [SerializeField] private ColliderEvent seaLionHitsWater;
     [SerializeField] private IntEvent currentWeightUpdate;
     [SerializeField] private VoidEvent gameLoss;
     [SerializeField] private VoidEvent gameWon;
@@ -18,18 +19,24 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private float entityHitsWaterProcessingDelay;
     public float overLimitTime;
     private float workerSpawnTimer;
+    private float seaLionSpawnTimer;
     private float resourceSpawnTimer;
 
     public Transform iceBlockParent;
     public Transform resourceParent;
     public Transform agentParent;
+    public Transform workerParent;
+    public Transform seaLionParent;
     public Transform agentPool;
 
     private AgentSpawner agentSpawner;
     [SerializeField] private float startingWorkerSpawnFrequency;
-    [SerializeField] private float spawnFrequencyGrowthRate;
+    [SerializeField] private float workerSpawnFrequencyGrowthRate;
     [SerializeField] private int startingWorkerSpawnCountMin;
     [SerializeField] private int startingWorkerSpawnCountMax;
+    [SerializeField] private float seaLionSpawnInitialDelay;
+    [SerializeField] private float startingSeaLionSpawnFrequency;
+    [SerializeField] private float seaLionSpawnFrequencyGrowthRate;
     private ResourceSpawner resourceSpawner;
     [SerializeField] private float startingResourceSpawnFrequency;
     [SerializeField] private float resourceSpawnFrequencyGrowthRate;
@@ -45,6 +52,8 @@ public class LevelManager : Singleton<LevelManager>
 
         agentSpawner = GetComponent<AgentSpawner>();
         resourceSpawner = GetComponent<ResourceSpawner>();
+
+        seaLionSpawnTimer = seaLionSpawnInitialDelay;
     }
 
     private void Start()
@@ -56,6 +65,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         playerHitsWater.Register(OnPlayerHitsWater);
         workerHitsWater.Register(OnWorkerHitsWater);
+        seaLionHitsWater.Register(OnSeaLionHitsWater);
         gameLoss.Register(OnGameLoss);
         gameWon.Register(OnGameWon);
     }
@@ -64,6 +74,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         playerHitsWater.Unregister(OnPlayerHitsWater);
         workerHitsWater.Unregister(OnWorkerHitsWater);
+        seaLionHitsWater.Unregister(OnSeaLionHitsWater);
         gameLoss.Unregister(OnGameLoss);
         gameWon.Register(OnGameWon);
     }
@@ -74,8 +85,16 @@ public class LevelManager : Singleton<LevelManager>
         if (!levelCompleted && workerSpawnTimer <= 0)
         {
             agentSpawner.SpawnWorkers(UnityEngine.Random.Range(startingWorkerSpawnCountMin, startingWorkerSpawnCountMax + 1));
-            startingWorkerSpawnFrequency *= spawnFrequencyGrowthRate;
+            startingWorkerSpawnFrequency *= workerSpawnFrequencyGrowthRate;
             workerSpawnTimer = startingWorkerSpawnFrequency;
+        }
+
+        seaLionSpawnTimer -= Time.deltaTime;
+        if (!levelCompleted && seaLionSpawnTimer <= 0)
+        {
+            agentSpawner.SpawnSeaLion();
+            startingSeaLionSpawnFrequency *= seaLionSpawnFrequencyGrowthRate;
+            seaLionSpawnTimer = startingSeaLionSpawnFrequency;
         }
 
         resourceSpawnTimer -= Time.deltaTime;
@@ -123,7 +142,21 @@ public class LevelManager : Singleton<LevelManager>
         if (col.GetComponentInParent<WorkerController>().spawnComplete)
         {
             col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
-            currentWeightUpdate.Raise(Mathf.RoundToInt(agentParent.childCount * IslandWeightController.Instance.penguinWeight));
+            currentWeightUpdate.Raise(Mathf.RoundToInt(workerParent.childCount * IslandWeightController.Instance.penguinWeight + seaLionParent.childCount * IslandWeightController.Instance.seaLionWeight));
+
+            StartCoroutine(Utility.DelayedAction(() =>
+            {
+                Destroy(col.attachedRigidbody.gameObject);
+            }, entityHitsWaterProcessingDelay));
+        }
+    }
+
+    private void OnSeaLionHitsWater(Collider col)
+    {
+        if (col.GetComponentInParent<SeaLionController>().spawnComplete)
+        {
+            col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
+            currentWeightUpdate.Raise(Mathf.RoundToInt(workerParent.childCount * IslandWeightController.Instance.penguinWeight + seaLionParent.childCount * IslandWeightController.Instance.seaLionWeight));
 
             StartCoroutine(Utility.DelayedAction(() =>
             {
@@ -162,7 +195,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         levelCompleted = true;
         InputManager.Instance.TogglePlayerInput(false);
-        var endingWeightScore = agentParent.childCount * Mathf.RoundToInt(IslandWeightController.Instance.penguinWeight * 100);
+        var endingWeightScore = Mathf.RoundToInt(workerParent.childCount * IslandWeightController.Instance.penguinWeight * 100f + seaLionParent.childCount * IslandWeightController.Instance.seaLionWeight * 100f);
         var averageWeightScore = IslandWeightController.Instance.CalculateAverageWeight() * 100;
         var fallingPenaltyScore = timesPlayerFell * Mathf.RoundToInt(IslandWeightController.Instance.penguinWeight * -100);
 

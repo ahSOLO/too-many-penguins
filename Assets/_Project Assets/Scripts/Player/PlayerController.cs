@@ -165,7 +165,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Worker") || collision.collider.CompareTag("Ice Block") || collision.collider.CompareTag("Resource"))
+        if (collision.collider.CompareTag("Worker") || collision.collider.CompareTag("Sea Lion") || collision.collider.CompareTag("Ice Block") || collision.collider.CompareTag("Resource"))
         {
             var currentState = sM.GetCurrentState();
             if (currentState is PlayerDashing or PlayerResting)

@@ -673,7 +673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubeSplashVFX: {fileID: 3240558462475099257, guid: 70551143d2947d145babeb706599306b,
     type: 3}
-  workerSpawnSplashVFX: {fileID: 7138978202946815870, guid: 7802d71f4d4be8c45bf00fd2c087a5b2,
+  spawnSplashVFX: {fileID: 7138978202946815870, guid: 7802d71f4d4be8c45bf00fd2c087a5b2,
     type: 3}
   workerSplashVFX: {fileID: 5592500896312646601, guid: 3d8a628634c199d42b734f0ec688fc82,
     type: 3}
@@ -1043,6 +1043,37 @@ MonoBehaviour:
   cameraZoomSpeed: 10
   cameraZoomInSize: 10
   cameraZoomOutSize: 20
+--- !u!1 &347797585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 347797586}
+  m_Layer: 0
+  m_Name: Workers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &347797586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347797585}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 937022436}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,6 +2389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHitsWater: {fileID: 11400000, guid: a8aa85634a60e124b8b62ec2ff6e200f, type: 2}
   workerHitsWater: {fileID: 11400000, guid: 32d5aa941616c50468cba1991775f6ac, type: 2}
+  seaLionHitsWater: {fileID: 11400000, guid: 112a180c8fc1a854a82eb082c79544b4, type: 2}
   currentWeightUpdate: {fileID: 11400000, guid: 3f4edfaf194837f41ab0fdb28853499a,
     type: 2}
   gameLoss: {fileID: 11400000, guid: 54ffef43ba3efff4ca1358c80a70f719, type: 2}
@@ -2369,11 +2401,16 @@ MonoBehaviour:
   iceBlockParent: {fileID: 720835524}
   resourceParent: {fileID: 1127932980}
   agentParent: {fileID: 937022436}
+  workerParent: {fileID: 347797586}
+  seaLionParent: {fileID: 2132667456}
   agentPool: {fileID: 1052109033}
-  startingWorkerSpawnFrequency: 20
-  spawnFrequencyGrowthRate: 0.965
+  startingWorkerSpawnFrequency: 24
+  workerSpawnFrequencyGrowthRate: 0.965
   startingWorkerSpawnCountMin: 2
   startingWorkerSpawnCountMax: 3
+  seaLionSpawnInitialDelay: 40
+  startingSeaLionSpawnFrequency: 40
+  seaLionSpawnFrequencyGrowthRate: 0.93
   startingResourceSpawnFrequency: 26
   resourceSpawnFrequencyGrowthRate: 0.99
   startingResourcesMin: 5
@@ -2390,11 +2427,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f203132cbb25824b9284fa00015fa1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radiusOverflow: 10
   workerPrefab: {fileID: 809943516306186561, guid: 62f2f887e647ed84c9134d599e9f7d8b,
     type: 3}
-  radiusOverflow: 10
-  spawnDistanceFromShore: 6.5
-  spawnOffset: {x: 0, y: -2, z: 0}
+  workerSpawnDistanceFromShore: 6.5
+  workerSpawnOffset: {x: 0, y: -2, z: 0}
+  seaLionPrefab: {fileID: 2273678932339766659, guid: fbcd5be1f064b4246a354bd7b6520a08,
+    type: 3}
+  seaLionSpawnDistanceFromShore: 6.5
+  seaLionSpawnOffset: {x: 0, y: -2, z: 0}
 --- !u!114 &924702114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2441,6 +2482,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1978141029}
+  - {fileID: 347797586}
+  - {fileID: 2132667456}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963006138
@@ -5830,6 +5873,7 @@ MonoBehaviour:
   weightText: {fileID: 1960912869}
   gameLoss: {fileID: 11400000, guid: 54ffef43ba3efff4ca1358c80a70f719, type: 2}
   penguinWeight: 5
+  seaLionWeight: 15
   weightSampleRate: 5
   sinkSpeed: 0.5
   sinkDistance: 0.75
@@ -5902,6 +5946,38 @@ MonoBehaviour:
   iceBlockHitsWater: {fileID: 11400000, guid: bd8d24df7fed8a640988dbbcd556607d, type: 2}
   playerHitsWater: {fileID: 11400000, guid: a8aa85634a60e124b8b62ec2ff6e200f, type: 2}
   workerHitsWater: {fileID: 11400000, guid: 32d5aa941616c50468cba1991775f6ac, type: 2}
+  seaLionHitsWater: {fileID: 11400000, guid: 112a180c8fc1a854a82eb082c79544b4, type: 2}
+--- !u!1 &2132667455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2132667456}
+  m_Layer: 0
+  m_Name: Sea Lions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2132667456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132667455}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 937022436}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

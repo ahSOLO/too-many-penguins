@@ -114,22 +114,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rend: {fileID: 1663819857189823361}
+  col: {fileID: 3390556990617168118}
+  disablePhysicsSqredVelocityThreshold: 0.005
+  spawnVelocity: {x: 0, y: 16, z: 5}
+  spawnComplete: 0
   hat: {fileID: 550684293174510927}
   pickaxe: {fileID: 3295402037372004447}
   currentWeightUpdate: {fileID: 11400000, guid: 3f4edfaf194837f41ab0fdb28853499a,
     type: 2}
-  col: {fileID: 3390556990617168118}
   minWanderStartTime: 4.5
   maxWanderStartTime: 7.5
   maxWanderRange: 4.75
-  disablePhysicsSqredVelocityThreshold: 0.005
   navUpdateFrequency: 0.3
   maxSeekDistance: 22
   harvestDuration: 1.8
   maxHarvestDistance: 2.1
   harvestRate: 0.08
-  spawnVelocity: {x: 0, y: 16, z: 5}
-  spawnComplete: 0
 --- !u!114 &6677052756760275241
 MonoBehaviour:
   m_ObjectHideFlags: 0

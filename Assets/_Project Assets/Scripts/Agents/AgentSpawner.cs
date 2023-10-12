@@ -5,10 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(LevelManager))]
 public class AgentSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject workerPrefab;
     [SerializeField] private float radiusOverflow;
-    [SerializeField] private float spawnDistanceFromShore;
-    [SerializeField] private Vector3 spawnOffset;
+    [Header("Worker")]
+    [SerializeField] private GameObject workerPrefab;
+    [SerializeField] private float workerSpawnDistanceFromShore;
+    [SerializeField] private Vector3 workerSpawnOffset;
+    [Header("Sea Lion")]
+    [SerializeField] private GameObject seaLionPrefab;
+    [SerializeField] private float seaLionSpawnDistanceFromShore;
+    [SerializeField] private Vector3 seaLionSpawnOffset;
 
     private LevelManager levelManager;
 
@@ -41,11 +46,33 @@ public class AgentSpawner : MonoBehaviour
                         continue;
                     }
                     var hitColliderCenter = hitInfo.collider.bounds.center;
-                    var spawnPoint = hitColliderCenter - ((hitColliderCenter - point).normalized * spawnDistanceFromShore);
-                    Instantiate(workerPrefab, spawnPoint + spawnOffset, Quaternion.LookRotation(ray.direction, Vector3.up), levelManager.agentParent);
-                    VFXController.Instance.PlayVFX(spawnPoint, VFXController.Instance.workerSpawnSplashVFX);
+                    var spawnPoint = hitColliderCenter - ((hitColliderCenter - point).normalized * workerSpawnDistanceFromShore);
+                    Instantiate(workerPrefab, spawnPoint + workerSpawnOffset, Quaternion.LookRotation(ray.direction, Vector3.up), levelManager.workerParent);
+                    VFXController.Instance.PlayVFX(spawnPoint, VFXController.Instance.spawnSplashVFX);
                     break;
                 }
+            }
+        }
+    }
+
+    public void SpawnSeaLion()
+    {
+        var point = IslandGrid.Instance.GetCircleEdgePoint(IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, Random.Range(0, 45) * 8);
+
+        Ray ray = new Ray(point, IslandGrid.Instance.root.transform.position - point);
+        for (int j = 0; j < 10; j++)
+        {
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, IslandGrid.Instance.GetApproxIslandRadius() + radiusOverflow, LayerMask.GetMask("Platform")))
+            {
+                if (hitInfo.collider.GetComponentInParent<GridNode>().occupied == true)
+                {
+                    continue;
+                }
+                var hitColliderCenter = hitInfo.collider.bounds.center;
+                var spawnPoint = hitColliderCenter - ((hitColliderCenter - point).normalized * seaLionSpawnDistanceFromShore);
+                Instantiate(seaLionPrefab, spawnPoint + seaLionSpawnOffset, Quaternion.LookRotation(ray.direction, Vector3.up), levelManager.seaLionParent);
+                VFXController.Instance.PlayVFX(spawnPoint, VFXController.Instance.spawnSplashVFX, 1.5f);
+                break;
             }
         }
     }

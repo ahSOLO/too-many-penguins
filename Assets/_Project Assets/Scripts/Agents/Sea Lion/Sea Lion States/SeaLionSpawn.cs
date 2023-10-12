@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorkerSpawn : IState
+public class SeaLionSpawn : IState
 {
-    WorkerController controller;
+    SeaLionController controller;
 
-    public WorkerSpawn(WorkerController controller)
+    public SeaLionSpawn(SeaLionController controller)
     {
         this.controller = controller;
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class VFXController : Singleton<VFXController>
 {
     public GameObject cubeSplashVFX;
-    public GameObject workerSpawnSplashVFX;
+    public GameObject spawnSplashVFX;
     public GameObject workerSplashVFX;
 
     protected override void Awake()

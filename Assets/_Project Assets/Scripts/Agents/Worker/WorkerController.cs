@@ -3,20 +3,13 @@ using System.Collections.Generic;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.XR;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody), typeof(StateMachine))]
-public class WorkerController : MonoBehaviour
+public class WorkerController : AgentController
 {
-    [SerializeField] private Renderer rend;
     [SerializeField] private GameObject hat;
     [SerializeField] private GameObject pickaxe;
-    private NavMeshAgent nav;
-    private Rigidbody rb;
-    private StateMachine sM;
 
     public IntEvent currentWeightUpdate;
-    [SerializeField] private CapsuleCollider col;
 
     private WorkerSpawn spawnState;
     private WorkerIdle idleState;
@@ -28,29 +21,21 @@ public class WorkerController : MonoBehaviour
     public float minWanderStartTime;
     public float maxWanderStartTime;
     public float maxWanderRange;
-    public float disablePhysicsSqredVelocityThreshold;
     public float navUpdateFrequency;
     public float maxSeekDistance;
     public float harvestDuration;
     public float maxHarvestDistance;
     public float harvestRate;
     public Resource TargetResource { get; set; }
-    [SerializeField] private Vector3 spawnVelocity;
-    public bool spawnComplete;
 
     private bool wantsToWander;
     private bool wantsToFollow;
     private bool wantsToSeekResource;
     private bool wantsToHarvestResource;
-    private bool canResumeNavigation;
-    private Coroutine activeCoroutine;
-    public enum GroundedState { Airborne, Grounded, InGround };
 
-    private void Awake()
+    protected override void Awake()
     {
-        nav = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
-        sM = GetComponent<StateMachine>();
+        base.Awake();
 
         spawnState = new WorkerSpawn(this);
         idleState = new WorkerIdle(this);
@@ -70,7 +55,7 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(idleState, () => wantsToWander, wanderState);
         sM.AddTransition(wanderState, () => wantsToFollow, followState);
         sM.AddTransition(wanderState, () => wantsToSeekResource, seekResourceState);
-        sM.AddTransition(wanderState, () => !wantsToFollow, idleState);
+        sM.AddTransition(wanderState, () => !wantsToWander, idleState);
         sM.AddTransition(followState, () => wantsToSeekResource, seekResourceState);
         sM.AddTransition(seekResourceState, () => !wantsToSeekResource && !wantsToHarvestResource, idleState);
         sM.AddTransition(seekResourceState, () => wantsToFollow, followState);
@@ -80,83 +65,13 @@ public class WorkerController : MonoBehaviour
         sM.AddTransition(harvestState, () => wantsToSeekResource, seekResourceState);
     }
 
-    private void FixedUpdate()
-    {
-        var cols = Physics.OverlapCapsule(col.transform.position - new Vector3(0f, col.height / 2f, 0f), col.transform.position + new Vector3(0f, col.height / 2f, 0f), col.radius + 0.05f, LayerMask.GetMask("Player", "Ice Block", "Worker"));
-        if (cols.Length > 0)
-        {
-            foreach (var col in cols)
-            {
-                PotentialCollisionCheck(col.attachedRigidbody);
-            }
-        }
-    }
-
-    private void Update()
-    {
-        if (canResumeNavigation)
-        {
-            ReenableNavMeshCheck();
-        }
-    }
-
-    private void PotentialCollisionCheck(Rigidbody rb)
-    {
-        if (Vector3.Dot(rb.velocity, transform.position - rb.position) > 0)
-        {
-            canResumeNavigation = false;
-            TogglePhysics(true, 0.6f);
-        }
-    }
-
-    private GroundedState GroundCheck()
-    {
-        var raycastLength = col.bounds.extents.y + 0.1f;
-        var layerMask = LayerMask.GetMask("Platform");
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, raycastLength, layerMask))
-        {
-            if (transform.position.y - hitInfo.point.y >= col.bounds.extents.y)
-            {
-                return GroundedState.Grounded;
-            }
-            else
-            {
-                return GroundedState.InGround;
-            }
-        }
-        else
-        {
-            return GroundedState.Airborne;
-        }
-    }
-
-    private bool IsGrounded()
-    {
-        return GroundCheck() == GroundedState.Grounded;
-    }
-
-    public void IslandShiftingCheck()
-    {
-        if (rb.isKinematic)
-        {
-            var groundCheck = GroundCheck();
-            if (groundCheck != GroundedState.Grounded)
-            {
-                TogglePhysics(true, 0.2f);
-            }
-        }
-    }
-
-    public void SetSpawnVelocity()
-    {
-        rb.AddForce(transform.rotation * spawnVelocity, ForceMode.VelocityChange);
-    }
 
     public void FollowPlayer()
     {
         wantsToSeekResource = false;
         wantsToFollow = true;
         wantsToHarvestResource = false;
+        wantsToWander = false;
     }
 
     public void SeekResource()
@@ -169,6 +84,7 @@ public class WorkerController : MonoBehaviour
         wantsToFollow = false;
         wantsToSeekResource = true;
         wantsToHarvestResource = false;
+        wantsToWander = false;
     }
 
     public void Wander()
@@ -181,11 +97,9 @@ public class WorkerController : MonoBehaviour
         wantsToWander = false;
     }
 
-    public void TogglePhysics(bool isEnabled, float resumeNavigationTime = 0.6f)
+    public override void TogglePhysics(bool isEnabled, float resumeNavigationTime = 0.6f)
     {
-        nav.enabled = !isEnabled;
-        rb.isKinematic = !isEnabled;
-        rb.interpolation = isEnabled ? RigidbodyInterpolation.Interpolate : RigidbodyInterpolation.None;
+        base.TogglePhysics(isEnabled, resumeNavigationTime);
 
         if (isEnabled)
         {
@@ -196,31 +110,8 @@ public class WorkerController : MonoBehaviour
         {
             SetNavDestination(TargetResource.transform.position);
         }
-
-        canResumeNavigation = false;
-        if (activeCoroutine != null)
-        {
-            StopCoroutine(activeCoroutine);
-        }
-        activeCoroutine = StartCoroutine(Utility.DelayedAction(() => canResumeNavigation = true, resumeNavigationTime));
     }
 
-    public void ReenableNavMeshCheck()
-    {
-        if (nav.enabled == false && rb.velocity.sqrMagnitude < disablePhysicsSqredVelocityThreshold)
-        {
-            TogglePhysics(false);
-            canResumeNavigation = false;
-        }
-    }
-
-    public void SetNavDestination(Vector3 dest)
-    {
-        if (nav.enabled)
-        {
-            nav.SetDestination(dest);
-        }
-    }
 
     public void ResourceNotFound()
     {
@@ -228,14 +119,6 @@ public class WorkerController : MonoBehaviour
         wantsToHarvestResource = false;
     }
 
-    public bool ReachedPathEnd()
-    {
-        if (nav.enabled && !nav.pathPending && nav.remainingDistance <= nav.stoppingDistance && (!nav.hasPath || nav.velocity.sqrMagnitude < 0.01f))
-        {
-            return true;
-        }
-        return false;
-    }
 
     public void ToggleHarvestGear(bool isEnabled)
     {
@@ -253,10 +136,5 @@ public class WorkerController : MonoBehaviour
     {
         wantsToHarvestResource = false;
         wantsToSeekResource = false;
-    }
-
-    public void RotateTowards(Vector3 target)
-    {
-        rb.rotation = Quaternion.RotateTowards(rb.rotation, Quaternion.LookRotation(new Vector3(target.x - transform.position.x, 0f, target.z - transform.position.z), Vector3.up), nav.angularSpeed * Time.deltaTime);
     }
 }

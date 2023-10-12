@@ -10,6 +10,7 @@ TagManager:
   - Platform Side
   - Platform Corner
   - Resource
+  - Sea Lion
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Resource
   - Player
   - Ice Block
-  - 
+  - Sea Lion
   - 
   - 
   - 

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorkerWander : IState
+public class SeaLionWander : IState
 {
-    WorkerController controller;
-    public WorkerWander(WorkerController controller)
+    SeaLionController controller;
+    public SeaLionWander(SeaLionController controller)
     {
         this.controller = controller;
     }
