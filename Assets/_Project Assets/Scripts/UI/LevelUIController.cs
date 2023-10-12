@@ -21,6 +21,7 @@ public class LevelUIController : Singleton<LevelUIController>
     [SerializeField] private Transform scoreRowParent;
     [SerializeField] private float presentScorePauseDuration;
     [SerializeField] private TextMeshProUGUI clockText;
+    [SerializeField] private Selectable startingElement;
 
     protected override void Awake()
     {
@@ -40,6 +41,10 @@ public class LevelUIController : Singleton<LevelUIController>
     private void OnPauseGameToggle(bool isPaused)
     {
         pauseMenuCanvas.gameObject.SetActive(isPaused);
+        if (isPaused)
+        {
+            startingElement.Select();
+        }
     }
 
     public void SetWeightDisplay(int current, int max)
