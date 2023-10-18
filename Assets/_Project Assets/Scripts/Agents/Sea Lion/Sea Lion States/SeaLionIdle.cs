@@ -6,6 +6,7 @@ public class SeaLionIdle : IState
 {
     SeaLionController controller;
     private float startWanderTimer;
+    private float attackCheckTimer;
 
     public SeaLionIdle(SeaLionController controller)
     {
@@ -40,6 +41,18 @@ public class SeaLionIdle : IState
         if (startWanderTimer <= 0)
         {
             controller.Wander();
+        }
+
+        attackCheckTimer -= Time.deltaTime;
+        if (attackCheckTimer <= 0)
+        {
+            controller.targetWorker = null;
+            controller.AttackCheck();
+            if (controller.targetWorker != null)
+            {
+                controller.Attack();
+            }
+            attackCheckTimer = controller.attackCheckFrequency;
         }
     }
 }
