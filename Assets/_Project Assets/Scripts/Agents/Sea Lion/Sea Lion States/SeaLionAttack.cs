@@ -46,6 +46,9 @@ public class SeaLionAttack : IState
             {
                 controller.TogglePhysics(true);
                 controller.ApplyForce(controller.transform.forward * controller.attackSpeed);
+
+                SFXController.Instance.PlayOneShot(SFXController.Instance.seaLionAttacks, controller.transform.position);
+
                 controller.Rest();
             }
         }

@@ -25,6 +25,7 @@ public class SeaLionController : AgentController
     public float attackSpeed;
     public WorkerController targetWorker;
     public float restTime;
+    public float collisionVoxSqrVelocityThreshold;
 
     private bool wantsToWander;
     private bool wantsToAttack;
@@ -53,6 +54,14 @@ public class SeaLionController : AgentController
         sM.AddTransition(idleState, () => wantsToAttack, attackState);
         sM.AddTransition(attackState, () => wantsToRest, restState);
         sM.AddTransition(restState, () => !wantsToRest, idleState);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player") && collision.relativeVelocity.sqrMagnitude > collisionVoxSqrVelocityThreshold)
+        {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.seaLionGetsHit, transform.position);
+        }
     }
 
     public void Wander()

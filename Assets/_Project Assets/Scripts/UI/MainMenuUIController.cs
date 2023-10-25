@@ -10,11 +10,13 @@ public class MainMenuUIController : MonoBehaviour
 
     public void PlayGame()
     {
+        SFXController.Instance.PlayOneShot(SFXController.Instance.menuSelect);
         GameManager.Instance.LoadScene("Level");
     }
 
     public void QuitGame()
     {
+        SFXController.Instance.PlayOneShot(SFXController.Instance.menuSelect);
         GameManager.Instance.Quit();
     }
 
@@ -25,6 +27,7 @@ public class MainMenuUIController : MonoBehaviour
 
     public void ToggleCredits(bool isEnabled)
     {
+        SFXController.Instance.PlayOneShot(SFXController.Instance.menuSelect);
         creditsCanvas.gameObject.SetActive(isEnabled);
     }
 }

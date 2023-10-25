@@ -26,7 +26,7 @@ public class WorkerFollow : IState
 
     public void OnEnter()
     {
-        
+        SFXController.Instance.PlayOneShot(SFXController.Instance.workerFollow, controller.transform.position);
     }
 
     public void OnExit()

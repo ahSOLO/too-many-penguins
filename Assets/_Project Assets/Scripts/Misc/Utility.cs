@@ -55,4 +55,13 @@ public class Utility
             yield return null;
         }
     }
+
+    public static FMOD.Studio.PARAMETER_ID GetFMODParameterID(FMOD.Studio.EventInstance eInstance, string parameterName)
+    {
+        FMOD.Studio.EventDescription eDescription;
+        eInstance.getDescription(out eDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION parameterDescription;
+        eDescription.getParameterDescriptionByName(parameterName, out parameterDescription);
+        return parameterDescription.id;
+    }
 }

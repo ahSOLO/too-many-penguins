@@ -130,6 +130,7 @@ MonoBehaviour:
   harvestDuration: 1.8
   maxHarvestDistance: 2.1
   harvestRate: 0.08
+  collisionVoxSqrVelocityThreshold: 175
 --- !u!114 &6677052756760275241
 MonoBehaviour:
   m_ObjectHideFlags: 0

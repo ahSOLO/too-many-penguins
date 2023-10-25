@@ -67,6 +67,7 @@ public class IslandWeightController : Singleton<IslandWeightController>
         {
             SetIslandSinkTarget(new Vector3(0f, startingYPos - sinkDistance, 0f));
             isSunken = true;
+            SFXController.Instance.PlayOneShot(SFXController.Instance.islandSinks75);
         }
         else if (isSunken && weightRatio < 0.75f)
         {
@@ -123,10 +124,13 @@ public class IslandWeightController : Singleton<IslandWeightController>
     public void SinkIsland()
     {
         SetIslandSinkTarget(new Vector3(0f, startingYPos - (sinkDistance * 2.5f), 0f));
+
+        SFXController.Instance.PlayOneShot(SFXController.Instance.islandSinks100);
+        StartCoroutine(Utility.DelayedAction(() => SFXController.Instance.PlayOneShot(SFXController.Instance.wind), 1f));
     }
 
     public int CalculateAverageWeight()
     {
-        return totalSampledWeight / totalSamples;
+        return totalSampledWeight / (Mathf.Max(1, totalSamples));
     }
 }

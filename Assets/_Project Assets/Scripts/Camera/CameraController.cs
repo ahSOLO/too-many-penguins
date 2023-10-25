@@ -67,15 +67,17 @@ public class CameraController : MonoBehaviour
         if (!readyToRotate)
         {
             return;
-        }    
+        }
 
         if (input == 1f)
         {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.viewRotate);
             cameraRootTarget.Rotate(new Vector3(0, 90f, 0));
             readyToRotate = false;
         }
         else if (input == -1f)
         {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.viewRotate);
             cameraRootTarget.Rotate(new Vector3(0, -90f, 0));
             readyToRotate = false;
         }
@@ -86,10 +88,12 @@ public class CameraController : MonoBehaviour
         if (zoomTarget == cameraZoomInSize)
         {
             zoomTarget = cameraZoomOutSize;
+            SFXController.Instance.PlayOneShot(SFXController.Instance.viewZoomOut);
         }
         else
         {
             zoomTarget = cameraZoomInSize;
+            SFXController.Instance.PlayOneShot(SFXController.Instance.viewZoomIn);
         }
     }
 }

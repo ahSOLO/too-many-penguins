@@ -188,6 +188,8 @@ public class IslandGrid : Singleton<IslandGrid>
 
     private void OnIceBlockHitsWater(Collider other)
     {
+        SFXController.Instance.PlayOneShot(SFXController.Instance.blockFallsWater, other.transform.position);
+        
         var hits = Physics.OverlapSphere(other.transform.position, overlapSphereSize, LayerMask.GetMask("Platform"));
         if (hits.Length == 0)
         {
@@ -257,7 +259,8 @@ public class IslandGrid : Singleton<IslandGrid>
             }
 
             newPlatform.AssignMesh(true, newPlatformAnimateDistance, newPlatformAnimateSpeed);
-            
+
+            SFXController.Instance.PlayOneShot(SFXController.Instance.islandGrows, newPlatform.transform.position);
 
             Destroy(other.gameObject);
 

@@ -410,8 +410,8 @@ GameObject:
   m_Component:
   - component: {fileID: 253881006}
   - component: {fileID: 253881005}
-  - component: {fileID: 253881004}
   - component: {fileID: 253881007}
+  - component: {fileID: 253881008}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -419,14 +419,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &253881004
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253881003}
-  m_Enabled: 1
 --- !u!20 &253881005
 Camera:
   m_ObjectHideFlags: 0
@@ -487,7 +479,7 @@ Transform:
   m_GameObject: {fileID: 253881003}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -537,6 +529,70 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &253881008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253881003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+--- !u!1 &277367485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 277367487}
+  - component: {fileID: 277367486}
+  m_Layer: 0
+  m_Name: MUSIC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &277367486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277367485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf558f3c93c7024d972d32d43bfa4f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  music1Event:
+    Guid:
+      Data1: -1395557280
+      Data2: 1268996775
+      Data3: -313273173
+      Data4: -754252282
+    Path: event:/Music/mx_music1
+--- !u!4 &277367487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277367485}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &460389144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,6 +2657,344 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1868852505}
   m_CullTransparentMesh: 1
+--- !u!1 &1872494679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1872494681}
+  - component: {fileID: 1872494680}
+  m_Layer: 0
+  m_Name: SFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1872494680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872494679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8afa251a70d2546952ebf75bd217ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leaderDash:
+    Guid:
+      Data1: -1861023804
+      Data2: 1338290197
+      Data3: -1490523754
+      Data4: 1205550079
+    Path: event:/SFX/Leader/sx_leader_dash
+  leaderCharge:
+    Guid:
+      Data1: -1933833249
+      Data2: 1182244169
+      Data3: -323487303
+      Data4: 391877214
+    Path: event:/SFX/Leader/sx_leader_chargeup
+  leaderFallsWater:
+    Guid:
+      Data1: 1146960156
+      Data2: 1124365629
+      Data3: 371671230
+      Data4: -616816064
+    Path: event:/SFX/Leader/sx_leader_falls_water
+  leaderFootsteps:
+    Guid:
+      Data1: 378506815
+      Data2: 1150506247
+      Data3: -2143072839
+      Data4: -1100544263
+    Path: event:/SFX/Leader/sx_leader_footsteps_walk_snow
+  leaderOrderFollow:
+    Guid:
+      Data1: 1010375706
+      Data2: 1199100628
+      Data3: 1962582918
+      Data4: -1300111993
+    Path: event:/SFX/Leader/sx_leader_vox_follow
+  leaderOrderWork:
+    Guid:
+      Data1: 880282964
+      Data2: 1264201795
+      Data3: -1090766933
+      Data4: 1252344638
+    Path: event:/SFX/Leader/sx_leader_vox_work
+  leaderRespawn:
+    Guid:
+      Data1: -2031684210
+      Data2: 1291014726
+      Data3: -1223866455
+      Data4: -1112173930
+    Path: event:/SFX/UI/ui_respawn_leader
+  workerWalk:
+    Guid:
+      Data1: 802812534
+      Data2: 1147731468
+      Data3: 323619514
+      Data4: -1040984792
+    Path: event:/SFX/Worker/sx_worker_footsteps_walk_snow
+  workerHop:
+    Guid:
+      Data1: -28480937
+      Data2: 1268788225
+      Data3: 622959292
+      Data4: 55593036
+    Path: event:/SFX/Worker/sx_worker_hop
+  workerJumpsOutWater:
+    Guid:
+      Data1: 921932826
+      Data2: 1202455665
+      Data3: 472775069
+      Data4: -1616505352
+    Path: event:/SFX/Worker/sx_worker_jumps_out_water
+  workerMining:
+    Guid:
+      Data1: -285978890
+      Data2: 1137845173
+      Data3: 2108197291
+      Data4: 786098592
+    Path: event:/SFX/Worker/sx_worker_mining
+  workerDeath:
+    Guid:
+      Data1: 1241978342
+      Data2: 1339273018
+      Data3: 1797877159
+      Data4: 293269349
+    Path: event:/SFX/Worker/sx_worker_vox_death
+  workerFollow:
+    Guid:
+      Data1: -203546136
+      Data2: 1292706538
+      Data3: -548115023
+      Data4: -431889776
+    Path: event:/SFX/Worker/sx_worker_vox_follow
+  workerWork:
+    Guid:
+      Data1: -437978132
+      Data2: 1189438165
+      Data3: -1875504253
+      Data4: 51179331
+    Path: event:/SFX/Worker/sx_worker_vox_work
+  seaLionAttacks:
+    Guid:
+      Data1: 1742081327
+      Data2: 1303590255
+      Data3: -309205337
+      Data4: -15332705
+    Path: event:/SFX/Sealion/sx_sealion_vox_attacks
+  seaLionGetsHit:
+    Guid:
+      Data1: 133877954
+      Data2: 1099853062
+      Data3: 199785656
+      Data4: -1513767840
+    Path: event:/SFX/Sealion/sx_sealion_vox_gets_hit
+  blockFallsWater:
+    Guid:
+      Data1: -1118851486
+      Data2: 1298466398
+      Data3: 1590331533
+      Data4: 1552105310
+    Path: event:/SFX/Other/sx_block_falls_water
+  blockHitsBlock:
+    Guid:
+      Data1: -509861726
+      Data2: 1320789455
+      Data3: -452461649
+      Data4: -835830110
+    Path: event:/SFX/Other/sx_block_hits_block
+  blockHitsChar:
+    Guid:
+      Data1: -1815857435
+      Data2: 1081659717
+      Data3: -806075480
+      Data4: 1591061719
+    Path: event:/SFX/Other/sx_block_hits_char
+  blockMade:
+    Guid:
+      Data1: 1307774988
+      Data2: 1200193700
+      Data3: 1031574960
+      Data4: 392020659
+    Path: event:/SFX/Other/sx_block_made
+  blockSlides:
+    Guid:
+      Data1: -1506365945
+      Data2: 1330424287
+      Data3: 1997609358
+      Data4: -279704633
+    Path: event:/SFX/Other/sx_block_slides
+  charHitsWater:
+    Guid:
+      Data1: -748922362
+      Data2: 1111472046
+      Data3: -1999001695
+      Data4: -263704773
+    Path: event:/SFX/Other/sx_char_falls_water
+  charHitsChar:
+    Guid:
+      Data1: 1540626197
+      Data2: 1296570104
+      Data3: -221558870
+      Data4: 2063555079
+    Path: event:/SFX/Other/sx_char_hits_char
+  crystalSpawn:
+    Guid:
+      Data1: 1930737068
+      Data2: 1236368334
+      Data3: 1650172828
+      Data4: -967642228
+    Path: event:/SFX/Other/sx_crystal_spawn
+  islandGrows:
+    Guid:
+      Data1: 917436250
+      Data2: 1328800178
+      Data3: -1733056120
+      Data4: 170248074
+    Path: event:/SFX/Other/sx_island_grows
+  islandSinks75:
+    Guid:
+      Data1: 945559672
+      Data2: 1302035387
+      Data3: -268712042
+      Data4: -1609702381
+    Path: event:/SFX/Other/sx_island_sinks75
+  islandSinks100:
+    Guid:
+      Data1: -745235842
+      Data2: 1314254798
+      Data3: 174910124
+      Data4: 771075493
+    Path: event:/SFX/Other/sx_island_sinks100
+  wind:
+    Guid:
+      Data1: -843399062
+      Data2: 1189672551
+      Data3: -88937550
+      Data4: 34033428
+    Path: event:/SFX/Other/sx_wind
+  gameOverLose:
+    Guid:
+      Data1: -1286282223
+      Data2: 1112880222
+      Data3: 1875075468
+      Data4: 1205400739
+    Path: event:/SFX/UI/ui_gameover_lose
+  gameOverWin:
+    Guid:
+      Data1: 1201202521
+      Data2: 1241871473
+      Data3: -99137406
+      Data4: -219669682
+    Path: event:/SFX/UI/ui_gameover_win
+  gameOverScoreNeg:
+    Guid:
+      Data1: 368334024
+      Data2: 1230641525
+      Data3: 71315886
+      Data4: -670884286
+    Path: event:/SFX/UI/ui_gameover_scorepage_neg
+  gameOverScorePos:
+    Guid:
+      Data1: 2000530790
+      Data2: 1339166348
+      Data3: 5204122
+      Data4: 1439329064
+    Path: event:/SFX/UI/ui_gameover_scorepage_pos
+  gameOverScoreTotal:
+    Guid:
+      Data1: 1034645189
+      Data2: 1134848682
+      Data3: -233742149
+      Data4: -936248054
+    Path: event:/SFX/UI/ui_gameover_scorepage_tot
+  menuBack:
+    Guid:
+      Data1: 414449240
+      Data2: 1174407062
+      Data3: -469573742
+      Data4: -1652008771
+    Path: event:/SFX/UI/ui_menu_common_back
+  menuConfirm:
+    Guid:
+      Data1: 614595474
+      Data2: 1339023601
+      Data3: 83543952
+      Data4: 1214088110
+    Path: event:/SFX/UI/ui_menu_common_confirm
+  menuSelect:
+    Guid:
+      Data1: 1701769979
+      Data2: 1287062708
+      Data3: -14300540
+      Data4: -279934177
+    Path: event:/SFX/UI/ui_menu_common_select
+  menuPause:
+    Guid:
+      Data1: -1288632779
+      Data2: 1272972510
+      Data3: -1061289553
+      Data4: 1244845683
+    Path: event:/SFX/UI/ui_menu_pause
+  menuUnpause:
+    Guid:
+      Data1: -1076480564
+      Data2: 1245623902
+      Data3: 1431128972
+      Data4: 1885688104
+    Path: event:/SFX/UI/ui_menu_unpause
+  viewRotate:
+    Guid:
+      Data1: -1934923988
+      Data2: 1327419175
+      Data3: 503774396
+      Data4: -1554090702
+    Path: event:/SFX/UI/ui_view_rotate
+  viewZoomIn:
+    Guid:
+      Data1: -1734075149
+      Data2: 1197793270
+      Data3: -518760063
+      Data4: -1625630899
+    Path: event:/SFX/UI/ui_view_zoom_in
+  viewZoomOut:
+    Guid:
+      Data1: -1940315069
+      Data2: 1178246770
+      Data3: 1055601292
+      Data4: 21178499
+    Path: event:/SFX/UI/ui_view_zoom_out
+  pauseSnapshot:
+    Guid:
+      Data1: 1788952290
+      Data2: 1263502069
+      Data3: 242093502
+      Data4: 1533774914
+    Path: snapshot:/PauseMenu
+--- !u!4 &1872494681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872494679}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2611,3 +3005,5 @@ SceneRoots:
   - {fileID: 1180706631}
   - {fileID: 460389145}
   - {fileID: 1155414141}
+  - {fileID: 277367487}
+  - {fileID: 1872494681}

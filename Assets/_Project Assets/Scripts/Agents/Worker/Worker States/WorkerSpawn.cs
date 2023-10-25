@@ -24,6 +24,8 @@ public class WorkerSpawn : IState
     public void OnEnter()
     {
         controller.SetSpawnVelocity();
+
+        controller.StartCoroutine(Utility.DelayedAction(() => SFXController.Instance.PlayOneShot(SFXController.Instance.workerJumpsOutWater, controller.transform.position), 0.1f));
     }
 
     public void OnExit()

@@ -14,6 +14,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private VoidEvent gameLoss;
     [SerializeField] private VoidEvent gameWon;
     [SerializeField] private float gameTimeRemaining;
+    private float startingGameTime;
 
     [SerializeField] private float playerRespawnTime;
     [SerializeField] private float entityHitsWaterProcessingDelay;
@@ -21,6 +22,8 @@ public class LevelManager : Singleton<LevelManager>
     private float workerSpawnTimer;
     private float seaLionSpawnTimer;
     private float resourceSpawnTimer;
+    [SerializeField] private float musicParamUpdateFrequency;
+    private float musicParamUpdateTimer;
 
     public Transform iceBlockParent;
     public Transform resourceParent;
@@ -54,11 +57,15 @@ public class LevelManager : Singleton<LevelManager>
         resourceSpawner = GetComponent<ResourceSpawner>();
 
         seaLionSpawnTimer = seaLionSpawnInitialDelay;
+
+        startingGameTime = gameTimeRemaining;
     }
 
     private void Start()
     {
         GameManager.Instance.gameIsPausable = true;
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ElapsedTime", 0);
+        MusicController.Instance.Play();
     }
 
     private void OnEnable()
@@ -108,6 +115,13 @@ public class LevelManager : Singleton<LevelManager>
             resourceSpawnTimer = startingResourceSpawnFrequency;
         }
 
+        musicParamUpdateTimer -= Time.deltaTime;
+        if (!levelCompleted && musicParamUpdateTimer <= 0)
+        {
+            MusicController.Instance.SetThreat(IslandWeightController.Instance.CalculateAverageWeight() * 100);
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ElapsedTime", (1 - gameTimeRemaining / startingGameTime) * 100);
+        }    
+
         if (!levelCompleted)
         {
             gameTimeRemaining -= Time.deltaTime;
@@ -122,6 +136,8 @@ public class LevelManager : Singleton<LevelManager>
 
     private void OnPlayerHitsWater()
     {
+        SFXController.Instance.PlayInstance(SFXController.Instance.leaderFallsWater, ref SFXController.Instance.leaderFallsWaterInstance, PlayerController.Instance.transform);
+
         timesPlayerFell++;
         StartCoroutine(Utility.DelayedAction(() =>
         {
@@ -132,6 +148,9 @@ public class LevelManager : Singleton<LevelManager>
                 respawnPosition += new Vector3(0, IslandGrid.Instance.root.GetComponent<GridNode>().col.bounds.extents.y + PlayerController.Instance.rend.bounds.extents.y, 0);
                 playerGO.transform.position = respawnPosition;
                 playerGO.SetActive(true);
+
+                SFXController.Instance.StopInstance(SFXController.Instance.leaderFallsWaterInstance);
+                SFXController.Instance.PlayOneShot(SFXController.Instance.leaderRespawn, respawnPosition);
             }, playerRespawnTime));
             playerGO.SetActive(false);
         }, entityHitsWaterProcessingDelay));
@@ -141,6 +160,8 @@ public class LevelManager : Singleton<LevelManager>
     {
         if (col.GetComponentInParent<WorkerController>().spawnComplete)
         {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.charHitsWater, PlayerController.Instance.transform.position);
+
             col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
             currentWeightUpdate.Raise(Mathf.RoundToInt(workerParent.childCount * IslandWeightController.Instance.penguinWeight + seaLionParent.childCount * IslandWeightController.Instance.seaLionWeight));
 
@@ -155,6 +176,8 @@ public class LevelManager : Singleton<LevelManager>
     {
         if (col.GetComponentInParent<SeaLionController>().spawnComplete)
         {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.charHitsWater, PlayerController.Instance.transform.position);
+
             col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
             currentWeightUpdate.Raise(Mathf.RoundToInt(workerParent.childCount * IslandWeightController.Instance.penguinWeight + seaLionParent.childCount * IslandWeightController.Instance.seaLionWeight));
 
@@ -178,6 +201,8 @@ public class LevelManager : Singleton<LevelManager>
         resourceParent.gameObject.SetActive(false);
         agentParent.gameObject.SetActive(false);
         IslandWeightController.Instance.SinkIsland();
+
+        SFXController.Instance.PlayOneShot(SFXController.Instance.gameOverLose, Vector3.zero);
     }
 
     private void OnGameWon()
@@ -189,6 +214,8 @@ public class LevelManager : Singleton<LevelManager>
 
         CompleteLevel();
         LevelUIController.Instance.ShowGameOverUI("YOU WIN!");
+
+        SFXController.Instance.PlayOneShot(SFXController.Instance.gameOverWin, Vector3.zero);
     }
 
     private void CompleteLevel()

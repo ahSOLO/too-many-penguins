@@ -345,6 +345,15 @@ public class PlayerController : Singleton<PlayerController>
                 worker.GetComponentInParent<WorkerController>().SeekResource();
             }
         }
+        
+        if (type == OrderType.Follow)
+        {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.leaderOrderFollow, transform.position);
+        }
+        else if (type == OrderType.Work)
+        {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.leaderOrderWork, transform.position);
+        }
     }
     #endregion
 }

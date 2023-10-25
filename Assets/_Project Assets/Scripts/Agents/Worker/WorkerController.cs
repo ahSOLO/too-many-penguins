@@ -27,6 +27,7 @@ public class WorkerController : AgentController
     public float maxHarvestDistance;
     public float harvestRate;
     public Resource TargetResource { get; set; }
+    public float collisionVoxSqrVelocityThreshold;
 
     private bool wantsToWander;
     private bool wantsToFollow;
@@ -65,6 +66,16 @@ public class WorkerController : AgentController
         sM.AddTransition(harvestState, () => wantsToSeekResource, seekResourceState);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Worker") || collision.collider.CompareTag("Ice Block") || collision.collider.CompareTag("Player"))
+        {
+            if (collision.relativeVelocity.sqrMagnitude > collisionVoxSqrVelocityThreshold)
+            {
+                SFXController.Instance.PlayOneShot(SFXController.Instance.workerDeath, transform.position);
+            }
+        }
+    }
 
     public void FollowPlayer()
     {

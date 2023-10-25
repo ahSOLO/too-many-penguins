@@ -23,6 +23,7 @@ public class PlayerDashing : IState
     public void OnEnter()
     {
         pC.DashStart();
+        SFXController.Instance.PlayOneShot(SFXController.Instance.leaderDash, pC.transform.position);
     }
 
     public void OnExit()

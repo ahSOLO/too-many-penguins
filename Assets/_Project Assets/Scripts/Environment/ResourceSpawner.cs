@@ -34,8 +34,9 @@ public class ResourceSpawner : MonoBehaviour
             AddExemption(resource.attachedNode.T?.L);
             AddExemption(resource.attachedNode.B?.R);
             AddExemption(resource.attachedNode.B?.L);
-            AddExemption(IslandGrid.Instance.root);
         }
+        
+        AddExemption(IslandGrid.Instance.root);
 
         void AddExemption(GridNode exemptNode)
         {
@@ -49,6 +50,8 @@ public class ResourceSpawner : MonoBehaviour
 
         if (tile != null)
         {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.crystalSpawn, new Vector3(tile.transform.position.x, 0f, tile.transform.position.z));
+            
             var resource = Instantiate(resourcePrefab, levelManager.resourceParent, false).GetComponent<Resource>();
             resource.transform.position = new Vector3(tile.transform.position.x, resource.transform.position.y - preSpawnAnimationDisplacement, tile.transform.position.z);
             resource.transform.localScale = Vector3.zero;

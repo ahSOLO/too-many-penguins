@@ -131,6 +131,7 @@ MonoBehaviour:
   attackSpeed: 11
   targetWorker: {fileID: 0}
   restTime: 4
+  collisionVoxSqrVelocityThreshold: 125
 --- !u!114 &4167481450412576991
 MonoBehaviour:
   m_ObjectHideFlags: 0

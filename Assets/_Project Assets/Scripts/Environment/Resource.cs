@@ -86,6 +86,8 @@ public class Resource : MonoBehaviour
         RemainingResources--;
         if (remainingResources >= 0)
         {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.blockMade, iceCubeSpawnPoint.position);
+            
             var GO = Instantiate(iceCubePrefab, iceCubeSpawnPoint.position, Quaternion.Euler(0f, UnityEngine.Random.Range(0, 360), 0f), LevelManager.Instance.iceBlockParent);
             GO.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
             var rb = GO.GetComponent<Rigidbody>();

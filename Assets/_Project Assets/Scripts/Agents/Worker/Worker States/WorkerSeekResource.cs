@@ -52,6 +52,8 @@ public class WorkerSeekResource : IState
             controller.SetNavDestination(closest.transform.position);
             controller.TargetResource = closest;
             closest.AttachGatherer(controller);
+
+            SFXController.Instance.PlayOneShot(SFXController.Instance.workerWork, controller.transform.position);
         }
         else
         {

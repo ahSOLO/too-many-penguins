@@ -15,6 +15,9 @@ public class GameManager : PersistentSingleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void Start()
@@ -48,6 +51,22 @@ public class GameManager : PersistentSingleton<GameManager>
             InputManager.Instance.TogglePlayerInput(true);
         }
         gameIsPaused = isPaused;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Main Menu")
+        {
+            MusicController.Instance.Play();
+        }
+    }
+
+    private void OnSceneUnloaded(Scene scene)
+    {
+        if (scene.name == "Main Menu")
+        {
+            MusicController.Instance.StopAll();
+        }
     }
 
     public void LoadScene(string sceneName)
