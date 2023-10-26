@@ -18,6 +18,7 @@ public class PersistentSingleton<T>: MonoBehaviour where T : PersistentSingleton
             enabled = false;
             gameObject.SetActive(false);
             Destroy(gameObject);
+            return;
         }
     }
 }

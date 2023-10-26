@@ -83,20 +83,20 @@ public class LevelUIController : Singleton<LevelUIController>
     public void ResumeGame()
     {
         pauseGameToggle.Raise(false);
-        SFXController.Instance.PlayOneShot(SFXController.Instance.menuSelect);
+        SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
     }
 
     public void RestartLevel()
     {
         pauseGameToggle.Raise(false);
-        SFXController.Instance.PlayOneShot(SFXController.Instance.menuSelect);
+        SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
         GameManager.Instance.LoadScene("Level");
     }
 
     public void MainMenu()
     {
         pauseGameToggle.Raise(false);
-        SFXController.Instance.PlayOneShot(SFXController.Instance.menuSelect);
+        SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
         GameManager.Instance.LoadScene("Main Menu");
     }
 
@@ -134,7 +134,7 @@ public class LevelUIController : Singleton<LevelUIController>
 
     public void Quit()
     {
-        SFXController.Instance.PlayOneShot(SFXController.Instance.menuSelect);
+        SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
         GameManager.Instance.Quit();
     }
 }

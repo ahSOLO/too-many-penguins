@@ -17,7 +17,6 @@ public class GameManager : PersistentSingleton<GameManager>
         base.Awake();
 
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void Start()
@@ -57,15 +56,8 @@ public class GameManager : PersistentSingleton<GameManager>
     {
         if (scene.name == "Main Menu")
         {
-            MusicController.Instance.Play();
-        }
-    }
-
-    private void OnSceneUnloaded(Scene scene)
-    {
-        if (scene.name == "Main Menu")
-        {
             MusicController.Instance.StopAll();
+            MusicController.Instance.Play();
         }
     }
 

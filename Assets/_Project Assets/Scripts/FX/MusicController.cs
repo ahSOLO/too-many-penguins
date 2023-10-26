@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicController : Singleton<MusicController>
+public class MusicController : PersistentSingleton<MusicController>
 {
     public EventReference music1Event;
     FMOD.Studio.EventInstance music1Instance;
@@ -19,7 +19,11 @@ public class MusicController : Singleton<MusicController>
 
     public void Play()
     {
-        music1Instance.start();
+        music1Instance.getPlaybackState(out var state);
+        if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+        {
+            music1Instance.start();
+        }
     }
 
     public void SetThreat(float threat)

@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 3953670175801204803}
   - component: {fileID: 4043701357377196894}
   - component: {fileID: 878657746313988781}
+  - component: {fileID: 3722448280653375592}
   - component: {fileID: 7494433890245041367}
   - component: {fileID: 4824971591962018555}
   m_Layer: 8
@@ -149,6 +150,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.88999116, y: 1.8497708, z: 1.045632}
   m_Center: {x: 0.055004433, y: -0.112561345, z: 0.12547559}
+--- !u!114 &3722448280653375592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412034388347516405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e356d5b05686cf64d8547d4b9d45b8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSqredVelocityToPlaySFX: 0
 --- !u!114 &7494433890245041367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +330,7 @@ GameObject:
   - component: {fileID: 5906172970111284738}
   - component: {fileID: 1750371958223704519}
   - component: {fileID: 5486012543560178679}
+  - component: {fileID: 2588865758344760141}
   - component: {fileID: 5776896554822614948}
   - component: {fileID: 8009106129808957458}
   m_Layer: 8
@@ -378,6 +393,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.2267282, y: 1.8890574, z: 1.5487349}
   m_Center: {x: -0.022117734, y: -0.09291804, z: -0.055420786}
+--- !u!114 &2588865758344760141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6047293120600742425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e356d5b05686cf64d8547d4b9d45b8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSqredVelocityToPlaySFX: 0
 --- !u!114 &5776896554822614948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -602,6 +630,7 @@ GameObject:
   - component: {fileID: 3246952312457521871}
   - component: {fileID: 9047741770643149025}
   - component: {fileID: 4904683073191447195}
+  - component: {fileID: 2241168585666308259}
   - component: {fileID: 2618527795383753819}
   - component: {fileID: 5367165358443363553}
   m_Layer: 8
@@ -664,6 +693,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.000072, y: 1.6764199, z: 1.3957901}
   m_Center: {x: -0.12634563, y: -0.19923681, z: 0.14628673}
+--- !u!114 &2241168585666308259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829622032674328360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e356d5b05686cf64d8547d4b9d45b8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSqredVelocityToPlaySFX: 0
 --- !u!114 &2618527795383753819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -951,3 +993,4 @@ MonoBehaviour:
   level3GO: {fileID: 6047293120600742425}
   harvestHighCapacityThreshold: 4
   highCapacityHarvestMultiplier: 0.85
+  attachedNode: {fileID: 0}

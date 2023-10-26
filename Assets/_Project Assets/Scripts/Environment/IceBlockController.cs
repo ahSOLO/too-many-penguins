@@ -7,11 +7,14 @@ public class IceBlockController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider col;
     [SerializeField] private float timeBeforeEnablingRotations;
+    [SerializeField] private float slideSFXSqredVelocityThreshold;
 
     private bool canRotate = false;
     private bool raycastFailed;
     private float enableRotationsTimer;
     private int platformLayer;
+    private bool playingSlideSFX;
+    private FMOD.Studio.EventInstance slideSFXInstance;
 
     private void Awake()
     {
@@ -59,6 +62,12 @@ public class IceBlockController : MonoBehaviour
         {
             rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
+
+        if (rb.velocity.sqrMagnitude < slideSFXSqredVelocityThreshold)
+        {
+            SFXController.Instance.StopInstance(slideSFXInstance);
+            playingSlideSFX = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -66,6 +75,24 @@ public class IceBlockController : MonoBehaviour
         if (collision.collider.gameObject.layer == platformLayer)
         {
             canRotate = true;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.gameObject.layer == platformLayer && rb.velocity.sqrMagnitude > slideSFXSqredVelocityThreshold && playingSlideSFX == false)
+        {
+            slideSFXInstance = SFXController.Instance.PlayNewInstance(SFXController.Instance.blockSlides, transform);
+            playingSlideSFX = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.gameObject.layer == platformLayer)
+        {
+            SFXController.Instance.StopInstance(slideSFXInstance);
+            playingSlideSFX = false;
         }
     }
 }
