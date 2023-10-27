@@ -29,7 +29,7 @@ public class PlayerChargingDash : IState
         pC.ResetIndicatorRect();
         ToggleVFX(true);
 
-        SFXController.Instance.PlayInstance(SFXController.Instance.leaderDash, ref SFXController.Instance.leaderChargeInstance, pC.transform);
+        SFXController.Instance.PlayInstance(SFXController.Instance.leaderCharge, ref SFXController.Instance.leaderChargeInstance, pC.transform);
     }
 
     public void OnExit()
