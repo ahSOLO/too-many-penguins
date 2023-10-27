@@ -33,7 +33,16 @@ public class GameManager : PersistentSingleton<GameManager>
     {
         if (gameIsPausable)
         {
-            pauseGameToggle.Raise(!gameIsPaused);        
+            pauseGameToggle.Raise(!gameIsPaused);
+
+            if (gameIsPaused)
+            {
+                SFXController.Instance.PlayOneShot(SFXController.Instance.menuPause);
+            }
+            else
+            {
+                SFXController.Instance.PlayOneShot(SFXController.Instance.menuUnpause);
+            }
         }
     }
 

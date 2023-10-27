@@ -50,6 +50,7 @@ public class SFXController : Singleton<SFXController>
     public EventReference gameOverScoreNeg;
     public EventReference gameOverScorePos;
     public EventReference gameOverScoreTotal;
+    public EventReference menuBack;
     public EventReference menuConfirm;
     public EventReference menuPause;
     public EventReference menuUnpause;

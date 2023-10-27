@@ -27,7 +27,14 @@ public class MainMenuUIController : MonoBehaviour
 
     public void ToggleCredits(bool isEnabled)
     {
-        SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
+        if (isEnabled)
+        {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
+        }
+        else
+        {
+            SFXController.Instance.PlayOneShot(SFXController.Instance.menuBack);
+        }
         creditsCanvas.gameObject.SetActive(isEnabled);
     }
 }

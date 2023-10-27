@@ -133,4 +133,9 @@ public class IslandWeightController : Singleton<IslandWeightController>
     {
         return totalSampledWeight / (Mathf.Max(1, totalSamples));
     }
+
+    public float GetCurrentWeightPercentage()
+    {
+        return currentWeight / maxWeight;
+    }
 }

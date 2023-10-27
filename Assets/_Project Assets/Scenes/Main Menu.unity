@@ -2931,13 +2931,6 @@ MonoBehaviour:
       Data3: 83543952
       Data4: 1214088110
     Path: event:/SFX/UI/ui_menu_common_confirm
-  menuSelect:
-    Guid:
-      Data1: 1701769979
-      Data2: 1287062708
-      Data3: -14300540
-      Data4: -279934177
-    Path: event:/SFX/UI/ui_menu_common_select
   menuPause:
     Guid:
       Data1: -1288632779

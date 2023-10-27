@@ -118,7 +118,7 @@ public class LevelManager : Singleton<LevelManager>
         musicParamUpdateTimer -= Time.deltaTime;
         if (!levelCompleted && musicParamUpdateTimer <= 0)
         {
-            MusicController.Instance.SetThreat(IslandWeightController.Instance.CalculateAverageWeight() * 100);
+            MusicController.Instance.SetThreat(Mathf.Min(100f, IslandWeightController.Instance.GetCurrentWeightPercentage() * 100));
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ElapsedTime", (1 - gameTimeRemaining / startingGameTime) * 100);
         }    
 
