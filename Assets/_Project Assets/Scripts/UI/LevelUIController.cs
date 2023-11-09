@@ -45,10 +45,12 @@ public class LevelUIController : Singleton<LevelUIController>
         {
             startingElement.Select();
             SFXController.Instance.PlayInstance(SFXController.Instance.pauseSnapshot, ref SFXController.Instance.pauseSnapshotInstance);
+            SFXController.Instance.PlayInstance(SFXController.Instance.wind, ref SFXController.Instance.windInstance);
         }
         else
         {
             SFXController.Instance.StopInstance(SFXController.Instance.pauseSnapshotInstance);
+            SFXController.Instance.StopInstance(SFXController.Instance.windInstance);
         }
     }
 

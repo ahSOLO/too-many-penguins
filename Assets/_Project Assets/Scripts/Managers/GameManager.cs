@@ -65,6 +65,7 @@ public class GameManager : PersistentSingleton<GameManager>
     {
         if (scene.name == "Main Menu")
         {
+            gameIsPausable = false;
             MusicController.Instance.StopAll();
             MusicController.Instance.Play();
         }

@@ -2714,6 +2714,13 @@ MonoBehaviour:
       Data3: -233742149
       Data4: -936248054
     Path: event:/SFX/UI/ui_gameover_scorepage_tot
+  menuBack:
+    Guid:
+      Data1: 414449240
+      Data2: 1174407062
+      Data3: -469573742
+      Data4: -1652008771
+    Path: event:/SFX/UI/ui_menu_common_back
   menuConfirm:
     Guid:
       Data1: 614595474

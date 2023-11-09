@@ -43,6 +43,7 @@ public class SFXController : Singleton<SFXController>
     public EventReference islandSinks75;
     public EventReference islandSinks100;
     public EventReference wind;
+    public FMOD.Studio.EventInstance windInstance;
 
     [Header("UI")]
     public EventReference gameOverLose;
