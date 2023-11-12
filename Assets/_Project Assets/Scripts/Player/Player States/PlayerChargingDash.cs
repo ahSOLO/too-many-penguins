@@ -27,6 +27,7 @@ public class PlayerChargingDash : IState
         pC.ResetDashChargeTime();
         pC.ToggleIndicatorRect(true);
         pC.ResetIndicatorRect();
+        pC.anim.SetTriggerInstant("Idle");
         ToggleVFX(true);
 
         SFXController.Instance.PlayInstance(SFXController.Instance.leaderCharge, ref SFXController.Instance.leaderChargeInstance, pC.transform);

@@ -15,6 +15,7 @@ public class PlayerController : Singleton<PlayerController>
     private Rigidbody rb;
     public Renderer rend;
     public Collider mainCollider;
+    public Animator anim;
     private StateMachine sM;
 
     private PlayerIdle idleState;
@@ -349,10 +350,12 @@ public class PlayerController : Singleton<PlayerController>
         if (type == OrderType.Follow)
         {
             SFXController.Instance.PlayOneShot(SFXController.Instance.leaderOrderFollow, transform.position);
+            anim.SetTriggerInstant("Order Follow");
         }
         else if (type == OrderType.Work)
         {
             SFXController.Instance.PlayOneShot(SFXController.Instance.leaderOrderWork, transform.position);
+            anim.SetTriggerInstant("Order Work");
         }
     }
     #endregion

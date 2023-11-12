@@ -36,7 +36,7 @@ ModelImporter:
       name: BossAttack
       takeName: BOSSAttackma.0001
       internalID: -4991862441192964473
-      firstFrame: 0
+      firstFrame: 4.5
       lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0

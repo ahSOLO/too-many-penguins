@@ -23,6 +23,7 @@ public class PlayerWalking : IState
     public void OnEnter()
     {
         pC.SetMovementProperties(pC.walkingRotSpeed, pC.walkingAccel, pC.walkingMaxSpd);
+        pC.anim.SetTriggerInstant("Walk");
     }
 
     public void OnExit()

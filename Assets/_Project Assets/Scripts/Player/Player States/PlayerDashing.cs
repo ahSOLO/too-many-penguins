@@ -23,6 +23,7 @@ public class PlayerDashing : IState
     public void OnEnter()
     {
         pC.DashStart();
+        pC.anim.SetTriggerInstant("Attack");
         SFXController.Instance.PlayOneShot(SFXController.Instance.leaderDash, pC.transform.position);
     }
 

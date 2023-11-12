@@ -22,7 +22,7 @@ public class PlayerFalling : IState
 
     public void OnEnter()
     {
-        
+        pC.anim.SetTriggerInstant("Idle");
     }
 
     public void OnExit()

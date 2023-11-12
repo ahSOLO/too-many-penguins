@@ -22,7 +22,8 @@ public class PlayerIdle : IState
 
     public void OnEnter()
     {
-        
+        pC.anim.ResetTrigger("Walk");
+        pC.anim.SetTrigger("Idle");
     }
 
     public void OnExit()

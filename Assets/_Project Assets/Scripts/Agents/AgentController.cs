@@ -15,6 +15,8 @@ public class AgentController : MonoBehaviour
     [SerializeField] protected CapsuleCollider col;
     private LayerMask colliderMask;
 
+    [SerializeField] protected Animator anim;
+
     public float disablePhysicsSqredVelocityThreshold;
 
     [SerializeField] protected Vector3 spawnVelocity;
