@@ -160,7 +160,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         if (col.GetComponentInParent<WorkerController>().spawnComplete)
         {
-            SFXController.Instance.PlayOneShot(SFXController.Instance.charHitsWater, PlayerController.Instance.transform.position);
+            SFXController.Instance.PlayOneShot(SFXController.Instance.charHitsWater, col.transform.position);
 
             col.attachedRigidbody.gameObject.transform.SetParent(agentPool.transform, true);
             currentWeightUpdate.Raise(Mathf.RoundToInt(workerParent.childCount * IslandWeightController.Instance.penguinWeight + seaLionParent.childCount * IslandWeightController.Instance.seaLionWeight));
