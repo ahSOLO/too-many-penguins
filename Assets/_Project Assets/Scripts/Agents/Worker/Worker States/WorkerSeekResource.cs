@@ -22,6 +22,8 @@ public class WorkerSeekResource : IState
 
     public void OnEnter()
     {
+        controller.anim.SetTriggerInstant("Hop");
+
         // Head to closest free resource within radius
         var cols = Physics.OverlapSphere(controller.transform.position, controller.maxSeekDistance, LayerMask.GetMask("Resource"));
         List<Resource> freeResourcesInRange = new List<Resource>();
@@ -50,6 +52,7 @@ public class WorkerSeekResource : IState
             }
 
             controller.SetNavDestination(closest.transform.position);
+            controller.anim.SetTrigger("Walk");
             controller.TargetResource = closest;
             closest.AttachGatherer(controller);
 

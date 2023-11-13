@@ -25,6 +25,7 @@ public class SeaLionIdle : IState
 
     public void OnEnter()
     {
+        controller.anim.SetTriggerInstant("Idle");
         startWanderTimer = Random.Range(controller.minWanderStartTime, controller.maxWanderStartTime);
     }
 

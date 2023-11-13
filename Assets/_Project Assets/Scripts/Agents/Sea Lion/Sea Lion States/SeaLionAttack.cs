@@ -22,7 +22,7 @@ public class SeaLionAttack : IState
 
     public void OnEnter()
     {
-        
+        controller.anim.SetTriggerInstant("Attack");
     }
 
     public void OnExit()

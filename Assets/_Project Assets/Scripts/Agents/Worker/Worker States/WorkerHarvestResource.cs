@@ -27,6 +27,7 @@ public class WorkerHarvestResource : IState
         harvestTimer = controller.harvestDuration;
         controller.TargetResource?.AttachGatherer(controller);
         controller.ToggleHarvestGear(true);
+        controller.anim.SetTriggerInstant("Work");
     }
 
     public void OnExit()

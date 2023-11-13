@@ -25,6 +25,7 @@ public class WorkerIdle : IState
     public void OnEnter()
     {
         startWanderTimer = Random.Range(controller.minWanderStartTime, controller.maxWanderStartTime);
+        controller.anim.SetTriggerInstant("Idle");
     }
 
     public void OnExit()

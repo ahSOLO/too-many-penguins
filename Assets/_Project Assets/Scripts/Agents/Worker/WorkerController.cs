@@ -148,4 +148,9 @@ public class WorkerController : AgentController
         wantsToHarvestResource = false;
         wantsToSeekResource = false;
     }
+
+    public float GetNavSpeedPercentage()
+    {
+        return nav.velocity.magnitude / nav.speed;
+    }
 }

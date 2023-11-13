@@ -13,4 +13,14 @@ public class SFXPlayer : MonoBehaviour
     {
         SFXController.Instance.PlayOneShot(SFXController.Instance.workerWalk, transform.position);
     }
+
+    public void PlayWorkerPickaxeHit()
+    {
+        SFXController.Instance.PlayOneShot(SFXController.Instance.workerMining, transform.position);
+    }
+
+    public void PlayWorkerHop()
+    {
+        SFXController.Instance.PlayOneShot(SFXController.Instance.workerHop, transform.position);
+    }
 }

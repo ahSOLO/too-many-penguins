@@ -30,6 +30,7 @@ public class WorkerWander : IState
             if (Physics.Raycast(raycastOrigin, dest - raycastOrigin, 20f, LayerMask.GetMask("Platform")))
             {
                 controller.SetNavDestination(dest);
+                controller.anim.SetTriggerInstant("Walk");
                 return;
             }
         }
