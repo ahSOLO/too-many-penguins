@@ -97,6 +97,7 @@ public class LevelUIController : Singleton<LevelUIController>
     {
         pauseGameToggle.Raise(false);
         SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
+        SFXController.Instance.StopInstance(SFXController.Instance.windInstance);
         GameManager.Instance.LoadScene("Main Menu");
     }
 

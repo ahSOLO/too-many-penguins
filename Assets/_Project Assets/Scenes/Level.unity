@@ -2399,7 +2399,7 @@ MonoBehaviour:
   playerRespawnTime: 1.5
   entityHitsWaterProcessingDelay: 0.5
   overLimitTime: 15
-  musicParamUpdateFrequency: 1
+  musicParamUpdateFrequency: 0.25
   iceBlockParent: {fileID: 720835524}
   resourceParent: {fileID: 1127932980}
   agentParent: {fileID: 937022436}

@@ -126,7 +126,7 @@ public class IslandWeightController : Singleton<IslandWeightController>
         SetIslandSinkTarget(new Vector3(0f, startingYPos - (sinkDistance * 2.5f), 0f));
 
         SFXController.Instance.PlayOneShot(SFXController.Instance.islandSinks100);
-        StartCoroutine(Utility.DelayedAction(() => SFXController.Instance.PlayOneShot(SFXController.Instance.wind), 1f));
+        StartCoroutine(Utility.DelayedAction(() => SFXController.Instance.PlayInstance(SFXController.Instance.wind, ref SFXController.Instance.windInstance), 1f));
     }
 
     public int CalculateAverageWeight()
@@ -136,6 +136,6 @@ public class IslandWeightController : Singleton<IslandWeightController>
 
     public float GetCurrentWeightPercentage()
     {
-        return currentWeight / maxWeight;
+        return (float)currentWeight / (float)maxWeight;
     }
 }

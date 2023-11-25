@@ -204,11 +204,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1788952290
-      Data2: 1263502069
-      Data3: 242093502
-      Data4: 1533774914
-    Path: snapshot:/PauseMenu
+      Data1: -1395557280
+      Data2: 1268996775
+      Data3: -313273173
+      Data4: -754252282
+    Path: event:/Music/mx_music1
   Event: 
   PlayEvent: 1
   StopEvent: 0
@@ -216,10 +216,12 @@ MonoBehaviour:
   TriggerOnce: 0
   Preload: 0
   AllowNonRigidbodyDoppler: 0
-  Params: []
+  Params:
+  - Name: Threat
+    Value: 44.8
   OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

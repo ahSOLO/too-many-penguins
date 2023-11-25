@@ -16,12 +16,20 @@ public class BlockSFXTrigger : BaseCollisionSFXTrigger
 
         if (collision.collider.CompareTag("Ice Block"))
         {
-            SFXController.Instance.PlayOneShot(SFXController.Instance.blockHitsBlock, transform.position);
+            var instance = SFXController.Instance.PlayNewInstance(SFXController.Instance.blockHitsBlock, transform);
+            var forceParamId = Utility.GetFMODParameterID(instance, "force");
+            var forceValue = Mathf.Clamp(collision.relativeVelocity.magnitude * 1.5f, 0, 100);
+            instance.setParameterByID(forceParamId, forceValue);
+            instance.release();
             soundPlayed = true;
         }
         else if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Worker") || collision.collider.CompareTag("Sea Lion"))
         {
-            SFXController.Instance.PlayOneShot(SFXController.Instance.blockHitsChar, transform.position);
+            var instance = SFXController.Instance.PlayNewInstance(SFXController.Instance.blockHitsChar, transform);
+            var forceParamId = Utility.GetFMODParameterID(instance, "force");
+            var forceValue = Mathf.Clamp(collision.relativeVelocity.magnitude * 1.5f, 0, 100);
+            instance.setParameterByID(forceParamId, forceValue);
+            instance.release();
             soundPlayed = true;
         }
     }
