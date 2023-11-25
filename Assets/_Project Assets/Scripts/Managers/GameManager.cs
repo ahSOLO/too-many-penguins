@@ -61,13 +61,23 @@ public class GameManager : PersistentSingleton<GameManager>
         gameIsPaused = isPaused;
     }
 
+    private IEnumerator PlayMusicUponBankLoad()
+    {
+        if (!FMODUnity.RuntimeManager.HaveAllBanksLoaded || FMODUnity.RuntimeManager.AnySampleDataLoading())
+        {
+            yield return null;
+        }
+        MusicController.Instance.Initialize();
+        MusicController.Instance.StopAll();
+        MusicController.Instance.Play();
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Main Menu")
         {
             gameIsPausable = false;
-            MusicController.Instance.StopAll();
-            MusicController.Instance.Play();
+            GameManager.Instance.StartCoroutine(PlayMusicUponBankLoad());
         }
     }
 

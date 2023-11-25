@@ -8,13 +8,16 @@ public class MusicController : PersistentSingleton<MusicController>
     public EventReference music1Event;
     FMOD.Studio.EventInstance music1Instance;
     FMOD.Studio.PARAMETER_ID music1ThreatParameterID;
+    bool initialized = false;
 
-    protected override void Awake()
+    public void Initialize()
     {
-        base.Awake();
-        
-        music1Instance = RuntimeManager.CreateInstance(music1Event);
-        music1ThreatParameterID = Utility.GetFMODParameterID(music1Instance, "threat");
+        if (!initialized)
+        {
+            music1Instance = RuntimeManager.CreateInstance(music1Event);
+            music1ThreatParameterID = Utility.GetFMODParameterID(music1Instance, "threat");
+            initialized = true;
+        }
     }
 
     public void Play()
