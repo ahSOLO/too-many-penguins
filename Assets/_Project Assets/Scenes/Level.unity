@@ -2410,7 +2410,7 @@ MonoBehaviour:
   workerSpawnFrequencyGrowthRate: 0.965
   startingWorkerSpawnCountMin: 2
   startingWorkerSpawnCountMax: 3
-  seaLionSpawnInitialDelay: 0
+  seaLionSpawnInitialDelay: 40
   startingSeaLionSpawnFrequency: 40
   seaLionSpawnFrequencyGrowthRate: 0.93
   startingResourceSpawnFrequency: 26
