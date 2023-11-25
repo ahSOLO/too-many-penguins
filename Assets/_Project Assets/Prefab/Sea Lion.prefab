@@ -69,7 +69,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2273678932339766659}
   serializedVersion: 4
-  m_Mass: 2.25
+  m_Mass: 2.9
   m_Drag: 0.1
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   col: {fileID: 3590591382187090825}
   anim: {fileID: 6113477729827944597}
   disablePhysicsSqredVelocityThreshold: 0.005
-  spawnVelocity: {x: 0, y: 17, z: 5}
+  spawnVelocity: {x: 0, y: 17.5, z: 5}
   spawnComplete: 0
   currentWeightUpdate: {fileID: 11400000, guid: 3f4edfaf194837f41ab0fdb28853499a,
     type: 2}
@@ -142,7 +142,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackCheckFrequency: 0.5
-  attackCheckDistance: 6
+  attackCheckDistance: 4.5
   attackSpeed: 11
   targetWorker: {fileID: 0}
   restTime: 4

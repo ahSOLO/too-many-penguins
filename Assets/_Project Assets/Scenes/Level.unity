@@ -2410,7 +2410,7 @@ MonoBehaviour:
   workerSpawnFrequencyGrowthRate: 0.965
   startingWorkerSpawnCountMin: 2
   startingWorkerSpawnCountMax: 3
-  seaLionSpawnInitialDelay: 40
+  seaLionSpawnInitialDelay: 0
   startingSeaLionSpawnFrequency: 40
   seaLionSpawnFrequencyGrowthRate: 0.93
   startingResourceSpawnFrequency: 26
@@ -6268,7 +6268,7 @@ MonoBehaviour:
   maxWeightUpdate: {fileID: 11400000, guid: 1bb089d310dbb6648888c4443ad117cf, type: 2}
   weightText: {fileID: 1960912869}
   gameLoss: {fileID: 11400000, guid: 54ffef43ba3efff4ca1358c80a70f719, type: 2}
-  penguinWeight: 5
+  penguinWeight: 4
   seaLionWeight: 15
   weightSampleRate: 5
   sinkSpeed: 0.5
