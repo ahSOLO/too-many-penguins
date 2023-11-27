@@ -65,6 +65,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         GameManager.Instance.gameIsPausable = true;
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ElapsedTime", 0);
+        MusicController.Instance.Initialize();
         MusicController.Instance.Play();
     }
 
@@ -235,6 +236,8 @@ public class LevelManager : Singleton<LevelManager>
         LevelUIController.Instance.AddScoreRow("Total Score", endingWeightScore + averageWeightScore + fallingPenaltyScore);
 
         LevelUIController.Instance.PresentScore(3f);
+
+        MusicController.Instance.SetThreat(0);
     }
 
     public void ReloadScene()

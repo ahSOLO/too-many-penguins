@@ -27,7 +27,7 @@ public class AgentSFXTrigger : BaseCollisionSFXTrigger
         {
             var instance = SFXController.Instance.PlayNewInstance(SFXController.Instance.charHitsChar, transform);
             var forceParamId = Utility.GetFMODParameterID(instance, "force");
-            var forceValue = Mathf.Clamp(collision.relativeVelocity.magnitude * 1.5f, 0, 100);
+            var forceValue = Mathf.Clamp(collision.relativeVelocity.magnitude * 2f, 0, 100);
             instance.setParameterByID(forceParamId, forceValue);
             instance.release();
             soundPlayed = true;

@@ -22,11 +22,17 @@ public class MusicController : PersistentSingleton<MusicController>
 
     public void Play()
     {
+        music1Instance.setPaused(false);
         music1Instance.getPlaybackState(out var state);
         if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
         {
             music1Instance.start();
         }
+    }
+
+    public void Pause()
+    {
+        music1Instance.setPaused(true);
     }
 
     public void SetThreat(float threat)

@@ -11,6 +11,7 @@ public class MainMenuUIController : MonoBehaviour
     public void PlayGame()
     {
         SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
+        MusicController.Instance.Pause();
         GameManager.Instance.LoadScene("Level");
     }
 
