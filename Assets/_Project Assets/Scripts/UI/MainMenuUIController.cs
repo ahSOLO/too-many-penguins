@@ -7,12 +7,19 @@ public class MainMenuUIController : MonoBehaviour
 {
     [SerializeField] private Canvas creditsCanvas;
     [SerializeField] private Selectable startingElement;
+    private bool playStarted;
 
     public void PlayGame()
     {
+        if (playStarted == true)
+        {
+            return;
+        }
+        
+        playStarted = true;
         SFXController.Instance.PlayOneShot(SFXController.Instance.menuConfirm);
         MusicController.Instance.Pause();
-        GameManager.Instance.LoadScene("Level");
+        StartCoroutine(Utility.DelayedAction(() => GameManager.Instance.LoadScene("Level"), 0.5f));
     }
 
     public void QuitGame()

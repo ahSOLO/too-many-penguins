@@ -8,6 +8,7 @@ public class MusicController : PersistentSingleton<MusicController>
     public EventReference music1Event;
     FMOD.Studio.EventInstance music1Instance;
     FMOD.Studio.PARAMETER_ID music1ThreatParameterID;
+    FMOD.Studio.PARAMETER_ID music1WinLoseParameterID;
     bool initialized = false;
 
     public void Initialize()
@@ -16,6 +17,7 @@ public class MusicController : PersistentSingleton<MusicController>
         {
             music1Instance = RuntimeManager.CreateInstance(music1Event);
             music1ThreatParameterID = Utility.GetFMODParameterID(music1Instance, "threat");
+            music1WinLoseParameterID = Utility.GetFMODParameterID(music1Instance, "winlose");
             initialized = true;
         }
     }
@@ -38,6 +40,11 @@ public class MusicController : PersistentSingleton<MusicController>
     public void SetThreat(float threat)
     {
         music1Instance.setParameterByID(music1ThreatParameterID, threat);
+    }
+
+    public void SetWinLose(string label)
+    {
+        music1Instance.setParameterByIDWithLabel(music1WinLoseParameterID, label);
     }
 
     private void OnDestroy()

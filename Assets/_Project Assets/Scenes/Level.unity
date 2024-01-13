@@ -2406,8 +2406,8 @@ MonoBehaviour:
   workerParent: {fileID: 347797586}
   seaLionParent: {fileID: 2132667456}
   agentPool: {fileID: 1052109033}
-  startingWorkerSpawnFrequency: 27.5
-  workerSpawnFrequencyGrowthRate: 0.94
+  startingWorkerSpawnFrequency: 29.5
+  workerSpawnFrequencyGrowthRate: 0.95
   startingWorkerSpawnCountMin: 2
   startingWorkerSpawnCountMax: 3
   seaLionSpawnInitialDelay: 40

@@ -119,7 +119,8 @@ public class LevelManager : Singleton<LevelManager>
         musicParamUpdateTimer -= Time.deltaTime;
         if (!levelCompleted && musicParamUpdateTimer <= 0)
         {
-            MusicController.Instance.SetThreat(Mathf.Min(100f, IslandWeightController.Instance.GetCurrentWeightPercentage() * 100));
+            // Use 98 instead of 100 so being at exactly max capacity doesn't trigger overweight music
+            MusicController.Instance.SetThreat(Mathf.Min(100f, (IslandWeightController.Instance.GetCurrentWeightPercentage() * 98f)));
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ElapsedTime", (1 - gameTimeRemaining / startingGameTime) * 100);
             musicParamUpdateTimer = musicParamUpdateFrequency;
         }    
@@ -204,6 +205,7 @@ public class LevelManager : Singleton<LevelManager>
         agentParent.gameObject.SetActive(false);
         IslandWeightController.Instance.SinkIsland();
 
+        MusicController.Instance.SetWinLose("lose");
         SFXController.Instance.StopInstance(SFXController.Instance.leaderChargeInstance);
         SFXController.Instance.PlayOneShot(SFXController.Instance.gameOverLose, Vector3.zero);
     }
@@ -218,6 +220,7 @@ public class LevelManager : Singleton<LevelManager>
         CompleteLevel();
         LevelUIController.Instance.ShowGameOverUI("YOU WIN!");
 
+        MusicController.Instance.SetWinLose("win");
         SFXController.Instance.StopInstance(SFXController.Instance.leaderChargeInstance);
         SFXController.Instance.PlayOneShot(SFXController.Instance.gameOverWin, Vector3.zero);
     }
